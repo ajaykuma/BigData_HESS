@@ -1,0 +1,35 @@
+Install eclipse
+Make sure you have scala plugin installed in eclipse
+Make sure scala compiler is set to scala-2.11  (project > build path > configure build path > scala compiler)
+
+Download spark related jars from the link to a folder on your machine.
+<Link>
+Add sparks jars so that your code can compile (project > build path > configure build path > java build path > llibraries > add external jar )
+
+Make sure your conf points to master as local within your code
+go to run confiurations> and under environment tab click on new and add
+SPARK_LOCAL_IP
+127.0.0.1
+
+Download winutils.exe from the link .Create a folder hadoop and bin folder within in it and place winutils.exe
+<link>
+go to run confiurations> and under environment tab click on new and add
+HADOOP_HOME
+C:\hadoop
+
+Note** It should be like this
+C:\hadoop\bin\winutils.exe
+
+Write your code(scala/spark)
+Run your application..
+
+Note** build.sbt can be added to your project, in case you intend to use SBT to package code as JAR to run on a hadoop cluster using spark-submit.
+       In this case download SBT on your machine, add build.sbt <provided in link> to your project, write your code [for your code to compile you can add spark
+       jars to the build path and set your scala compiler to scala-2.11 build.
+       From cmd line, go into your project directory, give a command 'sbt package' which packages your code into jar and then this jar can be moved to cluster.
+       For running spark application on cluster refer - "Running Spark Applications on Cluster"
+       
+If not using SBT, then we dont need sbt or build.sbt setup. Just spark related jars in build path, code in eclipse and environment variables set .
+
+
+

@@ -1,0 +1,3 @@
+Follow github link
+--------------
+https://github.com/ajaykuma/Hadoop-and-Scala-Setup/tree/master/SparkStandAlone_Setup

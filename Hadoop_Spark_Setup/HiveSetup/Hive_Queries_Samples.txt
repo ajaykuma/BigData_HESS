@@ -1,0 +1,2040 @@
+Note**09/01/2020--To be updated
+
+Create database
+------------
+create database ajdb1;
+use ajdb1;
+========================================
+Create table
+------------
+create table newtb1(id int, name string, skills array<string>, location map<string,string>);
+#here we are creating table without specifying delimiteres, thus file used for loading data should have default delimiters as shown below
+To load data
+
+load data local inpath './examples/files/myfile1.txt' overwrite into table newtb1;
+
+To append same data
+load data local inpath './examples/files/myfile1.txt' into table newtb1;
+
+Create view:
+create view newtb1v(id,name,skills) as select id,name,skills from newtb1;
+========================================
+
+Contents of myfile1.txt with default delimiters(-->/001-->field separator,-->/002-->collection items separator for array/struct,-->/003-->map keys)
+-----------------
+10^Azaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Abaj^Ahadoop^Bc++^Bhbase^Bhadoop^B^Ablr^Cindia
+10^Acaj^Ahadoop^Bhue^Bhbase^Bhive^Achennai^Cindia
+10^Adaj^Ahadoop^Boracle^Bsybase^Bhive^Agoa^Cindia
+10^Aeaj^Ahadoop^Bhadoop-administration^Bhbase^Bhive^Ablr^Cindia
+10^Afaj^Ahadoop^Bmysql^Bheidisql^Bhue^Anyc^Cusa
+10^Agaj^Ahadoop^Bmysql^Bhbase^Bhive^Adel^Cindia
+10^Ahaj^Ahadoop^Bmysql^Bhbase^Bhive^Akol^Cindia
+10^Aiaj^Ahadoop^Bmysql^Bhbase^Bhive^Amum^Cindia
+10^Ajaj^Ahadoop^Bmysql^Bhbase^Bhive^Adal^Cusa
+10^Akaj^Ahadoop^Bdb2^Bhbase^Bhive^Aker^Cindia
+10^Alaj^Aoracle^Bmysql^Bsybase^Bmssql^Ablr^Cindia
+10^Amaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Anaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Aoaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Apaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Aqaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Araj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Asaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Ataj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Auaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Avaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Awaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Axaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Ayaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Azaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Aaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Aaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+10^Aaj^Ahadoop^Bmysql^Bhbase^Bhive^Ablr^Cindia
+
+-----------------
+===================================================
+create table newtb2(id int, name string, location map<string,string>);
+#here we are creating table without specifying delimiteres, thus file used for loading data should have default delimiters as shown below
+
+load data local inpath './examples/files/myfile2.txt' overwrite into table newtb2;
+
+contents of myfile2.txt
+------------
+10^Azaj^Ablr^Cindia
+10^Abaj^Ablr^Cindia
+10^Acaj^Achennai^Cindia
+10^Adaj^Agoa^Cindia
+10^Aeaj^Ablr^Cindia
+10^Afaj^Anyc^Cusa
+10^Agaj^Adel^Cindia
+10^Ahaj^Akol^Cindia
+10^Aiaj^Amum^Cindia
+10^Ajaj^Adal^Cusa
+10^Akaj^Aker^Cindia
+10^Alaj^Ablr^Cindia
+10^Amaj^Ablr^Cindia
+10^Anaj^Ablr^Cindia
+10^Aoaj^Ablr^Cindia
+10^Apaj^Ablr^Cindia
+10^Aqaj^Ablr^Cindia
+10^Araj^Ablr^Cindia
+10^Asaj^Ablr^Cindia
+10^Ataj^Ablr^Cindia
+
+------------
+===================================================
+create table newtb3(id int,name string, bonus int, year map<string,int>);
+#here we are creating table without specifying delimiteres, thus file used for loading data should have default delimiters as shown below
+
+load data local inpath './examples/files/salarydet.txt' overwrite into table newtb3;
+
+contents of salarydet.txt
+----------
+10^Azaj^A10^A1styear^C210000
+10^Aaaj^A10^A1styear^C410000
+10^Abaj^A10^A1styear^C5510000
+10^Acaj^A10^A1styear^C610000
+10^Adaj^A10^A1styear^C710000
+10^Aeaj^A10^A2ndyear^C10000
+10^Afaj^A10^A1styear^C310000
+10^Agaj^A10^A1styear^C1220000
+10^Ahaj^A10^A1styear^C110000
+10^Aiaj^A10^A3rdyear^C1230000
+10^Ajaj^A10^A1styear^C109000
+10^Akaj^A10^A1styear^C110000
+10^Alaj^A10^A1styear^C110000
+10^Amaj^A10^A1styear^C120000
+10^Anaj^A10^A1styear^C10000
+--------
+=====================================================
+create table tbl8(id int,name string,phpref array<string>,loc map<string,string>,addr struct<city:string,street:string,country:string>)
+row format delimited
+fields terminated by ','
+collection items terminated by ':'
+map keys terminated by '$';
+
+#here we are creating table specifying delimiteres, thus file used for loading data should have specific delimiters as shown below
+
+load data local inpath '/home/hdu/hivef5.txt' overwrite into table tbl8;
+
+contents of hivef5.txt
+---------------------
+100,peter,iphone:samsung:sony,ber$germany,ber:street23:germany
+100,peter,iphone:samsung:sony,ber$germany,ber:street23:germany
+100,peter,iphone:samsung:sony,ber$germany,ber:street23:germany
+100,peter,iphone:samsung:sony,ber$germany,ber:street23:germany
+100,peter,iphone:samsung:sony,ber$germany,ber:street23:germany
+100,peter,iphone:samsung:sony,ber$germany,ber:street23:germany
+100,peter,iphone:samsung:sony,ber$germany,ber:street23:germany
+100,peter,iphone:samsung:sony,ber$germany,ber:street23:germany
+----------------------
+====================================================
+Note** Files used can be found in HiveSetup folder on git
+Note** Working Examples, that can be referred to practice
+NOte** Some of the output has been trimmed
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 07:15 /user/hive/warehouse/mydbmysq.db/tbl1
+-rwx------   3 hdu supergroup       5812 2020-04-02 07:15 /user/hive/warehouse/mydbmysq.db/tbl1/kv1.txt
+drwx------   - hdu supergroup          0 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2
+-rwx------   3 hdu supergroup         42 2020-04-02 07:21 /user/hive/warehouse/mydbmysq.db/tbl2/hivef1.txt
+-rwx------   3 hdu supergroup         42 2020-04-02 07:21 /user/hive/warehouse/mydbmysq.db/tbl2/hivef1_copy_1.txt
+-rwx------   3 hdu supergroup         42 2020-04-02 07:21 /user/hive/warehouse/mydbmysq.db/tbl2/hivef1_copy_2.txt
+-rwx------   3 hdu supergroup         42 2020-04-02 07:21 /user/hive/warehouse/mydbmysq.db/tbl2/hivef1_copy_3.txt
+-rwx------   3 hdu supergroup         42 2020-04-02 07:21 /user/hive/warehouse/mydbmysq.db/tbl2/hivef1_copy_4.txt
+-rw-r--r--   3 hdu supergroup       9759 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2/part-m-00000
+-rw-r--r--   3 hdu supergroup       3834 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2/part-m-00000.bz2
+-rw-r--r--   3 hdu supergroup       4306 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2/part-m-00000.deflate
+-rw-r--r--   3 hdu supergroup       4318 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2/part-m-00000.gz
+-rw-r--r--   3 hdu supergroup       6928 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2/part-m-00000.lz4
+drwx------   - hdu supergroup          0 2020-04-02 07:29 /user/hive/warehouse/mydbmysq.db/tbl3
+-rwx------   3 hdu supergroup      49005 2020-04-02 07:29 /user/hive/warehouse/mydbmysq.db/tbl3/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 07:38 /user/hive/warehouse/mydbmysq.db/tbl4
+-rwx------   3 hdu supergroup       4812 2020-04-02 07:38 /user/hive/warehouse/mydbmysq.db/tbl4/000000_0.gz
+drwx------   - hdu supergroup          0 2020-04-02 07:38 /user/hive/warehouse/mydbmysq.db/tbl5
+-rwx------   3 hdu supergroup       4812 2020-04-02 07:38 /user/hive/warehouse/mydbmysq.db/tbl5/000000_0.gz
+
+hive (mydbmysq)> create table tbl6(id int,name string,phpref array<string>,loc map<string,string>)
+               > row format delimited
+               > fields terminated by ','
+               > collection items terminated by ':'
+               > map keys terminated by '$';
+OK
+Time taken: 0.105 seconds
+
+hive (mydbmysq)> create table tbl7(id int,name string,phpref array<string>,loc map<string,string>)
+               > ;
+OK
+Time taken: 0.074 seconds
+
+hive (mydbmysq)> show tables;
+OK
+tab_name
+tbl1
+tbl2
+tbl3
+tbl4
+tbl5
+tbl6
+tbl7
+Time taken: 0.01 seconds, Fetched: 7 row(s)
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl6;
+Loading data to table mydbmysq.tbl6
+OK
+Time taken: 0.238 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl6;
+Loading data to table mydbmysq.tbl6
+OK
+Time taken: 0.331 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl6;
+Loading data to table mydbmysq.tbl6
+OK
+Time taken: 0.217 seconds
+
+hive (mydbmysq)> select * from tbl6;
+OK
+tbl6.id	tbl6.name	tbl6.phpref	tbl6.loc
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}
+1100	apeter	["sony","motorla"]	{"mun":"germany"}
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}
+1010	cpeter	["iphone"]	{"ber":"germany"}
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}
+1010	cpeter	["iphone"]	{"ber":"germany"}
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}
+Time taken: 0.084 seconds, Fetched: 24 row(s)
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef4.txt' overwrite into table tbl7;
+Loading data to table mydbmysq.tbl7
+OK
+Time taken: 0.177 seconds
+
+hive (mydbmysq)> select * from tbl7;
+OK
+tbl7.id	tbl7.name	tbl7.phpref	tbl7.loc
+100	patrick	["iphone","samsung","sony","motorola"]	{"ber":"germany"}
+100	patrick	["iphone","samsung","sony","motorola"]	{"ber":"germany"}
+100	patrick	["iphone","samsung","sony","motorola"]	{"ber":"germany"}
+100	patrick	["iphone","samsung","sony","motorola"]	{"ber":"germany"}
+100	patrick	["iphone","samsung","sony","motorola"]	{"ber":"germany"}
+100	patrick	["iphone","samsung","sony","motorola"]	{"ber":"germany"}
+100	patrick	["iphone","samsung","sony","motorola"]	{"ber":"germany"}
+100	patrick	["iphone","samsung","sony","motorola"]	{"ber":"germany"}
+Time taken: 0.084 seconds, Fetched: 8 row(s)
+
+hive (mydbmysq)> select id,name,phpref[0] as frstphpref from tbl6;
+OK
+id	name	frstphpref
+100	peter	iphone
+1100	apeter	sony
+1100	bpeter	iphone
+1010	cpeter	iphone
+1010	dpeter	iphone
+10011	epeter	iphone
+1002	pester	iphone
+1001	peters	iphone
+100	peter	iphone
+1100	apeter	sony
+1100	bpeter	iphone
+1010	cpeter	iphone
+1010	dpeter	iphone
+
+hive (mydbmysq)> select id,name,phpref[0] as frstphpref from tbl6 order by id desc;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402080951_2a515f73-7fae-4b7d-8e32-648cb4daab7d
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Job running in-process (local Hadoop)
+2020-04-02 08:09:53,367 Stage-1 map = 100%,  reduce = 100%
+Ended Job = job_local1302999554_0002
+MapReduce Jobs Launched: 
+Stage-Stage-1:  HDFS Read: 361784 HDFS Write: 261312760 SUCCESS
+Total MapReduce CPU Time Spent: 0 msec
+OK
+id	name	frstphpref
+10011	epeter	iphone
+10011	epeter	iphone
+10011	epeter	iphone
+1100	bpeter	iphone
+1100	bpeter	iphone
+1100	apeter	sony
+1100	apeter	sony
+1100	bpeter	iphone
+1100	apeter	sony
+1010	dpeter	iphone
+1010	cpeter	iphone
+1010	cpeter	iphone
+1010	dpeter	iphone
+Time taken: 1.461 seconds, Fetched: 24 row(s)
+
+hive (mydbmysq)> select id,name,phpref[0],phpref[1] from tbl6 order by id desc;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402081034_6f684737-70c3-4dc3-8917-d7b72bcfb57b
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Job running in-process (local Hadoop)
+2020-04-02 08:10:36,241 Stage-1 map = 100%,  reduce = 100%
+Ended Job = job_local843939431_0003
+MapReduce Jobs Launched: 
+Stage-Stage-1:  HDFS Read: 364112 HDFS Write: 261312760 SUCCESS
+Total MapReduce CPU Time Spent: 0 msec
+OK
+id	name	c2	c3
+10011	epeter	iphone	samsung
+10011	epeter	iphone	samsung
+10011	epeter	iphone	samsung
+1100	bpeter	iphone	samsung
+1100	bpeter	iphone	samsung
+1100	apeter	sony	motorla
+1100	apeter	sony	motorla
+1100	bpeter	iphone	samsung
+1100	apeter	sony	motorla
+1010	dpeter	iphone	samsung
+1010	cpeter	iphone	NULL
+1010	cpeter	iphone	NULL
+1010	dpeter	iphone	samsung
+1010	cpeter	iphone	NULL
+Time taken: 1.391 seconds, Fetched: 24 row(s)
+
+hive (mydbmysq)> select id,name,phpref[1],loc from tbl6 where loc["ber"]="germany";
+OK
+id	name	c2	loc
+100	peter	samsung	{"ber":"germany"}
+1010	cpeter	NULL	{"ber":"germany"}
+1002	pester	samsung	{"ber":"germany"}
+1001	peters	samsung	{"ber":"germany"}
+100	peter	samsung	{"ber":"germany"}
+1010	cpeter	NULL	{"ber":"germany"}
+Time taken: 0.148 seconds, Fetched: 12 row(s)
+
+hive (mydbmysq)> select id,name,phpref[1] as potntcust,loc from tbl6 where loc["ber"]="germany";
+OK
+id	name	potntcust	loc
+100	peter	samsung	{"ber":"germany"}
+1010	cpeter	NULL	{"ber":"germany"}
+1002	pester	samsung	{"ber":"germany"}
+1001	peters	samsung	{"ber":"germany"}
+100	peter	samsung	{"ber":"germany"}
+1010	cpeter	NULL	{"ber":"germany"}
+Time taken: 0.092 seconds, Fetched: 12 row(s)
+
+hive (mydbmysq)> 
+               > create table tbl8(id int,name string,phpref array<string>,loc map<string,string>,addr struct<city:string,street:string,country:string>)
+               > row format delimited
+               > fields terminated by ','
+               > collection items terminated by ':'
+               > map keys terminated by '$';
+OK
+Time taken: 0.067 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef5.txt' overwrite into table tbl8;
+Loading data to table mydbmysq.tbl8
+OK
+Time taken: 0.193 seconds
+
+hive (mydbmysq)> select * from tbl8;
+OK
+tbl8.id	tbl8.name	tbl8.phpref	tbl8.loc	tbl8.addr
+100	peter	["iphone","samsung","sony"]	{"ber":"germany"}	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"ber":"germany"}	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"ber":"germany"}	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"ber":"germany"}	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"ber":"germany"}	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"ber":"germany"}	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"ber":"germany"}	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"ber":"germany"}	{"city":"ber","street":"street23","country":"germany"}
+Time taken: 0.103 seconds, Fetched: 8 row(s)
+
+hive (mydbmysq)> select id,name,phpref,addr from tbl8 where addr.city="ber";
+OK
+id	name	phpref	addr
+100	peter	["iphone","samsung","sony"]	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"city":"ber","street":"street23","country":"germany"}
+100	peter	["iphone","samsung","sony"]	{"city":"ber","street":"street23","country":"germany"}
+Time taken: 0.125 seconds, Fetched: 8 row(s)
+
+hive (mydbmysq)> select id,name,phpref,addr.city from tbl8 where addr.city="ber";
+OK
+id	name	phpref	city
+100	peter	["iphone","samsung","sony"]	ber
+100	peter	["iphone","samsung","sony"]	ber
+100	peter	["iphone","samsung","sony"]	ber
+100	peter	["iphone","samsung","sony"]	ber
+100	peter	["iphone","samsung","sony"]	ber
+100	peter	["iphone","samsung","sony"]	ber
+100	peter	["iphone","samsung","sony"]	ber
+100	peter	["iphone","samsung","sony"]	ber
+Time taken: 0.088 seconds, Fetched: 8 row(s)
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 07:15 /user/hive/warehouse/mydbmysq.db/tbl1
+-rwx------   3 hdu supergroup       5812 2020-04-02 07:15 /user/hive/warehouse/mydbmysq.db/tbl1/kv1.txt
+drwx------   - hdu supergroup          0 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2
+-rwx------   3 hdu supergroup         42 2020-04-02 07:21 /user/hive/warehouse/mydbmysq.db/tbl2/hivef1.txt
+-rwx------   3 hdu supergroup         42 2020-04-02 07:21 /user/hive/warehouse/mydbmysq.db/tbl2/hivef1_copy_1.txt
+-rwx------   3 hdu supergroup         42 2020-04-02 07:21 /user/hive/warehouse/mydbmysq.db/tbl2/hivef1_copy_2.txt
+-rwx------   3 hdu supergroup         42 2020-04-02 07:21 /user/hive/warehouse/mydbmysq.db/tbl2/hivef1_copy_3.txt
+-rwx------   3 hdu supergroup         42 2020-04-02 07:21 /user/hive/warehouse/mydbmysq.db/tbl2/hivef1_copy_4.txt
+-rw-r--r--   3 hdu supergroup       9759 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2/part-m-00000
+-rw-r--r--   3 hdu supergroup       3834 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2/part-m-00000.bz2
+-rw-r--r--   3 hdu supergroup       4306 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2/part-m-00000.deflate
+-rw-r--r--   3 hdu supergroup       4318 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2/part-m-00000.gz
+-rw-r--r--   3 hdu supergroup       6928 2020-04-02 07:23 /user/hive/warehouse/mydbmysq.db/tbl2/part-m-00000.lz4
+drwx------   - hdu supergroup          0 2020-04-02 07:29 /user/hive/warehouse/mydbmysq.db/tbl3
+-rwx------   3 hdu supergroup      49005 2020-04-02 07:29 /user/hive/warehouse/mydbmysq.db/tbl3/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 07:38 /user/hive/warehouse/mydbmysq.db/tbl4
+-rwx------   3 hdu supergroup       4812 2020-04-02 07:38 /user/hive/warehouse/mydbmysq.db/tbl4/000000_0.gz
+drwx------   - hdu supergroup          0 2020-04-02 07:38 /user/hive/warehouse/mydbmysq.db/tbl5
+-rwx------   3 hdu supergroup       4812 2020-04-02 07:38 /user/hive/warehouse/mydbmysq.db/tbl5/000000_0.gz
+drwx------   - hdu supergroup          0 2020-04-02 08:07 /user/hive/warehouse/mydbmysq.db/tbl6
+-rwx------   3 hdu supergroup        388 2020-04-02 08:07 /user/hive/warehouse/mydbmysq.db/tbl6/hivef3.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:07 /user/hive/warehouse/mydbmysq.db/tbl6/hivef3_copy_1.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:07 /user/hive/warehouse/mydbmysq.db/tbl6/hivef3_copy_2.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:08 /user/hive/warehouse/mydbmysq.db/tbl7
+-rwx------   3 hdu supergroup        424 2020-04-02 08:08 /user/hive/warehouse/mydbmysq.db/tbl7/hivef4.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:17 /user/hive/warehouse/mydbmysq.db/tbl8
+-rwx------   3 hdu supergroup        504 2020-04-02 08:17 /user/hive/warehouse/mydbmysq.db/tbl8/hivef5.txt
+
+hive (mydbmysq)> select * from tbl6;
+OK
+tbl6.id	tbl6.name	tbl6.phpref	tbl6.loc
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}
+1100	apeter	["sony","motorla"]	{"mun":"germany"}
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}
+1010	cpeter	["iphone"]	{"ber":"germany"}
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}
+Time taken: 0.081 seconds, Fetched: 24 row(s)
+
+hive (mydbmysq)> create table tbl9(id int,name string,phpref array<string>,loc map<string,string>) partitioned by (year string)
+               > row format delimited
+               > fields terminated by ','
+               > collection items terminated by ':'
+               > map keys terminated by '$';
+OK
+Time taken: 0.081 seconds
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl9;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl9 partition(year='2015');
+Loading data to table mydbmysq.tbl9 partition (year=2015)
+OK
+Time taken: 0.386 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl9;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 08:25 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015
+-rwx------   3 hdu supergroup        388 2020-04-02 08:25 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015/hivef3.txt
+
+hive (mydbmysq)> !hdfs dfs -cat /user/hive/warehouse/mydbmysq.db/tbl9/year=2015/hivef3.txt;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+100,peter,iphone:samsung:sony:motorla,ber$germany
+1100,apeter,sony:motorla,mun$germany
+1100,bpeter,iphone:samsung:sony,ffrt$germany
+1010,cpeter,iphone,ber$germany
+1010,dpeter,iphone:samsung:sony:motorla,ffrt$germany
+10011,epeter,iphone:samsung:sony:motorla:xiomi,mun$germany
+1002,pester,iphone:samsung:sony:motorla:ericcson,ber$germany
+1001,peters,iphone:samsung:sony:motorla,ber$germany
+
+hive (mydbmysq)> select * from tbl9;
+OK
+tbl9.id	tbl9.name	tbl9.phpref	tbl9.loc	tbl9.year
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015
+Time taken: 0.104 seconds, Fetched: 8 row(s)
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl9 partition(year='2016');
+Loading data to table mydbmysq.tbl9 partition (year=2016)
+OK
+Time taken: 0.352 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl9 partition(year='2017');
+Loading data to table mydbmysq.tbl9 partition (year=2017)
+OK
+Time taken: 0.356 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl9 partition(year='2018');
+Loading data to table mydbmysq.tbl9 partition (year=2018)
+OK
+Time taken: 0.346 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl9 partition(year='2019');
+Loading data to table mydbmysq.tbl9 partition (year=2019)
+OK
+Time taken: 0.314 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl9 partition(year='2020');
+Loading data to table mydbmysq.tbl9 partition (year=2020)
+OK
+Time taken: 0.285 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl9;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 08:25 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015
+-rwx------   3 hdu supergroup        388 2020-04-02 08:25 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2016
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2016/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2017
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2017/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2018
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2018/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2019
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2019/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:29 /user/hive/warehouse/mydbmysq.db/tbl9/year=2020
+-rwx------   3 hdu supergroup        388 2020-04-02 08:29 /user/hive/warehouse/mydbmysq.db/tbl9/year=2020/hivef3.txt
+
+hive (mydbmysq)> select * from tbl9;
+OK
+tbl9.id	tbl9.name	tbl9.phpref	tbl9.loc	tbl9.year
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2019
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2020
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2020
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2020
+1010	cpeter	["iphone"]	{"ber":"germany"}	2020
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2020
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2020
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2020
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2020
+Time taken: 0.098 seconds, Fetched: 48 row(s)
+
+hive (mydbmysq)> select distinct(year) from tbl9;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402083039_56a813ff-15c0-413d-a999-d78d2909e5de
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Job running in-process (local Hadoop)
+2020-04-02 08:30:40,598 Stage-1 map = 100%,  reduce = 100%
+Ended Job = job_local1176375522_0004
+MapReduce Jobs Launched: 
+Stage-Stage-1:  HDFS Read: 379552 HDFS Write: 261318424 SUCCESS
+Total MapReduce CPU Time Spent: 0 msec
+OK
+year
+2015
+2016
+2017
+2018
+2019
+2020
+Time taken: 1.368 seconds, Fetched: 6 row(s)
+
+hive (mydbmysq)> create table tbl10(id int,name string,phpref array<string>,loc map<string,string>) partitioned by (year string,dept string)
+               > row format delimited
+               > fields terminated by ','
+               > collection items terminated by ':'
+               > map keys terminated by '$';
+OK
+Time taken: 0.075 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/budata/2015/deptMark' overwrite into table tbl10 partition(year="2015",dept="deptMark");
+Loading data to table mydbmysq.tbl10 partition (year=2015, dept=deptMark)
+OK
+Time taken: 0.353 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/budata/2016/deptSales' overwrite into table tbl10 partition(year="2016",dept="deptSales");
+Loading data to table mydbmysq.tbl10 partition (year=2016, dept=deptSales)
+OK
+Time taken: 0.335 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/budata/2017/deptFinan' overwrite into table tbl10 partition(year="2017",dept="deptFinan");
+Loading data to table mydbmysq.tbl10 partition (year=2017, dept=deptFinan)
+OK
+Time taken: 0.313 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/budata/2018/deptInvt' overwrite into table tbl10 partition(year="2018",dept="deptInvt");
+Loading data to table mydbmysq.tbl10 partition (year=2018, dept=deptInvt)
+OK
+Time taken: 0.315 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/budata/2019/deptInvt' overwrite into table tbl10 partition(year="2019",dept="deptInvt");
+Loading data to table mydbmysq.tbl10 partition (year=2019, dept=deptInvt)
+OK
+Time taken: 0.288 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/budata/2020/deptInvt' overwrite into table tbl10 partition(year="2020",dept="deptInvt");
+Loading data to table mydbmysq.tbl10 partition (year=2020, dept=deptInvt)
+OK
+Time taken: 0.314 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl10;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015
+drwx------   - hdu supergroup          0 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptMark
+-rwx------   3 hdu supergroup        388 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptMark/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016/dept=deptSales
+-rwx------   3 hdu supergroup        388 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016/dept=deptSales/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017/dept=deptFinan
+-rwx------   3 hdu supergroup        388 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017/dept=deptFinan/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020/dept=deptInvt/hivef3.txt
+
+hive (mydbmysq)> select * from tbl10 where year = "2015";
+OK
+tbl10.id	tbl10.name	tbl10.phpref	tbl10.loc	tbl10.year	tbl10.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptMark
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptMark
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptMark
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptMark
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptMark
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptMark
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptMark
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptMark
+Time taken: 0.147 seconds, Fetched: 8 row(s)
+
+hive (mydbmysq)> select * from tbl10 where year = "2015" and dept="deptMark";
+OK
+tbl10.id	tbl10.name	tbl10.phpref	tbl10.loc	tbl10.year	tbl10.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptMark
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptMark
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptMark
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptMark
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptMark
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptMark
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptMark
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptMark
+Time taken: 0.121 seconds, Fetched: 8 row(s)
+
+hive (mydbmysq)> load data local inpath '/home/hdu/budata/2015/deptMark' overwrite into table tbl10 partition(year="2015",dept="deptSales");
+Loading data to table mydbmysq.tbl10 partition (year=2015, dept=deptSales)
+OK
+Time taken: 0.34 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/budata/2015/deptMark' overwrite into table tbl10 partition(year="2015",dept="deptFinan");
+Loading data to table mydbmysq.tbl10 partition (year=2015, dept=deptFinan)
+OK
+Time taken: 0.317 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/budata/2015/deptMark' overwrite into table tbl10 partition(year="2015",dept="deptInvt");
+Loading data to table mydbmysq.tbl10 partition (year=2015, dept=deptInvt)
+OK
+Time taken: 0.314 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl10;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptFinan
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptFinan/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptMark
+-rwx------   3 hdu supergroup        388 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptMark/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptSales
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptSales/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016/dept=deptSales
+-rwx------   3 hdu supergroup        388 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016/dept=deptSales/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017/dept=deptFinan
+-rwx------   3 hdu supergroup        388 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017/dept=deptFinan/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020/dept=deptInvt/hivef3.txt
+
+hive (mydbmysq)> select * from tbl10 where year="2015";
+OK
+tbl10.id	tbl10.name	tbl10.phpref	tbl10.loc	tbl10.year	tbl10.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptFinan
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptFinan
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptFinan
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptSales
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptSales
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptSales
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptSales
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptSales
+Time taken: 0.092 seconds, Fetched: 32 row(s)
+
+hive (mydbmysq)> select * from tbl10 where year="2015" and dept="deptSales";
+OK
+tbl10.id	tbl10.name	tbl10.phpref	tbl10.loc	tbl10.year	tbl10.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptSales
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptSales
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptSales
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptSales
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptSales
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptSales
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptSales
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptSales
+Time taken: 0.122 seconds, Fetched: 8 row(s)
+
+hive (mydbmysq)> set hive.mapred.mode;
+hive.mapred.mode=nonstrict
+hive (mydbmysq)> set hive.mapred.mode=strict;
+
+hive (mydbmysq)> select * from tbl10 ;
+FAILED: SemanticException Queries against partitioned tables without a partition filter are disabled for safety reasons. If you know what you are doing, please make sure that hive.strict.checks.large.query is set to false and that hive.mapred.mode is not set to 'strict' to enable them. No partition predicate for Alias "tbl10" Table "tbl10"
+
+hive (mydbmysq)> select * from tbl10 where year="2015";
+OK
+tbl10.id	tbl10.name	tbl10.phpref	tbl10.loc	tbl10.year	tbl10.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptFinan
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptFinan
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptFinan
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptSales
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptSales
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptSales
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptSales
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptSales
+Time taken: 0.118 seconds, Fetched: 32 row(s)
+
+hive (mydbmysq)> select * from tbl10 where year="2015" and dept="deptInvt";
+OK
+tbl10.id	tbl10.name	tbl10.phpref	tbl10.loc	tbl10.year	tbl10.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptInvt
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptInvt
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptInvt
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptInvt
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptInvt
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptInvt
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptInvt
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptInvt
+Time taken: 0.095 seconds, Fetched: 8 row(s)
+
+hive (mydbmysq)> select * from tbl10 where dept="deptInvt";
+OK
+tbl10.id	tbl10.name	tbl10.phpref	tbl10.loc	tbl10.year	tbl10.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptInvt
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptInvt
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptInvt
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptInvt
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptInvt
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptInvt
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptInvt
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptInvt
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2018	deptInvt
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2020	deptInvt
+Time taken: 0.095 seconds, Fetched: 32 row(s)
+
+hive (mydbmysq)> select year,dept from tbl10 where dept="deptInvt";
+OK
+year	dept
+2018	deptInvt
+2018	deptInvt
+2018	deptInvt
+2018	deptInvt
+2019	deptInvt
+2019	deptInvt
+2019	deptInvt
+2019	deptInvt
+2019	deptInvt
+2019	deptInvt
+2019	deptInvt
+2019	deptInvt
+2020	deptInvt
+2020	deptInvt
+2020	deptInvt
+2020	deptInvt
+2020	deptInvt
+2020	deptInvt
+2020	deptInvt
+2020	deptInvt
+Time taken: 0.115 seconds, Fetched: 32 row(s)
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl10;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptFinan
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptFinan/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptMark
+-rwx------   3 hdu supergroup        388 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptMark/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptSales
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptSales/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016/dept=deptSales
+-rwx------   3 hdu supergroup        388 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016/dept=deptSales/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017/dept=deptFinan
+-rwx------   3 hdu supergroup        388 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017/dept=deptFinan/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020/dept=deptInvt/hivef3.txt
+
+hive (mydbmysq)> select id,name,phpref from tbl10 where year="2015" order by id desc;
+FAILED: SemanticException 1:60 Order by-s without limit are disabled for safety reasons. If you know what you are doing, please make sure that hive.strict.checks.large.query is set to false and that hive.mapred.mode is not set to 'strict' to enable them.. Error encountered near token 'id'
+
+hive (mydbmysq)> select id,name,phpref from tbl10 where year="2015" order by id desc limit 5;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402084856_b60fd77a-9659-4b39-8d25-fbb20b1e7e48
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Job running in-process (local Hadoop)
+2020-04-02 08:48:58,005 Stage-1 map = 100%,  reduce = 100%
+Ended Job = job_local1428332185_0005
+MapReduce Jobs Launched: 
+Stage-Stage-1:  HDFS Read: 398176 HDFS Write: 261325408 SUCCESS
+Total MapReduce CPU Time Spent: 0 msec
+OK
+id	name	phpref
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]
+1100	bpeter	["iphone","samsung","sony"]
+Time taken: 1.36 seconds, Fetched: 5 row(s)
+
+hive (mydbmysq)> select id,name,phpref,year,dept from tbl10 where dept="deptInvt" order by id desc limit 5;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402084936_bb1d6f8a-4e9f-4bc3-9f64-64e547884004
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Job running in-process (local Hadoop)
+2020-04-02 08:49:38,221 Stage-1 map = 100%,  reduce = 100%
+Ended Job = job_local1826680174_0006
+MapReduce Jobs Launched: 
+Stage-Stage-1:  HDFS Read: 401280 HDFS Write: 261325408 SUCCESS
+Total MapReduce CPU Time Spent: 0 msec
+OK
+id	name	phpref	year	dept
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	2019	deptInvt
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	2018	deptInvt
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	2020	deptInvt
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	2015	deptInvt
+1100	bpeter	["iphone","samsung","sony"]	2018	deptInvt
+Time taken: 1.35 seconds, Fetched: 5 row(s)
+
+hive (mydbmysq)> select * from tbl10 ;
+FAILED: SemanticException Queries against partitioned tables without a partition filter are disabled for safety reasons. If you know what you are doing, please make sure that hive.strict.checks.large.query is set to false and that hive.mapred.mode is not set to 'strict' to enable them. No partition predicate for Alias "tbl10" Table "tbl10"
+hive (mydbmysq)> set hive.mapred.mode=nonstrict;
+hive (mydbmysq)> select * from tbl10 ;
+OK
+tbl10.id	tbl10.name	tbl10.phpref	tbl10.loc	tbl10.year	tbl10.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptFinan
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptFinan
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptFinan
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptFinan
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptFinan
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptFinan
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptFinan
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptFinan
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptInvt
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptInvt
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptInvt
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptInvt
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptInvt
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptInvt
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2017	deptFinan
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2020	deptInvt
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2020	deptInvt
+Time taken: 0.111 seconds, Fetched: 72 row(s)
+
+hive (mydbmysq)> alter table tbl10 add partition(year="2021",dept="deptSales");
+OK
+Time taken: 0.099 seconds
+
+hive (mydbmysq)> alter table tbl10 add partition(year="2021",dept="deptInvt");
+OK
+Time taken: 0.068 seconds
+
+hive (mydbmysq)> alter table tbl10 add partition(year="2021",dept="deptRND");
+OK
+Time taken: 0.055 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl10;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptFinan
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptFinan/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptMark
+-rwx------   3 hdu supergroup        388 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptMark/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptSales
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptSales/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016/dept=deptSales
+-rwx------   3 hdu supergroup        388 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016/dept=deptSales/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017/dept=deptFinan
+-rwx------   3 hdu supergroup        388 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017/dept=deptFinan/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:53 /user/hive/warehouse/mydbmysq.db/tbl10/year=2021
+drwx------   - hdu supergroup          0 2020-04-02 08:53 /user/hive/warehouse/mydbmysq.db/tbl10/year=2021/dept=deptInvt
+drwx------   - hdu supergroup          0 2020-04-02 08:53 /user/hive/warehouse/mydbmysq.db/tbl10/year=2021/dept=deptRND
+drwx------   - hdu supergroup          0 2020-04-02 08:53 /user/hive/warehouse/mydbmysq.db/tbl10/year=2021/dept=deptSales
+
+hive (mydbmysq)> alter table tbl10 drop partition(year="2021",dept="deptSales");
+Moved: 'hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl10/year=2021/dept=deptSales' to trash at: hdfs://u1:9000/user/hdu/.Trash/Current
+Dropped the partition year=2021/dept=deptSales
+OK
+Time taken: 0.145 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl10;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptFinan
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptFinan/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptMark
+-rwx------   3 hdu supergroup        388 2020-04-02 08:38 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptMark/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptSales
+-rwx------   3 hdu supergroup        388 2020-04-02 08:42 /user/hive/warehouse/mydbmysq.db/tbl10/year=2015/dept=deptSales/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016/dept=deptSales
+-rwx------   3 hdu supergroup        388 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2016/dept=deptSales/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017
+drwx------   - hdu supergroup          0 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017/dept=deptFinan
+-rwx------   3 hdu supergroup        388 2020-04-02 08:39 /user/hive/warehouse/mydbmysq.db/tbl10/year=2017/dept=deptFinan/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2018/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2019/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020
+drwx------   - hdu supergroup          0 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020/dept=deptInvt
+-rwx------   3 hdu supergroup        388 2020-04-02 08:40 /user/hive/warehouse/mydbmysq.db/tbl10/year=2020/dept=deptInvt/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:55 /user/hive/warehouse/mydbmysq.db/tbl10/year=2021
+drwx------   - hdu supergroup          0 2020-04-02 08:53 /user/hive/warehouse/mydbmysq.db/tbl10/year=2021/dept=deptInvt
+drwx------   - hdu supergroup          0 2020-04-02 08:53 /user/hive/warehouse/mydbmysq.db/tbl10/year=2021/dept=deptRND
+
+#going for dynamic partition
+hive (mydbmysq)> set hive.exec.dynamic.partition.mode;
+hive.exec.dynamic.partition.mode=strict
+
+hive (mydbmysq)> set hive.exec.dynamic.partition.mode=nonstrict;
+
+hive (mydbmysq)> create table tbl11 as select * from tbl10;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402090123_582ecc84-bfc4-4540-93fd-6875d3167fcb
+Total jobs = 3
+Launching Job 1 out of 3
+Number of reduce tasks is set to 0 since there's no reduce operator
+Job running in-process (local Hadoop)
+2020-04-02 09:01:27,796 Stage-1 map = 100%,  reduce = 0%
+Ended Job = job_local1652598579_0001
+Stage-4 is selected by condition resolver.
+Stage-3 is filtered out by condition resolver.
+Stage-5 is filtered out by condition resolver.
+Moving data to directory hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/.hive-staging_hive_2020-04-02_09-01-23_707_8845279081464958589-1/-ext-10002
+Moving data to directory hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl11
+MapReduce Jobs Launched: 
+Stage-Stage-1:  HDFS Read: 3492 HDFS Write: 4604 SUCCESS
+Total MapReduce CPU Time Spent: 0 msec
+OK
+tbl10.id	tbl10.name	tbl10.phpref	tbl10.loc	tbl10.year	tbl10.dept
+Time taken: 4.452 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl11;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+-rwx------   3 hdu supergroup       4532 2020-04-02 09:01 /user/hive/warehouse/mydbmysq.db/tbl11/000000_0
+
+hive (mydbmysq)> select * from tbl11;
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptMark
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptMark
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptMark
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptMark
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptSales
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptSales
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptSales
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptSales
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptSales
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptSales
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptSales
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptSales
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2020	deptInvt
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2020	deptInvt
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2020	deptInvt
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2020	deptInvt
+Time taken: 0.136 seconds, Fetched: 72 row(s)
+
+hive (mydbmysq)> describe formatted tbl11;
+OK
+col_name	data_type	comment
+# col_name            	data_type           	comment             
+	 	 
+id                  	int                 	                    
+name                	string              	                    
+phpref              	array<string>       	                    
+loc                 	map<string,string>  	                    
+year                	string              	                    
+dept                	string              	                    
+	 	 
+# Detailed Table Information	 	 
+Database:           	mydbmysq            	 
+Owner:              	hdu                 	 
+CreateTime:         	Thu Apr 02 09:01:27 CEST 2020	 
+LastAccessTime:     	UNKNOWN             	 
+Retention:          	0                   	 
+Location:           	hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl11	 
+Table Type:         	MANAGED_TABLE       	 
+Table Parameters:	 	 
+	COLUMN_STATS_ACCURATE	{\"BASIC_STATS\":\"true\"}
+	numFiles            	1                   
+	numRows             	72                  
+	rawDataSize         	4460                
+	totalSize           	4532                
+	transient_lastDdlTime	1585810888          
+	 	 
+# Storage Information	 	 
+SerDe Library:      	org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe	 
+InputFormat:        	org.apache.hadoop.mapred.TextInputFormat	 
+OutputFormat:       	org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat	 
+Compressed:         	No                  	 
+Num Buckets:        	-1                  	 
+Bucket Columns:     	[]                  	 
+Sort Columns:       	[]                  	 
+Storage Desc Params:	 	 
+	serialization.format	1                   
+Time taken: 0.09 seconds, Fetched: 35 row(s)
+
+hive (mydbmysq)> describe formatted tbl10;
+OK
+col_name	data_type	comment
+# col_name            	data_type           	comment             
+	 	 
+id                  	int                 	                    
+name                	string              	                    
+phpref              	array<string>       	                    
+loc                 	map<string,string>  	                    
+	 	 
+# Partition Information	 	 
+# col_name            	data_type           	comment             
+	 	 
+year                	string              	                    
+dept                	string              	                    
+	 	 
+# Detailed Table Information	 	 
+Database:           	mydbmysq            	 
+Owner:              	hdu                 	 
+CreateTime:         	Thu Apr 02 08:37:29 CEST 2020	 
+LastAccessTime:     	UNKNOWN             	 
+Retention:          	0                   	 
+Location:           	hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl10	 
+Table Type:         	MANAGED_TABLE       	 
+Table Parameters:	 	 
+	transient_lastDdlTime	1585809449          
+	 	 
+# Storage Information	 	 
+SerDe Library:      	org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe	 
+InputFormat:        	org.apache.hadoop.mapred.TextInputFormat	 
+OutputFormat:       	org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat	 
+Compressed:         	No                  	 
+Num Buckets:        	-1                  	 
+Bucket Columns:     	[]                  	 
+Sort Columns:       	[]                  	 
+Storage Desc Params:	 	 
+	colelction.delim    	:                   
+	field.delim         	,                   
+	mapkey.delim        	$                   
+	serialization.format	,                   
+Time taken: 0.065 seconds, Fetched: 37 row(s)
+
+hive (mydbmysq)> 
+               > describe formatted tbl11;
+OK
+col_name	data_type	comment
+# col_name            	data_type           	comment             
+	 	 
+id                  	int                 	                    
+name                	string              	                    
+phpref              	array<string>       	                    
+loc                 	map<string,string>  	                    
+year                	string              	                    
+dept                	string              	                    
+	 	 
+# Detailed Table Information	 	 
+Database:           	mydbmysq            	 
+Owner:              	hdu                 	 
+CreateTime:         	Thu Apr 02 09:01:27 CEST 2020	 
+LastAccessTime:     	UNKNOWN             	 
+Retention:          	0                   	 
+Location:           	hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl11	 
+Table Type:         	MANAGED_TABLE       	 
+Table Parameters:	 	 
+	COLUMN_STATS_ACCURATE	{\"BASIC_STATS\":\"true\"}
+	numFiles            	1                   
+	numRows             	72                  
+	rawDataSize         	4460                
+	totalSize           	4532                
+	transient_lastDdlTime	1585810888          
+	 	 
+# Storage Information	 	 
+SerDe Library:      	org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe	 
+InputFormat:        	org.apache.hadoop.mapred.TextInputFormat	 
+OutputFormat:       	org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat	 
+Compressed:         	No                  	 
+Num Buckets:        	-1                  	 
+Bucket Columns:     	[]                  	 
+Sort Columns:       	[]                  	 
+Storage Desc Params:	 	 
+	serialization.format	1                   
+Time taken: 0.053 seconds, Fetched: 35 row(s)
+
+hive (mydbmysq)> create table tbl12(id int,name string,phpref array<string>,loc map<string,string>,year string) partitioned by (dept string)
+               > row format delimited
+               > fields terminated by ','
+               > collection items terminated by ':'
+               > map keys terminated by '$';
+OK
+Time taken: 0.083 seconds
+
+hive (mydbmysq)> describe formatted tbl12;
+OK
+col_name	data_type	comment
+# col_name            	data_type           	comment             
+	 	 
+id                  	int                 	                    
+name                	string              	                    
+phpref              	array<string>       	                    
+loc                 	map<string,string>  	                    
+year                	string              	                    
+	 	 
+# Partition Information	 	 
+# col_name            	data_type           	comment             
+	 	 
+dept                	string              	                    
+	 	 
+# Detailed Table Information	 	 
+Database:           	mydbmysq            	 
+Owner:              	hdu                 	 
+CreateTime:         	Thu Apr 02 09:07:09 CEST 2020	 
+LastAccessTime:     	UNKNOWN             	 
+Retention:          	0                   	 
+Location:           	hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl12	 
+Table Type:         	MANAGED_TABLE       	 
+Table Parameters:	 	 
+	transient_lastDdlTime	1585811229          
+	 	 
+# Storage Information	 	 
+SerDe Library:      	org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe	 
+InputFormat:        	org.apache.hadoop.mapred.TextInputFormat	 
+OutputFormat:       	org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat	 
+Compressed:         	No                  	 
+Num Buckets:        	-1                  	 
+Bucket Columns:     	[]                  	 
+Sort Columns:       	[]                  	 
+Storage Desc Params:	 	 
+	colelction.delim    	:                   
+	field.delim         	,                   
+	mapkey.delim        	$                   
+	serialization.format	,                   
+Time taken: 0.065 seconds, Fetched: 37 row(s)
+
+hive (mydbmysq)> insert overwrite table tbl12 partition(dept) select * from tbl11;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402091258_9f760d29-8eb0-4cec-aac7-8284ca42765d
+Total jobs = 3
+Launching Job 1 out of 3
+Number of reduce tasks is set to 0 since there's no reduce operator
+Job running in-process (local Hadoop)
+2020-04-02 09:12:59,602 Stage-1 map = 100%,  reduce = 0%
+Ended Job = job_local1659959631_0002
+Stage-4 is selected by condition resolver.
+Stage-3 is filtered out by condition resolver.
+Stage-5 is filtered out by condition resolver.
+Moving data to directory hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl12/.hive-staging_hive_2020-04-02_09-12-58_161_5039708623092471853-1/-ext-10000
+Loading data to table mydbmysq.tbl12 partition (dept=null)
+
+
+	 Time taken to load dynamic partitions: 0.353 seconds
+	 Time taken for adding to write entity : 0.001 seconds
+MapReduce Jobs Launched: 
+Stage-Stage-1:  HDFS Read: 12628 HDFS Write: 8688 SUCCESS
+Total MapReduce CPU Time Spent: 0 msec
+OK
+tbl11.id	tbl11.name	tbl11.phpref	tbl11.loc	tbl11.year	tbl11.dept
+Time taken: 2.358 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl11;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+-rwx------   3 hdu supergroup       4532 2020-04-02 09:01 /user/hive/warehouse/mydbmysq.db/tbl11/000000_0
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl12;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptFinan
+-rwx------   3 hdu supergroup        856 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptFinan/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptInvt
+-rwx------   3 hdu supergroup       1712 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptInvt/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptMark
+-rwx------   3 hdu supergroup        428 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptMark/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptSales
+-rwx------   3 hdu supergroup        856 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptSales/000000_0
+
+hive (mydbmysq)> select * from tbl11;
+OK
+tbl11.id	tbl11.name	tbl11.phpref	tbl11.loc	tbl11.year	tbl11.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptFinan
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptFinan
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptFinan
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptFinan
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptMark
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptMark
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptMark
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptMark
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2018	deptInvt
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2018	deptInvt
+1010	cpeter	["iphone"]	{"ber":"germany"}	2018	deptInvt
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2020	deptInvt
+Time taken: 0.102 seconds, Fetched: 72 row(s)
+
+hive (mydbmysq)> select * from tbl12;
+OK
+tbl12.id	tbl12.name	tbl12.phpref	tbl12.loc	tbl12.year	tbl12.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptFinan
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptFinan
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptFinan
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptFinan
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptFinan
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptFinan
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptFinan
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptFinan
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2017	deptFinan
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2017	deptFinan
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2017	deptFinan
+1010	cpeter	["iphone"]	{"ber":"germany"}	2017	deptFinan
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2017	deptFinan
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2017	deptFinan
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2017	deptFinan
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2017	deptFinan
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptInvt
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptInvt
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptInvt
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptInvt
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptInvt
+Time taken: 0.123 seconds, Fetched: 72 row(s)
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl11;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+-rwx------   3 hdu supergroup       4532 2020-04-02 09:01 /user/hive/warehouse/mydbmysq.db/tbl11/000000_0
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl12;
+
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptFinan
+-rwx------   3 hdu supergroup        856 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptFinan/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptInvt
+-rwx------   3 hdu supergroup       1712 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptInvt/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptMark
+-rwx------   3 hdu supergroup        428 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptMark/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptSales
+-rwx------   3 hdu supergroup        856 2020-04-02 09:12 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptSales/000000_0
+
+hive (mydbmysq)> select * from tbl12 where dept="deptFinan";
+OK
+tbl12.id	tbl12.name	tbl12.phpref	tbl12.loc	tbl12.year	tbl12.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptFinan
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2017	deptFinan
+1010	cpeter	["iphone"]	{"ber":"germany"}	2017	deptFinan
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2017	deptFinan
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2017	deptFinan
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2017	deptFinan
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2017	deptFinan
+Time taken: 0.456 seconds, Fetched: 16 row(s)
+
+hive (mydbmysq)> insert overwrite table tbl12 partition(dept) select * from tbl11;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402091925_c3c87b36-84b4-4839-932a-024daac51974
+Total jobs = 3
+Launching Job 1 out of 3
+Number of reduce tasks is set to 0 since there's no reduce operator
+Job running in-process (local Hadoop)
+2020-04-02 09:19:26,404 Stage-1 map = 100%,  reduce = 0%
+Ended Job = job_local940783209_0003
+Stage-4 is selected by condition resolver.
+Stage-3 is filtered out by condition resolver.
+Stage-5 is filtered out by condition resolver.
+Moving data to directory hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl12/.hive-staging_hive_2020-04-02_09-19-25_031_1485318790104473653-1/-ext-10000
+Loading data to table mydbmysq.tbl12 partition (dept=null)
+
+
+Moved: 'hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl12/dept=deptSales/000000_0' to trash at: hdfs://u1:9000/user/hdu/.Trash/Current
+Moved: 'hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl12/dept=deptFinan/000000_0' to trash at: hdfs://u1:9000/user/hdu/.Trash/Current
+Moved: 'hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl12/dept=deptInvt/000000_0' to trash at: hdfs://u1:9000/user/hdu/.Trash/Current
+Moved: 'hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl12/dept=deptMark/000000_0' to trash at: hdfs://u1:9000/user/hdu/.Trash/Current
+	 Time taken to load dynamic partitions: 0.669 seconds
+	 Time taken for adding to write entity : 0.0 seconds
+MapReduce Jobs Launched: 
+Stage-Stage-1:  HDFS Read: 26632 HDFS Write: 12772 SUCCESS
+Total MapReduce CPU Time Spent: 0 msec
+OK
+tbl11.id	tbl11.name	tbl11.phpref	tbl11.loc	tbl11.year	tbl11.dept
+Time taken: 2.485 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl12;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptFinan
+-rwx------   3 hdu supergroup        856 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptFinan/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptInvt
+-rwx------   3 hdu supergroup       1712 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptInvt/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptMark
+-rwx------   3 hdu supergroup        428 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptMark/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptSales
+-rwx------   3 hdu supergroup        856 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptSales/000000_0
+
+hive (mydbmysq)> alter table tbl12 add partition(dept="deptRND");
+OK
+Time taken: 0.145 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl12;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptFinan
+-rwx------   3 hdu supergroup        856 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptFinan/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptInvt
+-rwx------   3 hdu supergroup       1712 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptInvt/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptMark
+-rwx------   3 hdu supergroup        428 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptMark/000000_0
+drwx------   - hdu supergroup          0 2020-04-02 09:20 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptRND
+drwx------   - hdu supergroup          0 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptSales
+-rwx------   3 hdu supergroup        856 2020-04-02 09:19 /user/hive/warehouse/mydbmysq.db/tbl12/dept=deptSales/000000_0
+
+#going for bucketing, this property is no more from hive 2.1 and by default is activated
+hive (mydbmysq)> set hive.enforce.bucketing;
+hive.enforce.bucketing is undefined
+hive (mydbmysq)> set hive.enforce.bucketing;
+hive.enforce.bucketing is undefined
+hive (mydbmysq)> set hive.enforce.bucketing=true;
+Query returned non-zero code: 1, cause: hive configuration hive.enforce.bucketing does not exists.
+
+hive (mydbmysq)> create table tbl13(id int,name string,phpref array<string>,loc map<string,string>) partitioned by(year string)
+               > clustered by(id) into 4 buckets 
+               > row format delimited
+               > fields terminated by ','
+               > collection items terminated by ':'
+               > map keys terminated by '$';
+OK
+Time taken: 0.479 seconds
+
+hive (mydbmysq)> select * from tbl10;
+OK
+tbl10.id	tbl10.name	tbl10.phpref	tbl10.loc	tbl10.year	tbl10.dept
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015	deptFinan
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptFinan
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015	deptMark
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015	deptMark
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015	deptMark
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015	deptMark
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015	deptMark
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015	deptMark
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2020	deptInvt
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2020	deptInvt
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2020	deptInvt
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2020	deptInvt
+Time taken: 1.116 seconds, Fetched: 72 row(s)
+
+hive (mydbmysq)> select * from tbl9;
+OK
+tbl9.id	tbl9.name	tbl9.phpref	tbl9.loc	tbl9.year
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2017
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2017
+1010	cpeter	["iphone"]	{"ber":"germany"}	2017
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2017
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2017
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2017
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2020
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2020
+Time taken: 0.158 seconds, Fetched: 48 row(s)
+
+hive (mydbmysq)> 
+               > !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl9;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 08:25 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015
+-rwx------   3 hdu supergroup        388 2020-04-02 08:25 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2016
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2016/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2017
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2017/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2018
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2018/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2019
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2019/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:29 /user/hive/warehouse/mydbmysq.db/tbl9/year=2020
+-rwx------   3 hdu supergroup        388 2020-04-02 08:29 /user/hive/warehouse/mydbmysq.db/tbl9/year=2020/hivef3.txt
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl9 partition(year="2015");
+Loading data to table mydbmysq.tbl9 partition (year=2015)
+OK
+Time taken: 0.905 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl9 partition(year="2015");
+Loading data to table mydbmysq.tbl9 partition (year=2015)
+OK
+Time taken: 0.461 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl9 partition(year="2015");
+Loading data to table mydbmysq.tbl9 partition (year=2015)
+OK
+Time taken: 0.429 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl9 partition(year="2015");
+Loading data to table mydbmysq.tbl9 partition (year=2015)
+OK
+Time taken: 0.44 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl9 partition(year="2015");
+Loading data to table mydbmysq.tbl9 partition (year=2015)
+OK
+Time taken: 0.541 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl9;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 09:38 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015
+-rwx------   3 hdu supergroup        388 2020-04-02 08:25 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015/hivef3.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 09:38 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015/hivef3_copy_1.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 09:38 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015/hivef3_copy_2.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 09:38 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015/hivef3_copy_3.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 09:38 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015/hivef3_copy_4.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 09:38 /user/hive/warehouse/mydbmysq.db/tbl9/year=2015/hivef3_copy_5.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2016
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2016/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2017
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2017/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2018
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2018/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2019
+-rwx------   3 hdu supergroup        388 2020-04-02 08:28 /user/hive/warehouse/mydbmysq.db/tbl9/year=2019/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 08:29 /user/hive/warehouse/mydbmysq.db/tbl9/year=2020
+-rwx------   3 hdu supergroup        388 2020-04-02 08:29 /user/hive/warehouse/mydbmysq.db/tbl9/year=2020/hivef3.txt
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl13 partition(year="2015");
+Loading data to table mydbmysq.tbl13 partition (year=2015)
+OK
+Time taken: 0.386 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl13 partition(year="2016");
+Loading data to table mydbmysq.tbl13 partition (year=2016)
+OK
+Time taken: 0.36 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl13 partition(year="2017");
+Loading data to table mydbmysq.tbl13 partition (year=2017)
+OK
+Time taken: 0.468 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl13 partition(year="2018");
+Loading data to table mydbmysq.tbl13 partition (year=2018)
+OK
+Time taken: 0.628 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl13 partition(year="2019");
+Loading data to table mydbmysq.tbl13 partition (year=2019)
+OK
+Time taken: 0.327 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' overwrite into table tbl13 partition(year="2020");
+Loading data to table mydbmysq.tbl13 partition (year=2020)
+OK
+Time taken: 0.376 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl13 partition(year="2015");
+Loading data to table mydbmysq.tbl13 partition (year=2015)
+OK
+Time taken: 0.441 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl13 partition(year="2015");
+Loading data to table mydbmysq.tbl13 partition (year=2015)
+OK
+Time taken: 0.533 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl13 partition(year="2015");
+Loading data to table mydbmysq.tbl13 partition (year=2015)
+OK
+Time taken: 0.42 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl13 partition(year="2015");
+Loading data to table mydbmysq.tbl13 partition (year=2015)
+OK
+Time taken: 0.418 seconds
+
+hive (mydbmysq)> load data local inpath '/home/hdu/hivef3.txt' into table tbl13 partition(year="2015");
+Loading data to table mydbmysq.tbl13 partition (year=2015)
+OK
+Time taken: 0.36 seconds
+
+hive (mydbmysq)> !hdfs dfs -ls -R /user/hive/warehouse/mydbmysq.db/tbl13;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.0-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+drwx------   - hdu supergroup          0 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2015
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2015/hivef3.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2015/hivef3_copy_1.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2015/hivef3_copy_2.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2015/hivef3_copy_3.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2015/hivef3_copy_4.txt
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2015/hivef3_copy_5.txt
+drwx------   - hdu supergroup          0 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2016
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2016/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2017
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2017/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2018
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2018/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2019
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2019/hivef3.txt
+drwx------   - hdu supergroup          0 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2020
+-rwx------   3 hdu supergroup        388 2020-04-02 09:40 /user/hive/warehouse/mydbmysq.db/tbl13/year=2020/hivef3.txt
+
+hive (mydbmysq)> describe extended tbl13;
+OK
+col_name	data_type	comment
+id                  	int                 	                    
+name                	string              	                    
+phpref              	array<string>       	                    
+loc                 	map<string,string>  	                    
+year                	string              	                    
+	 	 
+# Partition Information	 	 
+# col_name            	data_type           	comment             
+	 	 
+year                	string              	                    
+	 	 
+Detailed Table Information	Table(tableName:tbl13, dbName:mydbmysq, owner:hdu, createTime:1585812994, lastAccessTime:0, retention:0, sd:StorageDescriptor(cols:[FieldSchema(name:id, type:int, comment:null), FieldSchema(name:name, type:string, comment:null), FieldSchema(name:phpref, type:array<string>, comment:null), FieldSchema(name:loc, type:map<string,string>, comment:null), FieldSchema(name:year, type:string, comment:null)], location:hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl13, inputFormat:org.apache.hadoop.mapred.TextInputFormat, outputFormat:org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat, compressed:false, numBuckets:4, serdeInfo:SerDeInfo(name:null, serializationLib:org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe, parameters:{colelction.delim=:, mapkey.delim=$, serialization.format=,, field.delim=,}), bucketCols:[id], sortCols:[], parameters:{}, skewedInfo:SkewedInfo(skewedColNames:[], skewedColValues:[], skewedColValueLocationMaps:{}), storedAsSubDirectories:false), partitionKeys:[FieldSchema(name:year, type:string, comment:null)], parameters:{transient_lastDdlTime=1585812994}, viewOriginalText:null, viewExpandedText:null, tableType:MANAGED_TABLE)	
+Time taken: 0.078 seconds, Fetched: 12 row(s)
+
+hive (mydbmysq)> describe extended tbl9;
+OK
+col_name	data_type	comment
+id                  	int                 	                    
+name                	string              	                    
+phpref              	array<string>       	                    
+loc                 	map<string,string>  	                    
+year                	string              	                    
+	 	 
+# Partition Information	 	 
+# col_name            	data_type           	comment             
+	 	 
+year                	string              	                    
+	 	 
+Detailed Table Information	Table(tableName:tbl9, dbName:mydbmysq, owner:hdu, createTime:1585808613, lastAccessTime:0, retention:0, sd:StorageDescriptor(cols:[FieldSchema(name:id, type:int, comment:null), FieldSchema(name:name, type:string, comment:null), FieldSchema(name:phpref, type:array<string>, comment:null), FieldSchema(name:loc, type:map<string,string>, comment:null), FieldSchema(name:year, type:string, comment:null)], location:hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl9, inputFormat:org.apache.hadoop.mapred.TextInputFormat, outputFormat:org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat, compressed:false, numBuckets:-1, serdeInfo:SerDeInfo(name:null, serializationLib:org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe, parameters:{colelction.delim=:, mapkey.delim=$, serialization.format=,, field.delim=,}), bucketCols:[], sortCols:[], parameters:{}, skewedInfo:SkewedInfo(skewedColNames:[], skewedColValues:[], skewedColValueLocationMaps:{}), storedAsSubDirectories:false), partitionKeys:[FieldSchema(name:year, type:string, comment:null)], parameters:{transient_lastDdlTime=1585808613}, viewOriginalText:null, viewExpandedText:null, tableType:MANAGED_TABLE)	
+Time taken: 0.047 seconds, Fetched: 12 row(s)
+
+hive (mydbmysq)> set mapreduce.framework.name=yarn;
+hive (mydbmysq)> select id,name from tbl9 where phpref[1]="samsung" and year="2015";
+OK
+id	name
+100	peter
+1100	bpeter
+1010	dpeter
+10011	epeter
+1002	pester
+1001	peters
+100	peter
+1100	bpeter
+1010	dpeter
+10011	epeter
+1002	pester
+1001	peters
+Time taken: 0.521 seconds, Fetched: 36 row(s)
+
+#compare querying tables with bucketing and without bucketing (queries that trigger MR) and compare the time of run
+
+hive (mydbmysq)> 
+               > select id,name from tbl9 where phpref[1]="samsung" and year="2015" order by id desc;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402094301_69d1c43f-59f3-45ea-a412-6091a822b80c
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1585801343020_0006, Tracking URL = http://u2:8088/proxy/application_1585801343020_0006/
+Kill Command = /usr/local/hadoop-2.6.5/bin/hadoop job  -kill job_1585801343020_0006
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2020-04-02 09:43:10,215 Stage-1 map = 0%,  reduce = 0%
+2020-04-02 09:43:17,896 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 4.47 sec
+2020-04-02 09:43:26,369 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 7.08 sec
+MapReduce Total cumulative CPU time: 7 seconds 80 msec
+Ended Job = job_1585801343020_0006
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 7.08 sec   HDFS Read: 11587 HDFS Write: 945 SUCCESS
+Total MapReduce CPU Time Spent: 7 seconds 80 msec
+OK
+id	name
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+1100	bpeter
+1100	bpeter
+1100	bpeter
+1100	bpeter
+1100	bpeter
+
+hive (mydbmysq)> select id,name from tbl13 where phpref[1]="samsung" and year="2015" order by id desc;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402094343_9425ead8-b37e-4171-8185-347d6a9f1b11
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1585801343020_0007, Tracking URL = http://u2:8088/proxy/application_1585801343020_0007/
+Kill Command = /usr/local/hadoop-2.6.5/bin/hadoop job  -kill job_1585801343020_0007
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2020-04-02 09:43:50,779 Stage-1 map = 0%,  reduce = 0%
+2020-04-02 09:43:58,257 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 2.24 sec
+2020-04-02 09:44:05,681 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 5.74 sec
+MapReduce Total cumulative CPU time: 5 seconds 740 msec
+Ended Job = job_1585801343020_0007
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 5.74 sec   HDFS Read: 11635 HDFS Write: 945 SUCCESS
+Total MapReduce CPU Time Spent: 5 seconds 740 msec
+OK
+id	name
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+1100	bpeter
+1100	bpeter
+100	peter
+Time taken: 23.532 seconds, Fetched: 36 row(s)
+
+hive (mydbmysq)> select id,name from tbl9 where phpref[1]="samsung" and year="2015" order by id desc;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402094423_1c1fd5c1-0fb0-4852-ad8f-202a3b7472f9
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1585801343020_0008, Tracking URL = http://u2:8088/proxy/application_1585801343020_0008/
+Kill Command = /usr/local/hadoop-2.6.5/bin/hadoop job  -kill job_1585801343020_0008
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2020-04-02 09:44:38,855 Stage-1 map = 0%,  reduce = 0%
+2020-04-02 09:44:47,377 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 2.57 sec
+2020-04-02 09:44:54,838 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 5.66 sec
+MapReduce Total cumulative CPU time: 5 seconds 660 msec
+Ended Job = job_1585801343020_0008
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 5.66 sec   HDFS Read: 11587 HDFS Write: 945 SUCCESS
+Total MapReduce CPU Time Spent: 5 seconds 660 msec
+OK
+id	name
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+1100	bpeter
+1100	bpeter
+1100	bpeter
+1100	bpeter
+1100	bpeter
+1100	bpeter
+1010	dpeter
+1010	dpeter
+100	peter
+100	peter
+100	peter
+Time taken: 33.255 seconds, Fetched: 36 row(s)
+
+hive (mydbmysq)> select id,name from tbl13 where phpref[1]="samsung" and year="2015" order by id desc;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402094501_c9f805b8-44f5-4d38-bdc7-262f1cf6cf45
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1585801343020_0009, Tracking URL = http://u2:8088/proxy/application_1585801343020_0009/
+Kill Command = /usr/local/hadoop-2.6.5/bin/hadoop job  -kill job_1585801343020_0009
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2020-04-02 09:45:08,992 Stage-1 map = 0%,  reduce = 0%
+2020-04-02 09:45:16,369 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 2.03 sec
+2020-04-02 09:45:24,794 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 5.58 sec
+MapReduce Total cumulative CPU time: 5 seconds 580 msec
+Ended Job = job_1585801343020_0009
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 5.58 sec   HDFS Read: 11628 HDFS Write: 945 SUCCESS
+Total MapReduce CPU Time Spent: 5 seconds 580 msec
+OK
+id	name
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+10011	epeter
+1100	bpeter
+1100	bpeter
+1100	bpeter
+1100	bpeter
+1100	bpeter
+100	peter
+100	peter
+100	peter
+Time taken: 24.093 seconds, Fetched: 36 row(s)
+
+hive (mydbmysq)> select * from tbl9;
+OK
+tbl9.id	tbl9.name	tbl9.phpref	tbl9.loc	tbl9.year
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015
+1100	apeter	["sony","motorla"]	{"mun":"germany"}	2015
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2015
+1010	cpeter	["iphone"]	{"ber":"germany"}	2015
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2015
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2015
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2015
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015
+100	peter	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2015
+1100	bpeter	["iphone","samsung","sony"]	{"ffrt":"germany"}	2016
+1010	dpeter	["iphone","samsung","sony","motorla"]	{"ffrt":"germany"}	2020
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	{"mun":"germany"}	2020
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	{"ber":"germany"}	2020
+1001	peters	["iphone","samsung","sony","motorla"]	{"ber":"germany"}	2020
+Time taken: 0.088 seconds, Fetched: 88 row(s)
+
+hive (mydbmysq)> select explode(loc) from tbl9;
+OK
+key	value
+ber	germany
+mun	germany
+ffrt	germany
+ber	germany
+ffrt	germany
+mun	germany
+ber	germany
+ber	germany
+ber	germany
+....
+Time taken: 0.114 seconds, Fetched: 88 row(s)
+
+hive (mydbmysq)> select explode(phpref) from tbl9;
+OK
+col
+iphone
+samsung
+sony
+motorla
+sony
+motorla
+iphone
+samsung
+sony
+iphone
+iphone
+samsung
+sony
+motorla
+iphone
+samsung
+sony
+motorla
+xiomi
+iphone
+samsung
+sony
+motorla
+....
+Time taken: 0.073 seconds, Fetched: 308 row(s)
+
+hive (mydbmysq)> select distinct(explode(phpref)) from tbl9;
+FAILED: SemanticException [Error 10081]: UDTF's are not supported outside the SELECT clause, nor nested in expressions
+hive (mydbmysq)> create table tbl14 as select explode(loc) from tbl9;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hdu_20200402095322_8501a3f0-b2d1-4a2c-aae3-1f21361ed71e
+Total jobs = 3
+Launching Job 1 out of 3
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1585801343020_0010, Tracking URL = http://u2:8088/proxy/application_1585801343020_0010/
+Kill Command = /usr/local/hadoop-2.6.5/bin/hadoop job  -kill job_1585801343020_0010
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 0
+2020-04-02 09:53:29,553 Stage-1 map = 0%,  reduce = 0%
+2020-04-02 09:53:37,973 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 3.63 sec
+MapReduce Total cumulative CPU time: 3 seconds 630 msec
+Ended Job = job_1585801343020_0010
+Stage-4 is selected by condition resolver.
+Stage-3 is filtered out by condition resolver.
+Stage-5 is filtered out by condition resolver.
+Moving data to directory hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/.hive-staging_hive_2020-04-02_09-53-22_170_6471246034094353072-1/-ext-10002
+Moving data to directory hdfs://u1:9000/user/hive/warehouse/mydbmysq.db/tbl14
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1   Cumulative CPU: 3.63 sec   HDFS Read: 10812 HDFS Write: 1149 SUCCESS
+Total MapReduce CPU Time Spent: 3 seconds 630 msec
+OK
+key	value
+Time taken: 17.055 seconds
+
+hive (mydbmysq)> select * from tbl14;
+OK
+tbl14.key	tbl14.value
+ber	germany
+mun	germany
+ffrt	germany
+ber	germany
+ffrt	germany
+mun	germany
+....
+
+hive (mydbmysq)> select id,name,regexp_replace(phpref[1],'samsung','ignrCust') from tbl9;
+OK
+id	name	c2
+100	peter	ignrCust
+1100	apeter	motorla
+1100	bpeter	ignrCust
+1010	cpeter	NULL
+1010	dpeter	ignrCust
+10011	epeter	ignrCust
+1002	pester	ignrCust
+1001	peters	ignrCust
+100	peter	ignrCust
+1100	apeter	motorla
+1100	bpeter	ignrCust
+1010	cpeter	NULL
+1010	dpeter	ignrCust
+10011	epeter	ignrCust
+.............
+Time taken: 0.093 seconds, Fetched: 88 row(s)
+hive (mydbmysq)> 
+               > select id,name,phpref,regexp_replace(phpref[1],'samsung','ignrCust') as custIgnored from tbl9 limit 10;
+OK
+id	name	phpref	custignored
+100	peter	["iphone","samsung","sony","motorla"]	ignrCust
+1100	apeter	["sony","motorla"]	motorla
+1100	bpeter	["iphone","samsung","sony"]	ignrCust
+1010	cpeter	["iphone"]	NULL
+1010	dpeter	["iphone","samsung","sony","motorla"]	ignrCust
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	ignrCust
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	ignrCust
+1001	peters	["iphone","samsung","sony","motorla"]	ignrCust
+100	peter	["iphone","samsung","sony","motorla"]	ignrCust
+1100	apeter	["sony","motorla"]	motorla
+Time taken: 0.107 seconds, Fetched: 10 row(s)
+
+hive (mydbmysq)> select id,name,phpref,regexp_replace(phpref[1],'samsung','Notify_by_email') as custToBeNotified from tbl9 limit 10;
+OK
+id	name	phpref	custtobenotified
+100	peter	["iphone","samsung","sony","motorla"]	Notify_by_email
+1100	apeter	["sony","motorla"]	motorla
+1100	bpeter	["iphone","samsung","sony"]	Notify_by_email
+1010	cpeter	["iphone"]	NULL
+1010	dpeter	["iphone","samsung","sony","motorla"]	Notify_by_email
+10011	epeter	["iphone","samsung","sony","motorla","xiomi"]	Notify_by_email
+1002	pester	["iphone","samsung","sony","motorla","ericcson"]	Notify_by_email
+1001	peters	["iphone","samsung","sony","motorla"]	Notify_by_email
+100	peter	["iphone","samsung","sony","motorla"]	Notify_by_email
+1100	apeter	["sony","motorla"]	motorla
+Time taken: 0.118 seconds, Fetched: 10 row(s)
+hive (mydbmysq)> 
+
+=====================================================
+Try
+select * from newtb1;
+select name,location from newtb2;
+select name,skills[1] from newtb1;
+select * from newtb3;
+select year["1styear"] as salary from newtb3;
+select year["1styear"] as salary from newtb3 order by salary desc;
+select round((bonus/100*year["1styear"])+year["1styear"]) as salary from newtb3 order by salary desc;
+select round((bonus/100*year["2ndyear"])+year["2ndyear"]) as salary from newtb3 order by salary desc;
+select round(((bonus/100*year["2ndyear"])+year["2ndyear"]), 3) as salary from newtb3 order by salary desc;
+select round(sum(round((bonus/100*year["1styear"])+year["1styear"]))) as salary from newtb3 order by salary desc;
+select explode(skills) from newtb1;
+select explode(year) from newtb3;
+create table newtb4 as select explode(year) from newtb3;
+select * from newtb4 where value=410000;
+select concat_ws('$',skills) from newtb1;
+select concat_ws('     ',skills) from newtb1;
+select regexp_replace(skills[0],'hadoop','dont know') from newtb1;
+select id,name,regexp_replace(skills[0],'hadoop','dont know'),skills[1],skills[2] from newtb1;
+select id,name,regexp_replace(skills[0],'hadoop','special skill'),skills[1],skills[2] from newtb1 
+group by id,name,skills;
+select id,name,skills[0],
+case
+when skills[0]='hadoop' then 'gud'
+else
+'bad'
+end as result from newtb1;
+--------------
+=========================================================
+

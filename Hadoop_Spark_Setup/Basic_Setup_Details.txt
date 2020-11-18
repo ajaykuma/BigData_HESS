@@ -1,0 +1,85 @@
+Apache hadoop
+--setup linux machines (say:5)--shud ping each other,shud have ssh access,firewall turned off, java installed (oracle jdk)
+--go to archive.apache.org > dwnload hadoop tar file on each machine.. > untar it >..edit config files on each machine..
+
+
+m1-nn
+in the config file...for namenode specify the path which will be used by namenode to store its data on disk
+/orgz/name
+m2-snn,dn,nm
+in the config file...for snn,dn specify the path which will be used by snn,dn to store its data on disk
+/orgz/snndata
+/orgz/data1
+m3-rm
+m4-dn,nm
+in the config file...for dn specify the path which will be used by dn to store its data on disk
+/orgz/data2
+m5-dn,nm
+in the config file...for dn specify the path which will be used by dn to store its data on disk
+/orgz/data3
+
+*******smthing very important********
+
+--start ur cluster
+===================
+CDH/HDP
+
+--setup linux machines (say:5)--shud ping each other,shud have ssh access,firewall turned off
+--download cloudera installer/ambari from hortonworks page....
+--editding config files done automatically ( asking user for confirmation)
+
+--automatically *******smthing very important********
+
+--automatically start ur cluster
+===================
+Cluster is started...
+HDFS n YARN
+m1-nn
+/orgz/name
+
+m2-snn,dn,nm
+/orgz/snndata
+/orgz/data1
+
+m3-rm
+
+m4-dn,nm
+/orgz/data2
+
+m5-dn,nm
+/orgz/data3
+
+
+128mb block (logical)---any file upto 128mb will use 1 block (1byte/1kb/1mb/...127.9999mb/128)
+1000 files (each file:500mb)----1024mb block size (1000 blocks)--stored on disk
+                                   ?space utilized=500mb*1000
+
+
+hadoop: good for few number of large files...
+       not good for large number of small files ?(because this will create lot of metadata)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

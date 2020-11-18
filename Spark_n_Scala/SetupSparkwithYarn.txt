@@ -1,0 +1,7 @@
+Setup Spark & Hadoop
+-----------------
+for hadoop cluster setup
+https://github.com/ajaykuma/Hadoop-and-Scala-Setup/tree/master/hadoopconf2.6.5
+
+for spark setup with Yarn
+https://github.com/ajaykuma/Hadoop-and-Scala-Setup/tree/master/Spark-2.2.1

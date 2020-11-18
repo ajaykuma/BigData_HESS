@@ -1,0 +1,496 @@
+=========
+Collection Items
+
+Arrays (immutable)
+scala> val arr = new Array[Int](10)
+arr: Array[Int] = Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+scala> arr(0)
+res41: Int = 0
+
+scala> arr(1)
+res42: Int = 0
+
+scala> arr(0) = 23
+
+scala> arr(1) = 33
+
+scala> arr
+res45: Array[Int] = Array(23, 33, 0, 0, 0, 0, 0, 0, 0, 0)
+
+scala> arr.foreach(println)
+23
+33
+0
+0
+0
+0
+0
+0
+0
+0
+
+scala> arr.foreach(arg => println(arg))
+23
+33
+0
+0
+0
+0
+0
+0
+0
+0
+
+scala> val arr = new Array[String](4)
+arr: Array[String] = Array(null, null, null, null)
+
+scala> arr(0) = "Hello"
+
+scala> arr(1) = "cool"
+
+scala> arr(0) = "bye"
+
+scala> arr
+res51: Array[String] = Array(bye, cool, null, null)
+
+or statically declaring array
+scala> val arrI = Array(1,2,3,45)
+arrI: Array[Int] = Array(1, 2, 3, 45)
+
+scala> val arrS = Array("hi","hello","cool")
+arrS: Array[String] = Array(hi, hello, cool)
+
+scala> arrI.foreach(println)
+1
+2
+3
+45
+
+scala> arrS.foreach(println)
+hi
+hello
+cool
+
+ArrayBuffer
+scala> import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.ArrayBuffer
+
+scala> val arr = new ArrayBuffer[Int](5)
+arr: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer()
+
+scala> val arr = new ArrayBuffer[Int]()
+arr: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer()
+
+scala> arr += 100
+res54: arr.type = ArrayBuffer(100)
+
+scala> arr += 200
+res55: arr.type = ArrayBuffer(100, 200)
+
+scala> arr ++= Array(23,45,56)
+res58: arr.type = ArrayBuffer(100, 200, 23, 45, 56, 23, 45, 56)
+
+scala> arr --= Array(45,56)
+res59: arr.type = ArrayBuffer(100, 200, 23, 23, 45, 56)
+
+scala> arr
+res60: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(100, 200, 23, 23, 45, 56)
+
+scala> arr.filter(_ % 2 == 0)
+res61: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(100, 200, 56)
+
+scala> arr.filter(_ % 2 != 0)
+res62: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(23, 23, 45)
+
+scala> arr.sum
+res63: Int = 447
+
+scala> arr.max
+res64: Int = 200
+
+scala> arr.min
+res65: Int = 23
+
+
+scala> arr.<tab>
+!=               compose            getClass             max                 reverseMap         tapEach
+##               concat             groupBy              maxBy               runWith            to
++                contains           groupMap             maxByOption         sameElements       toArray
+++               containsSlice      groupMapReduce       maxOption           scan               toBuffer
+++:              copyToArray        grouped              min                 scanLeft           toIndexedSeq
+++=              copyToBuffer       hasDefiniteSize      minBy               scanRight          toIterable
+++=:             corresponds        hashCode             minByOption         search             toIterator
++:               count              head                 minOption           segmentLength      toList
++=               diff               headOption           mkString            seq                toMap
++=:              distinct           indexOf              ne                  size               toSeq
+--=              distinctBy         indexOfSlice         nonEmpty            sizeCompare        toSet
+-=               drop               indexWhere           notify              sizeHint           toStream
+->               dropInPlace        indices              notifyAll           sizeIs             toString
+
+Arrays:
+C:\Users\Win10>type nul > code18.scala
+
+C:\Users\Win10>notepad code18.scala
+//immutable array
+object Code18 {
+ def main(args: Array[String]){
+   val favNums = new Array[Int](10) 
+   favNums(0) = 1
+   favNums(1) = 2
+   favNums(3) = (23)
+      //printing a specific index
+	print(favNums(0))
+      //printing array 
+      favNums.foreach(println) 
+}
+}
+
+==================
+C:\Users\Win10>type nul > code19.scala
+
+C:\Users\Win10>notepad code19.scala
+import scala.collection.mutable.ArrayBuffer
+
+object Code19 {
+ def main(args: Array[String]){
+   val favNumsx = new ArrayBuffer[Int]() 
+   favNumsx += 11
+   favNumsx += 2
+   favNumsx ++= Array(23,34,45)
+   favNumsx += (23,45,56)
+   favNumsx.insert(8,100)
+   favNumsx.mkString(",").foreach(print)
+   println("\nremoving element\n")
+   favNumsx.remove(0,1)
+      //printing a specific index
+	println(favNumsx(0))
+      //printing array 
+      favNumsx.foreach(println) 
+}
+}
+===================
+C:\Users\Win10>type nul > code20.scala
+
+C:\Users\Win10>notepad code20.scala
+import scala.collection.mutable.ArrayBuffer
+
+object Code20 {
+ def main(args: Array[String]){
+   val favNumsx = new ArrayBuffer[Int]() 
+   favNumsx += 11
+   favNumsx += 2
+   favNumsx ++= Array(23,34,45)
+   favNumsx += (23,45,56)
+   favNumsx.insert(8,100)
+   favNumsx.mkString(",").foreach(print)
+   println("\nremoving element\n")
+   favNumsx.remove(0,1)
+      //printing a specific index
+	println(favNumsx(0))
+      //printing array 
+      favNumsx.foreach(println) 
+   for(i <- 0 to favNumsx.length - 1){
+     favNumsx(i) = i 
+     println(favNumsx(i))
+}
+}
+==========================
+
+C:\Users\Win10>type nul > code22.scala
+
+C:\Users\Win10>notepad code22.scala
+import scala.collection.mutable.ArrayBuffer
+
+object Code22 {
+ def main(args: Array[String]){
+   val favNumsx = new ArrayBuffer[Int]() 
+   favNumsx += 11
+   favNumsx += 2
+   favNumsx ++= Array(23,34,45)
+   favNumsx += (23,45,56)
+   favNumsx.insert(8,100)
+   favNumsx.mkString(",").foreach(print)
+   println("\nremoving element\n")
+   favNumsx.remove(0,1)
+      //printing a specific index
+	println(favNumsx(0))
+      //printing array 
+      favNumsx.foreach(println) 
+   print("printing new array\n")
+   val favNumsy = for(num <- favNumsx) yield 2 * num
+   favNumsy.foreach(println)
+   print("printing new array 2nd time\n")
+   val favNumsz = for(num <- favNumsy if num % 2 == 0) yield num
+   favNumsz.foreach(println)
+   println("Sum : " + favNumsx.sum)
+   println("Sum : " + favNumsx.min)
+   println("Sum : " + favNumsx.max)
+   val sortedNums = favNumsx.sortWith(_>_)
+   val sortedNums = favNumsx.sortWith(_<_)
+   println("sorted value:" + sortedNums.deep.mkString(","))
+}
+}
+==========================
+Creating multidimensional arrays
+
+C:\Users\Win10>type nul > code23.scala
+
+C:\Users\Win10>notepad code23.scala
+import scala.collection.mutable.ArrayBuffer
+
+object Code23 {
+ def main(args: Array[String]){
+   var multTable = Array.ofDim[Int](10,10)
+   for(i <- 0 to 9){
+   for(j <- 0 to 9) { 
+   multTable(i)(j) = i * j 
+   }}
+   for(i <- 0 to 9){
+   for(j <- 0 to 9) { 
+   print("%d : %d = %d\n" , i , j, multTable(i)(j))
+   }
+   }
+   
+==================
+Maps:
+
+Note** Creates a immutable map 
+scala> val mapping = Map("Aj" -> "test","cool" -> "guy")
+mapping: scala.collection.immutable.Map[String,String] = Map(Aj -> test, cool -> guy)
+
+scala> mapping("Aj")
+res68: String = test
+
+scala> mapping.get("Aj")
+res69: Option[String] = Some(test)
+
+scala> mapping.getOrElse("Ajj","Key not found")
+res70: String = Key not found
+
+#To create a mutable map 
+#import scala.collection.mutable.M#p 
+val mapping = map(“Aj” -> “test”,”cool” -> “guy”) 
+#To update the value for a key
+mapping(“aj”) = “test1”
+
+scala> mapping.getOrElse("Ajj",100)
+res71: Any = 100
+Any is a class in scala, return type of your control structure is always the immediate super type of your individual classes
+Any class : super class of all stuff available in scala.
+AnyVal : extends all datatypes as Any is the super class.
+
+
+scala> mapping -= "Aj"
+
+mapping += ("cool" -> "boy")
+
+//Hashtable/map ( is always a unordered/unsorted type)
+//hash function determines the location of key-value for storage'
+
+scala> mapping.isEmpty
+res18: Boolean = false
+
+===============================
+C:\Users\Win10>type nul > code24.scala
+
+C:\Users\Win10>notepad code24.scala
+//for mutable map--> import scala.collection.mutable.Map
+
+object Code24 {
+ def main(args: Array[String]){
+   val employees = Map("Manager" -> "Bob","Secretary" -> "lucie")
+   if(employees.contain("Manager"))
+   printf("Manager: %s\n", employees("Manager"))
+
+}
+}
+===============
+import scala.collection.mutable.Map
+
+object Code25 {
+ def main(args: Array[String]){
+   val customers = Map(100 -> "Bob",101 -> "lucie")
+   //without importing package
+   //val customers = collection.mutable.Map(100 -> "Bob",101 -> "lucie")
+      printf("Cust1: %s\n", customers(100))
+   customers(100) = "Tom"
+   customers(102) = "mathew"
+   for((k,v) <- customers)
+    printf("%d : %s\n", k,v)
+
+}
+}
+===================
+Tupples (in scala case classes are more often used)
+
+object Code26 {
+ def main(args: Array[String]){
+   var tupleM = (103,"tom",1.3)
+   printf("%s owes us $%.1f\n", typleM._2,tupleM._3)
+   //to iterate through a tuple, we can use product iterator
+   tupleM.productIterator.foreach( i => println(i))
+   //to convert tuple to string
+   println(tupleM.toString)
+}
+}
+
+===========
+Lists
+scala> //creating scala list object(LISP Approach)
+
+scala> val list = 1 :: 2 :: 3 :: Nil
+list: List[Int] = List(1, 2, 3)
+
+scala> //Java Approach
+
+scala> val list1 = List(1,2,3)
+list1: List[Int] = List(1, 2, 3)
+
+scala> val x = List(2)
+x: List[Int] = List(2)
+
+scala> val y = 1 :: x
+y: List[Int] = List(1, 2)
+
+scala> val z = 0 :: y
+z: List[Int] = List(0, 1, 2)
+
+scala> val originalList = List(5,4,6,7,8,1,4,3,2)
+originalList: List[Int] = List(5, 4, 6, 7, 8, 1, 4, 3, 2)
+
+scala> val newList = originalList.filter(_ > 2 )
+newList: List[Int] = List(5, 4, 6, 7, 8, 4, 3)
+
+scala> import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.ListBuffer
+
+scala> val a = ListBuffer(1,2,3,4,5,6,7,8,9)
+a: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+//deleting one element at a time.
+scala> a -= 1
+res0: a.type = ListBuffer(2, 3, 4, 5, 6, 7, 8, 9)
+
+scala> a -= 9
+res1: a.type = ListBuffer(2, 3, 4, 5, 6, 7, 8)
+
+scala> a.remove(1)
+res2: Int = 3
+
+//prepending items to list
+scala> val d = List("aj","vj","cj")
+d: List[String] = List(aj, vj, cj)
+
+scala> val g = "hg" :: d
+g: List[String] = List(hg, aj, vj, cj)
+
+//appending & merging list
+
+scala> val f = List(1,2,3)
+f: List[Int] = List(1, 2, 3)
+
+scala> val r = List(9,8,7)
+r: List[Int] = List(9, 8, 7)
+
+scala> val e = f ::: r
+e: List[Int] = List(1, 2, 3, 9, 8, 7)
+
+scala> val e = List.concat(f,r)
+e: List[Int] = List(1, 2, 3, 9, 8, 7)
+
+scala> e.foreach(println)
+1
+2
+3
+9
+8
+7
+
+scala> val fruits = new ListBuffer[String]()
+fruits: scala.collection.mutable.ListBuffer[String] = ListBuffer()
+
+scala> fruits += "apple"
+res4: fruits.type = ListBuffer(apple)
+
+scala> fruits += "banana"
+res5: fruits.type = ListBuffer(apple, banana)
+
+scala> fruits ++= List("orange","grapes")
+res6: fruits.type = ListBuffer(apple, banana, orange, grapes)
+
+scala> fruits --= Seq("orange","grapes")
+res7: fruits.type = ListBuffer(apple, banana)
+
+//convert listbuffer to list
+scala> val fruitsList = fruits.toList
+fruitsList: List[String] = List(apple, banana)
+
+============================
+Sets:
+To hold unique elements
+scala> var s : Set[Int] = Set()
+s: Set[Int] = Set()
+
+scala> var s1 : Set[Int] = Set(1,2,3,1,5)
+s1: Set[Int] = Set(1, 2, 3, 5)
+
+scala> var s2 = Set(1,2,3,4)
+s2: scala.collection.immutable.Set[Int] = Set(1, 2, 3, 4)
+
+scala> val fruits = Set("apple","orange","grapes")
+fruits: scala.collection.immutable.Set[String] = Set(apple, orange, grapes)
+
+scala> val nums = Set[Int]()
+nums: scala.collection.immutable.Set[Int] = Set()
+
+scala> println("Head of fruits: " + fruits.head)
+Head of fruits: apple
+
+scala> println("Tail of fruits: " + fruits.tail)
+Tail of fruits: Set(orange, grapes)
+
+scala> println("Check if fruits is empty: " + fruits.isEmpty)
+Check if fruits is empty: false
+
+//Concatenating sets
+scala> val fruits1 = Set("apple","oranges","grapes")
+fruits1: scala.collection.immutable.Set[String] = Set(apple, oranges, grapes)
+
+scala> val fruits2 = Set("applex","orangesx","grapesx")
+fruits2: scala.collection.immutable.Set[String] = Set(applex, orangesx, grapesx)
+
+scala> val newfruits = fruits1 ++ fruits2
+newfruits: scala.collection.immutable.Set[String] = HashSet(applex, grapesx, orangesx, apple, grapes, oranges)
+
+scala> val newfruits = fruits1 .++(fruits2)
+newfruits: scala.collection.immutable.Set[String] = HashSet(applex, grapesx, orangesx, apple, grapes, oranges)
+
+scala> var set = scala.collection.mutable.Set[Int]()
+set: scala.collection.mutable.Set[Int] = HashSet()
+
+scala> set += 1
+res12: scala.collection.mutable.Set[Int] = HashSet(1)
+
+scala> set ++= Vector(2,3)
+res15: scala.collection.mutable.Set[Int] = HashSet(1, 2, 3)
+
+scala> set.add(6)
+res16: Boolean = true
+
+scala> set
+res17: scala.collection.mutable.Set[Int] = HashSet(1, 2, 3, 6)
+================
+
+
+
+
+
+
+
+
+
+
+
+
+

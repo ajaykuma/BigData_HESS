@@ -1,0 +1,84 @@
+Objects:
+--way to implement singleton pattern
+--single instance of class
+--directly accessed by name
+
+object HelloWorld{
+	def message = "welcome msg"
+	}
+
+//Test it
+println(HelloWorld.message)
+Note** Objects can have fields n methods in its body
+Here we can access message inside the object without instantiating it or using new keyword
+i.e. because objects have single instances and are already instantiated 
+Note** Objects are instances that are declared only once in JVM and are gobally available
+------------------
+Another example: Objects having methods ( i.e. objects as utilities)
+object TemperatureConversion{
+	def fahrenheitToCelsius(f: Double): Double = {
+		(f-32) * 0.5556
+	}
+	def celsiusToFahrenheit(f: Double): Double = {
+		c * 1.8  + 32
+	}
+
+scala> :load TemperatureConversion.scala
+scala> TemperatureConversion.fahrenheitToCelsius(32)
+scala> TemperatureConversion.celsiusToFahrenheit(100)
+-----------------------
+Objects to manage constants
+object CalendarConstants {
+    val WeekDays = 7
+    val YearDays = 365
+    val LeapYearDays = 366
+}
+-------------------------	
+
+
+//creating class and object within the class
+
+class scala_cs {
+   def add(){
+	println("test")
+   }
+ 
+   def main(args:Array[String]){
+      var obj=new scala_cs
+      obj.add
+   }
+}
+
+Note** if we try to run this?? (class won't be able to detect the main method)
+----------------------------
+Instead creating an object separately
+class scala_cs {
+   def add(){
+	println("test")
+   }
+}
+   object Test{ 
+	def main(args:Array[String]){
+      var obj=new scala_cs
+      obj.add
+   }}
+Note** try running now as a scala application
+
+========================================
+class scala_cs {
+   
+}
+   object Test{ 
+	def add(){
+	println("test")
+        }	
+	def main(args:Array[String]){
+        add 
+   }}
+
+Note** SO when we create methods/variables within object ,we dont need to create an instance.
+Q: Why do we need a class in this case...
+//mainly to support inheritance
+In java world, if the method is static we wont create object to invoke that method.
+In Scala world, if we need static method declare it within object.
+======================================

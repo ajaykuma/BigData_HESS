@@ -1,0 +1,11 @@
+Hadoop==2.6.5
+Hbase==hbase-1.3.2
+zookeeper==Hbase inbuilt
+UI Master in Hbase http://u1:16010
+
+Similarly
+same configs work for 
+Hbase==hbase-0.98.16-hadoop2
+
+UI Master in Hbase http://u1:60010
+

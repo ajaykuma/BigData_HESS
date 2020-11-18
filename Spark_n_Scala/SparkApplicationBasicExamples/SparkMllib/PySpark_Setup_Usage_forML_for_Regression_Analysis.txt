@@ -1,0 +1,111 @@
+#Setup Pyspark to work with Python3.5
+#My Ubuntu Machine shows the following:
+ls /usr/bin/pyt*
+/usr/bin/python            /usr/bin/python3            /usr/bin/python3-config
+/usr/bin/python2           /usr/bin/python3.5          /usr/bin/python3m
+/usr/bin/python2.7         /usr/bin/python3.5-config   /usr/bin/python3m-config
+/usr/bin/python2.7-config  /usr/bin/python3.5m         /usr/bin/python-config
+/usr/bin/python2-config    /usr/bin/python3.5m-config
+
+#Do the following on all your worker nodes (if standalone spark setup)
+#or on all nodes of cluster if (spark with YARN)
+update-alternatives --install /usr/bin/python python /usr/bin/python3.5 1
+python --version
+apt-get remove python-pip
+apt-get install python3-pip
+pip3 -V
+pip3 install numpy
+====================
+#Linear Regression with Pyspark
+>>> from pyspark.ml.regression import LinearRegression
+>>> dataset = spark.read.csv("file:///home/hdu/Samplefiles/EcommerceCustomers.csv",inferSchema=True,header=True)
+>>> dataset.show(10)
+>>> from pyspark.ml.linalg import Vectors
+>>> from pyspark.ml.feature import VectorAssembler
+>>> featureassembler = VectorAssembler(inputCols=["Avg Session Length","Time on App","Time on Website","Length of Membership"],outputCol="Independent Features")
+>>> featureassembler.transform(dataset)
+>>> output = featureassembler.transform(dataset)
+>>> output.show()
+>>> finalized_data = output.select("Independent Features","Yearly Amount Spent")
+>>> finalized_data.show()
+>>> train_data,test_data=finalized_data.randomSplit([0.75,0.25])
+>>> regressor=LinearRegression(featuresCol="Independent Features", labelCol = "Yearly Amount Spent")
+>>> regressor=regressor.fit(train_data)
+>>> regressor.coefficients
+>>> regressor.intercept
+>>> pred_results.predictions.show()
+====================================
+#For Logistic regression with PySpark
+#Download Sample dataset
+https://www.kaggle.com/mlg-ulb/creditcardfraud
+----------------
+###Using Pandas to covert spark DF to pandas DF which can be used for visualization(using matplotlib) or for other use cases)
+#pip3 install pandas
+#pip3 install pyspark[sql]
+#Refer: https://spark.apache.org/docs/latest/sql-pyspark-pandas-with-arrow.html
+>>>df = spark.read.csv("file:///home/hdu/Samplefiles/creditcard.csv",inferSchema=True,header=True)
+>>>df.printSchema() 
+#we have now created a distributed dataframe by loading dataset using pyspark
+#we are interested in finding out/classification of transactions as Fraud/not Fraud (i.e. binary values--Yes/No)
+#columns v1..v28 are transformed features which are extracted from main dataset
+#Note** Here Data is anonymous thus having no relevance to actual/real data
+>>> len(df.columns)
+>>> df.select(["V"+str(x) for x in range(1,5)]).show(10)
+#Here we have a list comprehension instead of writing all 28 columns
+>>> df_pandas = df.toPandas()
+#to visualize v1,v2..values varying across rows we can use matplotlib
+>>>import matplotlib.pyplot as plt
+   %matplotlib inline
+   fig,ax = plt.subplots(ncols=1,nrows=30,figsize=(5,45),sharey=False,sharex=True)
+   for i in range(30):
+   ax[i].plot(df_pandas.iloc[:,i].values)
+   #ax[i,0].plot(x=df.iloc[:0].values-df.iloc[0,0].values,y=df_pandas.iloc[:,i].values)
+-----------------------
+Working with Pyspark for Logistic Regression
+>>> from pyspark.ml import Pipeline                                             
+>>> from pyspark.ml.classification import LogisticRegression
+>>> from pyspark.ml.evaluation import BinaryClassificationEvaluator
+>>> from pyspark.ml.feature import HashingTF, Tokenizer
+>>> from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
+>>> from pyspark.ml.feature import VectorAssembler
+
+>>> df.columns[1:-1]
+#if we had visualization technique, we could have noticed some kind of patterns or spikes within
+variations and help us in predictions
+#we could use ROC curve instead of accuracy metrics to help us in determining and classifying a transaction as fraud or not
+#we would be using columns 1 till Amount only
+#we would cast each column into float
+>>> from pyspark.sql.functions import col
+>>> for col_name in df.columns[1:-1]+["Class"]:
+...     df = df.withColumn(col_name,col(col_name).cast('float'))
+... 
+>>>
+>>>df=df.withColumnRenamed("Class","label")
+>>>df.columns
+>>> vectorAssembler = VectorAssembler(inputCols = df.columns[1:-1],outputCol= 'features')
+>>> df_tr = vectorAssembler.transform(df)
+>>> df_tr = df_tr.select(['features','label'])
+>>> df_tr.show(3)
+Optional>>> df_tr.show(3,truncate=False)
+>>> lr = LogisticRegression(maxIter=10,featuresCol="features",labelCol="label")
+
+Optional>>> model=lr.fit(df_tr)
+Optional>>> print(model.summary.areaUnderROC)
+#We will not be using logistic regression on training dataset, we will be using in crossvalidation
+#cross validation is good as we can have values fit on complete data
+#Thus we can test ,how our evaluation metrics is working on complete dataset & how good are paramters for the model
+
+#Intercept---fir intercept for logistic or not
+#elasticNetparam--regularization paramters used in ML algorithms, to make sure any paramter doesntoverdominate other paramters (to avoid any kind of over fitting)
+>>> paramGrid = ParamGridBuilder().addGrid(lr.regParam, [0.1,0.01]).addGrid(lr.fitIntercept, [False, True]).addGrid(lr.elasticNetParam, [0.0, 0.5, 1.0]).build()
+
+#Cross Validation & tuning
+#https://people.apache.org/~pwendell/spark-nightly/spark-master-docs/latest/ml-tuning.html
+>>> crossval = CrossValidator(estimator=lr,estimatorParamMaps=paramGrid,evaluator=BinaryClassificationEvaluator(),numFolds=2)
+
+>>> cvModel = crossval.fit(df_tr)
+
+#to see accuracy metrics
+
+>>>cvModel.avgMetrics
+======================

@@ -1,0 +1,24 @@
+hive unable to connect to hadoop/spark
+--download hive 2.1.x > untar > create link>change permissions> update .bashrc with hive path.
+--download mysql connector jdbc> extract the tar > put the mysql connector jar in /usr/local/hive/lib
+--create hive-site.xml in /usr/local/hive/conf
+--hive-site.xml should have properties to have metadata stored in mysql
+--login into mysql: create hive database (as mentioned in hive-site.xml), grant access to hive db
+--start ur hadoop cluster
+--use schematool to do a schema validation before starting hive cli..
+--start ur hive cli shell...(now metadata will get stored in mysql
+				& data will get stored on hdfs)
+
+
+spark to connect to hive
+download spark 2.3 tar untar > create link>change permissions> update .bashrc with spark path.
+edit configs as in git link and start spark stand alone cluster
+put the same hive-site.xml in /usr/local/spark/conf
+bin/spark-shell ....stark ur spark shell..
+spark.sql("---ur hive commands").show()
+
+fixing spark executor loss issues when using stand alone and reading a file from one of the worker nodes.
+Note** if not using shared location such as nfs/hdfs...
+make sure to add the referenced file (by spark-shell/pyspark/spark-submit) in all worker nodes.
+
+

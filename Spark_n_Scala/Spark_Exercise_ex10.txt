@@ -1,0 +1,36 @@
+Scala and spark
+ 
+Pair RDD
+
+Val lines = sc.textFile(file)
+
+val pairs = lines.map(x => (x.split(" ")(0), x))
+
+pairs.foreach(println)
+
+val grouped = pairs.groupByKey()
+
+grouped.foreach(println)
+
+val sorted = pairs.sortByKey(true)
+
+sorted.foreach(println)
+
+============
+
+val x = sc.wholeTextFiles("mydata")
+
+x.take(1).foreach(println)
+
+x.keys.foreach(println)
+
+x.values.take(1).foreach(println)
+
+
+
+=========================
+
+Val users = sc.textFile().map(line => line.split(‘/t’).map(fields => (fields(0),fields(1)))
+
+=========================
+

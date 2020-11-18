@@ -1,0 +1,17 @@
+sqoop import --connect jdbc:mysql://u1/mysql?noSSL=False --username hdu -P --table help_keyword --target-dir /helphbase --hbase-create-table --hbase-table helphbase --column-family name
+
+hbase shell
+list
+describe 'helphbase'
+scan 'helphbase'
+scan 'helphbase', {COLUMNS => ['name'], LIMIT => 10, STARTROW => '63'}
+scan 'helphbase', {COLUMNS => 'name', TIMERANGE => [1586241227335, 1586241240538]}
+
+
+hbase org.apache.hadoop.hbase.mapreduce.Export helphbase /myfrsthbtbl1
+hdfs dfs -rm -R /myfrsthbtbl1/_SUCCESS
+
+hbase shell
+
+create 'newhelphbase','name'
+hbase org.apache.hadoop.hbase.mapreduce.Import newhelphbase /myfrsthbtbl1

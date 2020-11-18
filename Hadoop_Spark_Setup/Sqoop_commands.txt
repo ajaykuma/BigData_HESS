@@ -1,0 +1,122 @@
+ls /opt/cloudera/parcels/CDH-5.14.0-1.cdh5.14.0.p0.24/lib/sqoop/bin
+
+sqoop help
+
+sqoop list-databases --connect jdbc:mysql://10.0.1.10 --username labuser -P
+sqoop import --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P --table help_keyword
+
+sqoop import --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P --table help_keyword --m 1 --target-
+dir /user/ajaykuma24_gmail_com/helpk1
+
+sqoop import --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P --table help_keyword --m 6 --target-dir /user/ajaykuma24_gmail_com/helpk2
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-table help_keyword --m 6 --target-dir /user/ajaykuma24_gmail_com/helpk3
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-table help_keyword --m 1 --target-dir /user/ajaykuma24_gmail_com/helpk2 -z
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-table help_keyword --m 1 --target-dir /user/ajaykuma24_gmail_com/helpk3 --compression-codec 
+org.apache.hadoop.io.compress.SnappyCodec
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-table help_keyword --m 1 --target-dir /user/ajaykuma24_gmail_com/helpk4 --compression-codec 
+org.apache.hadoop.io.compress.BZip2Codec
+
+cat /etc/hadoop/conf/core-site.xml | grep compress
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-table help_keyword --m 1 --target-dir /user/ajaykuma24_gmail_com/helpk5 --compression-codec org.apache.hadoop.io.compress.Lz4Codec
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-table help_keyword --m 1 --target-dir /user/ajaykuma24_gmail_com/helpk6 --compression-codec org.apache.hadoop.io.compress.DefaultCodec 
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql 
+--username labuser -P -
+-m 1 --target-dir /user/ajaykuma24_gmail_com/helpk9 --query 
+"select help_keyword_id from help_keyword 
+where help_keyword_id > 300 and \$CONDITIONS"
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-m 1 --table help_keyword --target-dir /user/ajaykuma24_gmail_com/helpk10 --as-sequencefile
+
+sqoop import "-Dmapreduce.framework.name=local" "-Dmapreduce.output.fileoutputformat.compress=true" "-Dmapred.
+output.compression.type=RECORD" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P --m 1 --table 
+help_keyword --target-dir /user/ajaykuma24_gmail_com/helpk12 --as-sequencefile
+
+sqoop import "-Dmapreduce.framework.name=local" "-Dmapreduce.output.fileoutputformat.compress=true" "-Dmapred.
+output.compression.type=BLOCK" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P --m 1 --table help_keyword --target-dir /user/ajaykuma24_gmail_com/helpk11 --as-sequencefile
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-m 1 --table help_keyword --target-dir /user/ajaykuma24_gmail_com/helpk13 --as-avrodatafile
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-m 1 --table help_keyword --target-dir /user/ajaykuma24_gmail_com/helpk14 --as-parquetfile ****** to check
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/testaj --username labuser -P 
+--table testajtbl2 --target-dir /user/ajaykuma24_gmail_com/helpk15 --split-by help_keyword_id
+
+sqoop import "-Dmapreduce.framework.name=local" "-Dorg.apache.sqoop.splitter.allow_text_splitter=true" --conne
+ct jdbc:mysql://10.0.1.10/testaj --username labuser -P --table testajtbl2 --target-dir /user/ajaykuma24_gmail_com/helpk17 
+--split-by name
+----------------------------
+importing into hbase and testing..
+
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-table help_keyword --target-dir /user/ajaykuma24_gmail_com/helpk19 --hbase-create-table --hbase-table helpnewhbtbl --column-family impinfo
+
+hbase shell
+scan 'helpnewhbtbl'
+get 'helpnewhbtbl', '98'
+
+-----------------------
+importing into hive and testing...
+sqoop import "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/mysql --username labuser -P -
+-table help_keyword --target-dir /user/ajaykuma24_gmail_com/helpk18 --hive-import --create-hive-table --hive-table helpnewhvtbl
+
+
+hive
+select * from helpnewhvtbl limit 10;
+describe extended helpnewhvtbl; 
+select * from helpnewhvtbl where help_keyword_id > 600 order by help_keyword_id desc;
+
+export into mysql
+sqoop export "-Dmapreduce.framework.name=local" --connect jdbc:mysql://10.0.1.10/testaj 
+--username labuser -P 
+--table testajtbl3 --export-dir /user/ajaykuma24_gmail_com/helpk1
+============================
+Output from HDFS
+[ajaykuma24_gmail_com@ip-10-0-1-10 ~]$ hdfs dfs -ls /user/ajaykuma24_gmail_com/helpk1                                                                
+Found 2 items
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com          0 2018-10-07 06:05 /user/ajaykuma24_gmail_com/helpk1/_SUCCESS
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com       8264 2018-10-07 06:05 /user/ajaykuma24_gmail_com/helpk1/part-m-00000
+[ajaykuma24_gmail_com@ip-10-0-1-10 ~]$ hdfs dfs -ls /user/ajaykuma24_gmail_com/helpk2                                                                
+Found 2 items
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com          0 2018-10-07 06:08 /user/ajaykuma24_gmail_com/helpk2/_SUCCESS
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com       4035 2018-10-07 06:08 /user/ajaykuma24_gmail_com/helpk2/part-m-00000.gz
+[ajaykuma24_gmail_com@ip-10-0-1-10 ~]$ hdfs dfs -ls /user/ajaykuma24_gmail_com/helpk3                                                                
+Found 2 items
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com          0 2018-10-07 06:10 /user/ajaykuma24_gmail_com/helpk3/_SUCCESS
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com       6373 2018-10-07 06:10 /user/ajaykuma24_gmail_com/helpk3/part-m-00000.snappy
+[ajaykuma24_gmail_com@ip-10-0-1-10 ~]$ hdfs dfs -ls /user/ajaykuma24_gmail_com/helpk4                                                                
+Found 2 items
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com          0 2018-10-07 06:12 /user/ajaykuma24_gmail_com/helpk4/_SUCCESS
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com       3407 2018-10-07 06:12 /user/ajaykuma24_gmail_com/helpk4/part-m-00000.bz2
+[ajaykuma24_gmail_com@ip-10-0-1-10 ~]$ hdfs dfs -ls /user/ajaykuma24_gmail_com/helpk5                                                                
+Found 2 items
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com          0 2018-10-07 06:16 /user/ajaykuma24_gmail_com/helpk5/_SUCCESS
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com       6304 2018-10-07 06:16 /user/ajaykuma24_gmail_com/helpk5/part-m-00000.lz4
+
+[ajaykuma24_gmail_com@ip-10-0-1-10 ~]$ hdfs dfs -ls /user/ajaykuma24_gmail_com/helpk8                                                                
+Found 2 items
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com          0 2018-10-07 06:20 /user/ajaykuma24_gmail_com/helpk8/_SUCCESS
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com       4023 2018-10-07 06:20 /user/ajaykuma24_gmail_com/helpk8/part-m-00000.deflate
+
+[ajaykuma24_gmail_com@ip-10-0-1-10 ~]$ hdfs dfs -ls /user/ajaykuma24_gmail_com/helpk10                                                               
+Found 2 items
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com          0 2018-10-07 06:35 /user/ajaykuma24_gmail_com/helpk10/_SUCCESS
+-rw-r--r--   2 ajaykuma24_gmail_com ajaykuma24_gmail_com      22265 2018-10-07 06:35 /user/ajaykuma24_gmail_com/helpk10/part-m-00000
+[ajaykuma24_gmail_com@ip-10-0-1-10 ~]$ hdfs dfs -ls /user/ajaykuma24_gmail_com/helpk9 
+
+

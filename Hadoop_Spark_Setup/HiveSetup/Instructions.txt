@@ -1,0 +1,63 @@
+#Download Apache Hive from http://archive.apache.org/dist/hive/hive-2.1.1/
+apache-hive-2.1.1-bin.tar.gz
+
+#untar it to a location
+$cd /usr/local/
+$sudo tar -xvf /home/hdu/Downloads/apache-hive-2.1.1-bin.tar.gz
+
+#create link to hive
+$sudo ln -s apache-hive-2.1.1-bin hive
+
+#change ownership to ur admin id
+$sudo chown -R hdu:hdu apache-hive-2.1.1-bin
+$sudo chown -R hdu:hdu hive
+
+#update .bashrc
+export HIVE_HOME=/usr/local/hive
+export PATH=$PATH:$HIVE_HOME/bin
+export LD_LIBRARY_PATH=$HADOOP_INSTALL/lib/native:$LD_LIBRARY_PATH
+
+#copy the provided hive-site.xml into ur hive conf directory ie /usr/local/hive/conf
+#this means we need to install mysql which will then contain your hive metadata
+#Also copy the provided mysql-connector-java-5.1.48.jar into your hive lib directory ie /usr/local/hive/lib 
+#make sure that anything in hive directory is owned by your admin id say 'hdu' as shown above
+
+#install mysql using
+$sudo su
+$apt-get install mysql-server
+#connect to mysql
+$mysql
+mysql> create database hive;
+mysql> grant all privileges on *.* to 'hdu'@'localhost' identified by 'abc1234';
+mysql> grant all privileges on *.* to 'hdu'@'127.0.0.1' identified by 'abc1234';
+mysql> grant all privileges on *.* to 'hdu'@'urhostname' identified by 'abc1234';
+mysql> grant all privileges on *.* to 'root'@'localhost' identified by 'abc1234';
+mysql> grant all privileges on *.* to 'root'@'127.0.0.1' identified by 'abc1234';
+#just in case --access specifically to hive database needed by user
+mysql> grant all privileges on hive.* to 'hdu'@'localhost' identified by 'abc1234';
+mysql> grant all privileges on hive.* to 'hdu'@'127.0.0.1' identified by 'abc1234';
+mysql> flush privileges;
+
+#check if u can connect to mysql using 'hdu' or 'root' using password.
+
+#now initialize metastore using schematool as shown
+hdu@e1:/usr/local/hive$ bin/schematool -initSchema -dbType mysql
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.1.1-bin/lib/log4j-slf4j-impl-2.4.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.5/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+Metastore connection URL:        jdbc:mysql://127.0.0.1/hive?useSSL=false
+Metastore Connection Driver :    com.mysql.jdbc.Driver
+Metastore connection User:       elk
+Starting metastore schema initialization to 2.1.0
+Initialization script hive-schema-2.1.0.mysql.sql
+Initialization script completed
+schemaTool completed
+
+
+#now connect to hive
+$hive
+
+
+

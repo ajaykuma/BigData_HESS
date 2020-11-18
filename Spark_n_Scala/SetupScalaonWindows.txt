@@ -1,0 +1,15 @@
+Download Scala from https://www.scala-lang.org/download/ n run the installer
+scala-2.13.1.msi
+Download SBT from https://www.scala-lang.org/download/ n run the installer
+
+Setup environment variables correctly
+edit environment variables> system variables > path > "C:\Program Files (x86)\sbt\bin"
+			  > system variables > path > "C:\Program Files (x86)\scala\bin"
+
+Test from cmd line
+>scala
+>:quit
+>sbt
+>exit
+
+

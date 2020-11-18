@@ -1,0 +1,378 @@
+Scala Stream
+The Stream is a lazy lists where elements are evaluated only when they are needed. This is a scala feature. 
+Scala supports lazy computation.
+ It increases performance of our program. Streams have the same performance characteristics as lists.
+
+Syntax
+val str = 1 #:: 2 #:: 3 #:: Stream.empty
+
+In scala a List can be constructed with :: operator, whereas a Stream can be constructed with the #:: operator method, 
+using Stream.empty at the end of the expression.
+ In above syntax the head of this stream is 1, and the tail of it has 2 and 3.
+
+// Program to creating an empty stream 
+  
+// Creating object 
+object GFG 
+{  
+    // Main method 
+    def main(args:Array[String]) 
+    {  
+        // Creating stream 
+        val stream = 1 #:: 2#:: 8 #:: Stream.empty  
+        println(stream)  
+    }  
+} 
+
+Output: Stream(1, ?)
+
+In the above output, we can see that second element is not evaluated. Here, a question mark is displayed in place of element.
+ Scala does not evaluate list until
+it is required. The tail is not printed, because it hasn’t been computed yet. Streams are specified to lazy computation.
+
+Create a Stream using Stream.cons : We can also create a Stream by using Stream.cons . 
+A package import scala.collection.immutable.Stream.cons is used for creating stream.
+
+// Program to creating an stream 
+// using cons 
+import scala.collection.immutable.Stream.cons 
+  
+// Creating object 
+object GFG 
+{  
+    // Main method 
+    def main(args:Array[String]) 
+    {  
+        // Creating stream 
+        val stream2: Stream[Int] = cons(1, cons(2, cons(3, Stream.empty) ) ) 
+        println(s"Elements of stream2 = ${stream2}") 
+    }  
+} 
+
+Output:
+Elements of stream2 = Stream(1, ?)
+
+Using take function on stream: take function is used to take elements from stream. Below is the example of using
+ take function.
+
+// Program to Using take function on stream 
+  
+// Creating object 
+object GFG 
+{  
+    // Main method 
+    def main(args:Array[String]) 
+    {  
+        // Creating stream 
+        val stream = 1 #:: 2#:: 8 #:: Stream.empty  
+        println(stream)  
+          
+        // Taking elements from stream 
+        print("Take first 2 numbers from stream = ") 
+        stream.take(2).print 
+        print("\nTake first 10 numbers from stream2 = ") 
+        stream.take(10).print 
+    }  
+} 
+
+Output:
+Stream(1, ?)
+Take first 2 numbers from stream = 1, 2, empty
+Take first 10 numbers from stream2 = 1, 2, 8, empty
+
+Using map function on stream: map function is used to perform operation on stream.
+// Scala program to using map function on stream 
+  
+// Creating object 
+object GFG 
+{  
+    // Main method 
+    def main(args:Array[String]) 
+    {  
+        // Creating stream 
+        val stream = 1 #:: 2#:: 8 #:: Stream.empty  
+        println(stream)  
+          
+        // map elements from stream 
+        println(stream.map{_+5})  
+    }  
+} 
+
+Output:
+Stream(1, ?)
+Stream(6, ?)
+
+In above example by using map function we are transforming the input collection to a new output collection.
+
+Initialize an empty Stream: Below code shows how to initialize an empty Stream.
+// Program to create empty stream 
+  
+// Creating object 
+object GFG 
+{  
+    // Main method 
+    def main(args:Array[String]) 
+    {  
+        // Creating empty stream 
+        val emptyStream: Stream[Int] = Stream.empty[Int] 
+        println(s"Empty Stream = $emptyStream") 
+    }  
+}
+
+Output:
+ Empty Stream = Stream()
+
+The head() method is utilized to display the first element of the stream stated.
+// Scala program of head() 
+// method 
+  
+// Creating object 
+object GfG 
+{  
+  
+    // Main method 
+    def main(args:Array[String]) 
+    { 
+      
+        // Creating a Stream 
+        val m1 = Stream(3, 6, 7, 4) 
+          
+        // Applying head method 
+        val result = m1.head 
+          
+        // Displays output 
+        println(result) 
+      
+    } 
+}
+
+Output: 3
+
+// Scala program of head() 
+// method 
+   
+// Creating object 
+object GfG 
+{   
+     
+    // Main method 
+    def main(args:Array[String]) 
+    { 
+        
+        // Creating a Stream 
+        val m1 = Stream(6, 8, 9, 12) 
+            
+        // Applying head method 
+        val result = m1.head 
+             
+        // Displays output 
+        println(result) 
+        
+    } 
+} 
+
+Output: 6
+
+The takeRight() method is utilized to select the last ‘n’ elements of the Stream.
+// Scala program of takeRight() 
+// method 
+  
+// Creating object 
+object GfG 
+{  
+  
+    // Main method 
+    def main(args:Array[String]) 
+    { 
+      
+        // Creating a Stream 
+        val m1 = Stream(1, 2, 3, 4, 5, 7) 
+          
+        // Applying takeRight method 
+        val result = m1.takeRight(2) 
+          
+        // Displays output 
+        println(result) 
+      
+    } 
+} 
+
+Output:Stream(5, 7)
+
+// Scala program of takeRight() 
+// method 
+  
+// Creating object 
+object GfG 
+{  
+  
+    // Main method 
+    def main(args:Array[String]) 
+    { 
+      
+        // Creating a Stream 
+        val m1 = Stream(1, 2, 3, 4, 5, 7) 
+          
+        // Applying takeRight method 
+        val result = m1.takeRight(7) 
+          
+        // Displays output 
+        println(result) 
+      
+    } 
+} 
+
+Output:Stream(1, 2, 3, 4, 5, 7)
+
+Set takeRight() method
+// Scala program of takeRight()  
+// method  
+  
+// Creating object  
+object GfG  
+{  
+  
+    // Main method  
+    def main(args:Array[String])  
+    {  
+        // Creating a set  
+        val s1 = Set(1, 2, 3, 4, 1)  
+          
+        // Applying takeRight method  
+        val result = s1.takeRight(4)  
+          
+        // Display output 
+        println(result) 
+    }  
+}
+
+Output:Set(1, 2, 3, 4)
+
+// Scala program of takeRight()  
+// method  
+  
+// Creating object  
+object GfG  
+{  
+  
+    // Main method  
+    def main(args:Array[String])  
+    {  
+        // Creating a set  
+        val s1 = Set(41, 12, 23, 43)  
+          
+        // Applying takeRight method  
+        val result = s1.takeRight(3)  
+          
+        // Display output 
+        println(result) 
+    }  
+}  
+
+Output:Set(12, 23, 43)
+
+Map takeRight() method
+
+// Scala program of takeRight() 
+// method 
+  
+// Creating object 
+object GfG 
+{  
+  
+    // Main method 
+    def main(args:Array[String]) 
+    { 
+      
+        // Creating a map 
+        val m1 = Map(3 -> "geeks", 4 -> "for", 2 -> "cs") 
+          
+        // Applying takeRight method 
+        val result = m1.takeRight(2) 
+          
+        // Displays output 
+        println(result) 
+      
+    } 
+}
+
+Output:Map(4 -> for, 2 -> cs)
+
+// Scala program of takeRight() 
+// method 
+  
+// Creating object 
+object GfG 
+{  
+  
+    // Main method 
+    def main(args:Array[String]) 
+    { 
+      
+        // Creating a map 
+        val m1 = Map(3 -> "geeks", 4 -> "for", 2 -> "cs") 
+          
+        // Applying takeRight method 
+        val result = m1.takeRight(4) 
+          
+        // Displays output 
+        println(result) 
+      
+    } 
+} 
+
+Output: Map(3 -> geeks, 4 -> for, 2 -> cs)
+
+SortedMap takeRight()
+// Scala program of takeRight() 
+// method 
+import scala.collection.immutable.SortedMap 
+  
+// Creating object 
+object GfG 
+{  
+  
+    // Main method 
+    def main(args:Array[String]) 
+    { 
+      
+        // Creating a SortedMap 
+        val m1 = SortedMap(3 -> "geeks", 4 -> "for", 2 -> "cs") 
+          
+        // Applying takeRight method 
+        val result = m1.takeRight(2) 
+          
+        // Displays output 
+        println(result) 
+      
+    } 
+}
+
+Output: Map(3 -> geeks, 4 -> for)
+
+// Scala program of takeRight() 
+// method 
+import scala.collection.immutable.SortedMap 
+  
+// Creating object 
+object GfG 
+{  
+  
+    // Main method 
+    def main(args:Array[String]) 
+    { 
+      
+        // Creating a SortedMap 
+        val m1 = SortedMap(3 -> "geeks", 4 -> "for", 2 -> "cs") 
+          
+        // Applying takeRight method 
+        val result = m1.takeRight(4) 
+          
+        // Displays output 
+        println(result) 
+      
+    } 
+} 
+
+Output: Map(2 -> cs, 3 -> geeks, 4 -> for)
+

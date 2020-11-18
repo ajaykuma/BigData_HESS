@@ -1,0 +1,27 @@
+<workflow-app name="MyWorkflow1" xmlns="uri:oozie:workflow:0.5">
+    <start to="hive-8bdc"/>
+    <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <action name="hive-8bdc" cred="hive2">
+        <hive2 xmlns="uri:oozie:hive2-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <jdbc-url>jdbc:hive2://ip-172-31-89-51:10000/default</jdbc-url>
+            <script>${wf:appPath()}/hive-8bdc.sql</script>
+        </hive2>
+        <ok to="hive-6a11"/>
+        <error to="Kill"/>
+    </action>
+    <action name="hive-6a11" cred="hive2">
+        <hive2 xmlns="uri:oozie:hive2-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <jdbc-url>jdbc:hive2://ip-172-31-89-51:10000/default</jdbc-url>
+            <script>${wf:appPath()}/hive-6a11.sql</script>
+        </hive2>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
+    <end name="End"/>
+</workflow-app>

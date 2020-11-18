@@ -1,0 +1,77 @@
+if file on client node (ie where you intend to submit spark application using spark-submit)
+Note** your code should point to file as shown
+val x = sc.textFile(file:///<file path>)
+
+if file on hadoop cluster  ie on HDFS
+option 1: 
+Note** your code should point to file as shown
+val x = sc.textFile(hdfs://namenodehostname:port/directory/yourfile)
+
+option 2:
+Note** your code should point to file as shown
+val x = sc.textFile(/directory/yourfile)
+
+option 3:
+Note** your code should point to file as shown
+here directory is in default location ie on hdfs --> under /user/usernamedirectory/
+val x = sc.textFile(directory/yourfile)
+
+
+Download the jar file from here : simple-project_2.11-1.1.0.jar
+<link>
+
+This contains objects/classes : FirstApp.scala | SecondApp.scala | ThirdApp.scala | FourthApp.scala | FifthApp.scala
+
+Code of these can be seen by downloading these .scala files
+<link>
+to run the spark applications --->
+
+Now that you have downloaded jar, replace x in jar name with your current version
+
+I am downloading jar in my home directory in jars directory ,so while being in your home directory issue the following command to submit the spark application
+spark2-submit --class main.scala.FirstApp ./jars/simple-project_2.11-1.1.x.jar --master yarn --deploy-mode cluster
+
+Replace FirstApp with your object name such as SecondApp.scala | ThirdApp.scala | FourthApp.scala | FifthApp.scala
+Note** For FifthApp.scala additional netcat setup needs to be done.
+
+The project is on GitHub here:
+<link>
+
+--------------------------
+More details & options:
+
+spark-submit jar --class main.scala.appname  
+Here : package name= main.scala
+       class name = appname
+       jar: your packaged jar created by SBT/Maven
+
+Examples:
+
+local mode--->
+spark-submit --class main.scala.appname --master local /<path of jar/jar>
+
+client mode--->(running driver on client node)
+spark-submit --class main.scala.appname --master http://localhost:7077 --deploy-mode client --executor-memory 1g --executor-cores 1 /<path of jar/jar>
+
+cluster mode--->(running driver on one of the nodes of cluster)
+spark-submit --class main.scala.appname --master http://localhost:7077 --deploy-mode cluster --executor-memory 1g --executor-cores 1 /<path of jar/jar>
+
+cluster mode--->(running driver on one of the nodes of cluster & with YARN)
+spark-submit --class main.scala.appname --master yarn --deploy-mode cluster --executor-memory 1g --executor-cores 1 /<path of jar/jar>
+===========================
+
+Spark allows properties defn through SparkConf object:
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+val conf = new SparkConf()
+	   .setMaster("local")
+	   .setAppName("testing")
+	   .set("spark.executor.memory","1g")
+val sc = new SparkContext(conf)
+
+or through
+
+Environment variables:
+-should be used to set machine specific settings : ipaddress,Java_home etc
+-entries in conf/spark-env.sh & conf/spark-defaults.conf [file needs to be edited in each n every node if needed]
+

@@ -1,0 +1,222 @@
+Scala Basics
+----------
+//function someProp returns a string
+obj.someProp                    	def someProp: String = {
+                                	getter code
+                                	}
+
+//similarly scala doesnt have a setter,we assign a value to a property
+//and setter is set
+obj.someProp = someVal          	def someProp(someVal: String) = {
+                                	//setter code
+                                	}
+//variable declaration, here it is immutable
+//scala is a statitically typed language, if we have wrong types we will know at compile time
+val someVar:SomeType = someVal
+
+//
+class SomeClass(arg1:SomeType)
+new SomeClass(someVal)
+
+//special keyword case,if we use case infront of class and it has an argument
+//we get a getter for free,setter: we have to use other keyword to say its a writable property
+//here if we read arg the value would be "hi", as thats the value in constructor
+
+case class SomeClass(arg1:String)
+new SomeClass("hi").arg1
+
+//mutable variable (value can be reassigned,but not the type)
+//if scala knows the value will not be reassigned such as in val, it can start making
+//values referentially transparent
+var someVar = SomeClass("no new!")
+
+def someFunct(a1: SomeType,..):SomeReturnType = {
+//..
+}
+=====================
+Tuple:
+Set of elments with set being a fixed size
+Its a fundamental Scala data type
+Container for other data types
+They are not primitive types.
+Behind the scene , we have a tuple class that has type paramters for a tuple that takes 2,
+elements (any number),special syntax for type defn and instance
+There are 22 tuple classes in scala library as of 2.11.0 (tuple can be of max 22 elements)
+
+
+//A tuple of vehicles where 1st & 2nd element is a car and this is assigned to an 
+//instance of tuple
+val vehicles(car,car) = (new mercedez, new toyota)
+
+or
+
+var vehicles:Tuple2(car,car) = new Tuple2(new mercedez, new toyota)
+
+case class Tuple2[T1,T2](_1:T1,_2:T2){
+//..
+}
+
+accessing tuples
+var first = vehicles._1
+var(first,second) = vehicles
+===============
+Good to know..
+
+1.Functions that take one parameter
+  - Can omit parentheses --> util.echo "Hello"
+  - or use braces 	 --> util.echo { "Hello" }
+  - don't need to put 
+    a dot preceeding methos --> util echo { "Hello" }
+  - return value of a function is
+    last executable expression --> def echo(s:String) = { s }
+  - for void functions we can use return type as Unit
+
+2. Functions as Types ( Functions are first class citizens)
+   (max paramters that can be passed is 22)
+  -Functions like tuples have special syntax in scala
+     -Type definition
+   Function types are based on "number" and "type" of the paramters
+   Return type of function
+   Function that takes one paramter
+   Int => Int
+   Ex: val addOne: Int => Int = .....
+   Function that takes two parameters
+   (Int,Int) => String
+   Ex: val concat: (Int,Int) => String = ...
+
+     -create a class from functions
+     -assign functions to functions
+
+3. Function instantiation
+   val add_one: (Int) => Int = (x) => x+1
+   add_one is:
+   A function which
+     - takes a single paramter of type Int
+     - returns a value of Type Int
+   Its implmentation is as follows
+     - the paramter will be named x
+     - it will return x+1
+===========
+Example:
+scala> val addOne:(Int)=>Int = (x) => x+1
+addOne: Int => Int = $$Lambda$819/1294333974@6c6c2a73
+
+scala> val addOne:(Int)=>Int = x => x+1
+addOne: Int => Int = $$Lambda$820/2105764938@485547ac
+
+scala> val addOne:Int=>Int = x => x+1
+addOne: Int => Int = $$Lambda$821/1002126468@769c80d1
+
+scala> addOne(1)
+res6: Int = 2
+
+scala> addOne(1)
+res5: Int = 2
+
+scala> addOne(1)
+res1: Int = 2
+
+scala> def addOne(x:Int):Int = { x + 1}
+addOne: (x: Int)Int
+
+scala> addOne(1)
+res2: Int = 2
+
+scala> def addOne(x:Int) = { x + 1}
+addOne: (x: Int)Int
+
+scala> addOne(1)
+res3: Int = 2
+
+scala> def addOne(x:Int) =  x + 1
+addOne: (x: Int)Int
+
+scala> addOne(1)
+res4: Int = 2
+
+scala> val addOne:Int=>Int = x => { x+1;x*100}
+addOne: Int => Int = $$Lambda$822/176807616@5e8f1db2
+
+scala> addOne(1)
+res7: Int = 100
+===========
+How do functions literals behind the scenes
+	val squareIt:Int=>Int = x => x *x
+scala converts above to this
+        val squareIt = new Function1[Int,Int](){
+        }
+       i.e. : def apply(x:Int):Int = x * x
+============
+Type Inference
+If scala can infer a type , it will
+val s = "Hello"
+val m = new HashMap[String,Int]
+def add(a:Int,b:Int) = {a+b}-->last piece of code gives the return type
+
+============
+Higer-order (as said in functional programming)
+A function that can be passed a function, return a function
+
+//Pass an employee and I will pass a function that you can call later which
+//doesnt take any paramters but returns a double
+def deferTaxCalculate(emp: Employee): () => Double = {
+   reallySlowTaxCalculator(emp)
+}
+============
+Pattern Matching
+-Extremely expressive
+-Completely flexible
+
+Example:
+import scala.io.StdInt.{readLine}
+println("Welcome to USA, how would you like to be violated?")
+val searchType = readLine
+searchType match {
+case "Scanner" => println("are you alergic to XRays?")
+case "Pat Down" => println("is it ok if I dont use my hands?")
+case _ => println("Cop1, get the gloves, we have a problem")
+}
+
+Example: (to be checked)
+val matchWpg = "^.*Winnipeg.*$".r
+   val teams = List(
+     "Toronto Raptors",
+     "Los Angeles Kings",
+     "Minneapolis Twins",
+     "Winnipeg Blue Bombers",
+     "Winnipeg Jets",
+     "San Fancisco 49ers")
+   for (team <- teams) {
+      team match {
+         case matchWpg => println("Go team!")
+         case _ => println("boo!")
+  }
+}
+
+Example: Matching on instance of objects (to be checked)
+var kid = Person("Mitch", "mathew")
+ kid match {
+    case Person("Mitch","mathew") => println("hey boy")
+    case Person("lucie","mathew") => println("hey girl")
+    case Person(_,_) => println("who are your")
+}
+
+Example:
+val sentence = List("the","best","things","in","life","are","free")
+
+sentence match {
+  case "the" :: xs => s"Sentence starts with 'the', rest is $xs"
+  case first :: second :: _ => s"First word:'$first', second is: '$second'"
+}
+
+
+==============
+
+
+
+
+
+
+
+
+

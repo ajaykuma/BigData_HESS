@@ -1,0 +1,1053 @@
+---------------------------
+Hive Commands:
+Download hive tar file
+https://hive.apache.org/downloads.html
+
+Click on download release now, click on nearest mirror
+Choose the parents irectory for a version and download
+apache-hive-0.13.1-bin.tar.gz  
+
+Once done, untar it to ur preferred location and create a link for it,make ur admin user as owner of hive link and directory
+and
+update ur .bash rc with hive path
+
+once done..
+$cd /usr/local/hive
+(as I have untarred hive in /usr/local and created a link hive-->hive directory)
+Before we bring up hive shell..
+
+
+-It tells where namenode is running 
+-It tells where data of hive will be stored on hdfs.(search for warehouse related paramter and give a path where hive will store data on hdfs
+in our case it is /user/hive/warehouse.Thus this path should exist on hdfs or created by us with right permissions)
+
+Note** cluster should be up and running.
+
+$cd /usr/local/hadoop
+$bin/hadoop fs -mkdir /user
+
+$bin/hadoop fs -mkdir /user/hive
+$bin/hadoop fs -mkdir /user/hive/warehouse
+$bin/hadoop fs -chmod g+w /user/hive/warehouse
+
+$bin/hive
+setting paramter using hive shell
+hive>SET mapred.job.tracker=xxxx:50030;
+
+creating db,tb in hive and loading data into from local FS
+hive>
+create database xxxdb;
+create table xxxtb(column1 datatype,column2 datatype);
+create table xxxtb(id int,name string);
+load data local inpath './examples/files/kv1.txt' overwrite into table xxxtb;
+
+create table xxxtb2(column1 datatype,column2 datatype) partioned by (yy datatype);
+create table xxxtb2(id int,name string) partioned by (ds string);
+
+load data local inpath './examples/files/kv2.txt' overwrite into table xxxtb2 partition(ds='2008-08-15');
+load data local inpath './examples/files/kv3.txt' overwrite into table xxxtb2 partition(ds='2008-08-08');
+
+loading data frm hdfs into local FS
+load data inpath '/user/hduser/kv2.txt' overwrite into table xxxtb2 partition(ds='2008-08-15');
+
+if you run a query from hive shell with where clause,it will show you mrrunning to extract data.
+Refer to HIVE PROGRAMING PDF FOR MORE PRACTICE.
+==============================================================================================================
+Sqoop Command :
+Setups to setup Sqoop
+Download sqoop tar file
+http://sqoop.apache.org/ and click on Nearby mirror and then on the link on top whichis suggested as per
+your location
+and then from parent directory download
+sqoop-1.4.5.bin__hadoop-1.0.0.tar.gz for hadoop version 1.
+
+Download appropriate mysql connector 
+http://dev.mysql.com/downloads/connector/j by choosing your OS ie independent platform option and download
+
+Platform Independent (Architecture Independent), Compressed TAR Archive		5.1.34	3.6M	
+Download
+(mysql-connector-java-5.1.34.tar.gz)
+
+Once done, untar sqoop and mysql connector to ur preferred location
+Create a link to these directories and update ur .bashrc with path of sqoop
+In my case i untarred in /usr/local
+and created a link
+$cd /usr/local
+$sudo ln -s sqoop-1.4.5.bin__hadoop-1.0.0 sqoop
+$sudo ln -s mysql-connector-java-5.1.34   mysql
+make hduser(my admin userid for hadoop) as owner of these directories and links
+$sudo chown -R hduser:hadoop sqoop-1.4.5.bin__hadoop-1.0.0
+$sudo chown -R hduser:hadoop sqoop
+$sudo chown -R hduser:hadoop mysql-connector-java-5.1.34
+$sudo chown -R hduser:hadoop mysql
+
+Now copy the mysql-xxxxx.jar file from mysql-connector-java-5.1.34 dir to sqoop/lib
+
+Also make sure mysql is setup on your machine.
+You can install mysql by giving 
+$sudo apt-get install mysql-server
+$mysql-----
+should bring you to mysql>
+if done
+mysql>exit;
+We can browse through mysql databases and tables to choose which table's data needs to be brought to hdfs.
+Note** cluster should be up and running.
+
+and now we can copy contents of table from mysql to hdfs using sqoop
+
+command is :
+$cd /usr/local/sqoop
+bin/sqoop import --connect jdbc:mysql://localhost/dbname --username xxxx --password yyyy --table tablename 
+--m 1
+=================================================================================================================
+Hbase setup:
+============
+need 3 servers for Hbase cluster
+ 
+NodeName   Master   ZooKeeper  RegionServer
+hbase01    yes      yes        no
+hbase02    backup   yes        yes
+hbase03    no       yes        yes
+ 
+1. Download Hbase
+download the one with hadoop2 in the name if your hdfs is hadoop2.
+ 
+2. Configure password-less SSH access between 3 nodes
+ 
+3. stop iptables
+# service iptables stop
+# chkconfig iptables off
+# setenforce 0
+ 
+4. edit /etc/hosts
+192.168.1.211   hbase01
+192.168.1.212   hbase02
+192.168.1.213   hbase03
+ 
+5. install java and set JAVA_HOME
+# yum install java-1.7.0-openjdk java-1.7.0-openjdk-devel -y
+# vi /etc/profile
+export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.65.x86_64
+export PATH=$PATH:$JAVA_HOME/bin
+ 
+6. edit configure files
+# mkdir /apps
+# tar zxvf hbase-0.98.6-hadoop2-bin.tar.gz -C /apps
+# cd /apps/hbase-0.98.6-hadoop2/conf
+ 
+[root@hbase01 conf]# cat regionservers
+hbase02
+hbase03
+ 
+[root@hbase01 conf]# cat backup-masters
+hbase02
+ 
+[root@hbase01 conf]# cat hbase-env.sh | grep JAVA_HOME
+export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.65.x86_64
+ 
+[root@hbase01 conf]# cat hbase-site.xml
+<configuration>
+<property>
+<name>hbase.cluster.distributed</name>
+<value>true</value>
+</property>
+<property>
+<name>hbase.master.wait.on.regionservers.mintostart</name>
+<value>1</value>
+</property>
+ 
+ 
+<property>
+<name>hbase.rootdir</name>
+<value>hdfs://hdfs-server:9000/hbase2</value>
+</property>
+ 
+ 
+<property>
+<name>hbase.zookeeper.quorum</name>
+<value>hbase01,hbase02,hbase03</value>
+</property>
+ 
+<property>
+<name>hbase.zookeeper.property.dataDir</name>
+<value>/usr/local/zookeeper</value>
+</property>
+</configuration>
+ 
+ 
+7. copy /apps/hbase-0.98.6-hadoop2  to hbase02  hbase03
+# scp -r hbase-0.98.6-hadoop2/ hbase02:/apps
+# scp -r hbase-0.98.6-hadoop2/ hbase03:/apps
+ 
+8. startup hbase
+# /apps/hbase-0.98.6-hadoop2/bin/start-hbase.sh
+ 
+9  test install
+GUI http://hbase01:60010/
+# /apps/hbase-0.98.6-hadoop2/bin/hbase shell
+9.1 test
+hbase> create 'test_table', 'test_filed'
+hbase> list 'test_table'
+hbase> put 'test_table', 'row1', 'test_filed:colum1', 'value1'
+hbase> scan 'test_table'
+hbase> get 'test_table', 'row1'
+hbase> disable 'test_table'
+hbase> drop 'test_table'
+
+Hbase commands:
+====================
+HBase shell commands
+
+As told in HBase introduction, HBase provides Extensible jruby-based (JIRB) shell as a feature to execute some commands(each command represents one functionality).
+
+HBase shell commands are mainly categorized into 6 parts
+
+1) General  HBase shell commands
+
+status	Show cluster status. Can be ‘summary’, ‘simple’, or ‘detailed’. The
+default is ‘summary’.
+hbase> status
+hbase> status ‘simple’
+hbase> status ‘summary’
+hbase> status ‘detailed’
+
+version	Output this HBase versionUsage:
+hbase> version
+
+whoami	Show the current hbase user.Usage:
+hbase> whoami
+
+2) Tables Management commands
+
+alter	Alter column family schema; pass table name and a dictionary
+specifying new column family schema. Dictionaries are described
+on the main help command output. Dictionary must include name
+of column family to alter.For example, to change or add the ‘f1’ column family in table ‘t1’ from
+current value to keep a maximum of 5 cell VERSIONS, do:
+hbase> alter ‘t1’, NAME => ‘f1’, VERSIONS => 5
+
+You can operate on several column families:
+
+hbase> alter ‘t1’, ‘f1’, {NAME => ‘f2’, IN_MEMORY => true}, {NAME => ‘f3’, VERSIONS => 5}
+
+To delete the ‘f1’ column family in table ‘t1’, use one of:hbase> alter ‘t1’, NAME => ‘f1’, METHOD => ‘delete’
+hbase> alter ‘t1’, ‘delete’ => ‘f1’
+
+You can also change table-scope attributes like MAX_FILESIZE, READONLY,
+MEMSTORE_FLUSHSIZE, DEFERRED_LOG_FLUSH, etc. These can be put at the end;
+for example, to change the max size of a region to 128MB, do:
+
+hbase> alter ‘t1’, MAX_FILESIZE => ‘134217728’
+
+You can add a table coprocessor by setting a table coprocessor attribute:
+
+hbase> alter ‘t1’,
+‘coprocessor’=>’hdfs:///foo.jar|com.foo.FooRegionObserver|1001|arg1=1,arg2=2’
+
+Since you can have multiple coprocessors configured for a table, a
+sequence number will be automatically appended to the attribute name
+to uniquely identify it.
+
+The coprocessor attribute must match the pattern below in order for
+the framework to understand how to load the coprocessor classes:
+
+[coprocessor jar file location] | class name | [priority] | [arguments]
+
+You can also set configuration settings specific to this table or column family:
+
+hbase> alter ‘t1’, CONFIGURATION => {‘hbase.hregion.scan.loadColumnFamiliesOnDemand’ => ‘true’}
+hbase> alter ‘t1’, {NAME => ‘f2’, CONFIGURATION => {‘hbase.hstore.blockingStoreFiles’ => ’10’}}
+
+You can also remove a table-scope attribute:
+
+hbase> alter ‘t1’, METHOD => ‘table_att_unset’, NAME => ‘MAX_FILESIZE’
+
+hbase> alter ‘t1’, METHOD => ‘table_att_unset’, NAME => ‘coprocessor$1’
+
+There could be more than one alteration in one command:
+
+hbase> alter ‘t1’, { NAME => ‘f1’, VERSIONS => 3 },
+{ MAX_FILESIZE => ‘134217728’ }, { METHOD => ‘delete’, NAME => ‘f2’ },
+OWNER => ‘johndoe’, METADATA => { ‘mykey’ => ‘myvalue’ }
+
+create	Create table; pass table name, a dictionary of specifications per
+column family, and optionally a dictionary of table configuration.
+hbase> create ‘t1’, {NAME => ‘f1’, VERSIONS => 5}
+hbase> create ‘t1’, {NAME => ‘f1’}, {NAME => ‘f2’}, {NAME => ‘f3’}
+hbase> # The above in shorthand would be the following:
+hbase> create ‘t1’, ‘f1’, ‘f2’, ‘f3’
+hbase> create ‘t1’, {NAME => ‘f1’, VERSIONS => 1, TTL => 2592000, BLOCKCACHE => true}
+hbase> create ‘t1’, {NAME => ‘f1’, CONFIGURATION => {‘hbase.hstore.blockingStoreFiles’ => ’10’}}
+
+Table configuration options can be put at the end.
+
+describe	Describe the named table.
+hbase> describe ‘t1’
+
+disable	Start disable of named table
+hbase> disable ‘t1’
+
+disable_all	Disable all of tables matching the given regex
+hbase> disable_all ‘t.*’
+
+is_disabled	verifies Is named table disabled
+hbase> is_disabled ‘t1’
+
+drop 	Drop the named table. Table must first be disabled
+hbase> drop ‘t1’
+
+drop_all	Drop all of the tables matching the given regex
+hbase> drop_all ‘t.*’
+
+enable	Start enable of named table
+hbase> enable ‘t1’
+
+enable_all	Enable all of the tables matching the given regex
+hbase> enable_all ‘t.*’
+
+is_enabled	verifies Is named table enabled
+hbase> is_enabled ‘t1’
+
+exists	Does the named table exist
+hbase> exists ‘t1’
+
+list	List all tables in hbase. Optional regular expression parameter could
+be used to filter the output
+hbase> list
+hbase> list ‘abc.*’
+
+show_filters	Show all the filters in hbase.
+hbase> show_filters
+
+alter_status	Get the status of the alter command. Indicates the number of regions of the table that have received the updated schema Pass table name.
+hbase> alter_status ‘t1’
+
+alter_async	Alter column family schema, does not wait for all regions to receive the
+schema changes. Pass table name and a dictionary specifying new column
+family schema. Dictionaries are described on the main help command output.
+Dictionary must include name of column family to alter.
+To change or add the ‘f1’ column family in table ‘t1’ from defaults
+to instead keep a maximum of 5 cell VERSIONS, do:hbase> alter_async ‘t1’, NAME => ‘f1’, VERSIONS => 5To delete the ‘f1’ column family in table ‘t1’, do:
+
+hbase> alter_async ‘t1’, NAME => ‘f1’, METHOD => ‘delete’or a shorter version:hbase> alter_async ‘t1’, ‘delete’ => ‘f1’
+
+You can also change table-scope attributes like MAX_FILESIZE
+MEMSTORE_FLUSHSIZE, READONLY, and DEFERRED_LOG_FLUSH.
+
+For example, to change the max size of a family to 128MB, do:
+
+hbase> alter ‘t1’, METHOD => ‘table_att’, MAX_FILESIZE => ‘134217728’
+
+There could be more than one alteration in one command:
+
+hbase> alter ‘t1’, {NAME => ‘f1’}, {NAME => ‘f2’, METHOD => ‘delete’}
+
+To check if all the regions have been updated, use alter_status <table_name>
+
+3) Data Manipulation commands  
+
+count	Count the number of rows in a table. Return value is the number of rows.
+This operation may take a LONG time (Run ‘$HADOOP_HOME/bin/hadoop jar
+hbase.jar rowcount’ to run a counting mapreduce job). Current count is shown
+every 1000 rows by default. Count interval may be optionally specified. Scan
+caching is enabled on count scans by default. Default cache size is 10 rows.
+If your rows are small in size, you may want to increase this
+parameter. Examples:hbase> count ‘t1’
+hbase> count ‘t1’, INTERVAL => 100000
+hbase> count ‘t1’, CACHE => 1000
+hbase> count ‘t1’, INTERVAL => 10, CACHE => 1000
+The same commands also can be run on a table reference. Suppose you had a reference
+t to table ‘t1’, the corresponding commands would be:hbase> t.count
+hbase> t.count INTERVAL => 100000
+hbase> t.count CACHE => 1000
+hbase> t.count INTERVAL => 10, CACHE => 1000
+
+delete	Put a delete cell value at specified table/row/column and optionally
+timestamp coordinates. Deletes must match the deleted cell’s
+coordinates exactly. When scanning, a delete cell suppresses older
+versions. To delete a cell from ‘t1’ at row ‘r1’ under column ‘c1’
+marked with the time ‘ts1’, do:
+hbase> delete ‘t1’, ‘r1’, ‘c1’, ts1
+
+The same command can also be run on a table reference. Suppose you had a reference
+t to table ‘t1’, the corresponding command would be:hbase> t.delete ‘r1’, ‘c1’, ts1
+
+deleteall	Delete all cells in a given row; pass a table name, row, and optionally
+a column and timestamp. Examples:hbase> deleteall ‘t1’, ‘r1’
+hbase> deleteall ‘t1’, ‘r1’, ‘c1’
+hbase> deleteall ‘t1’, ‘r1’, ‘c1’, ts1
+The same commands also can be run on a table reference. Suppose you had a reference
+t to table ‘t1’, the corresponding command would be:hbase> t.deleteall ‘r1’
+hbase> t.deleteall ‘r1’, ‘c1’
+hbase> t.deleteall ‘r1’, ‘c1’, ts1
+
+get	Get row or cell contents; pass table name, row, and optionally
+a dictionary of column(s), timestamp, timerange and versions. Examples:
+hbase> get ‘t1’, ‘r1’
+hbase> get ‘t1’, ‘r1’, {TIMERANGE => [ts1, ts2]}
+hbase> get ‘t1’, ‘r1’, {COLUMN => ‘c1’}
+hbase> get ‘t1’, ‘r1’, {COLUMN => [‘c1’, ‘c2’, ‘c3’]}
+hbase> get ‘t1’, ‘r1’, {COLUMN => ‘c1’, TIMESTAMP => ts1}
+hbase> get ‘t1’, ‘r1’, {COLUMN => ‘c1’, TIMERANGE => [ts1, ts2], VERSIONS => 4}
+hbase> get ‘t1’, ‘r1’, {COLUMN => ‘c1’, TIMESTAMP => ts1, VERSIONS => 4}
+hbase> get ‘t1’, ‘r1’, {FILTER => “ValueFilter(=, ‘binary:abc’)”}
+hbase> get ‘t1’, ‘r1’, ‘c1’
+hbase> get ‘t1’, ‘r1’, ‘c1’, ‘c2’
+hbase> get ‘t1’, ‘r1’, [‘c1’, ‘c2’]
+
+Besides the default ‘toStringBinary’ format, ‘get’ also supports custom formatting by
+column. A user can define a FORMATTER by adding it to the column name in the get
+specification. The FORMATTER can be stipulated:1. either as a org.apache.hadoop.hbase.util.Bytes method name (e.g, toInt, toString)
+2. or as a custom class followed by method name: e.g. ‘c(MyFormatterClass).format’.Example formatting cf:qualifier1 and cf:qualifier2 both as Integers:
+hbase> get ‘t1’, ‘r1’ {COLUMN => [‘cf:qualifier1:toInt’,
+‘cf:qualifier2:c(org.apache.hadoop.hbase.util.Bytes).toInt’] }
+
+Note that you can specify a FORMATTER by column only (cf:qualifer). You cannot specify
+a FORMATTER for all columns of a column family.The same commands also can be run on a reference to a table (obtained via get_table or
+create_table). Suppose you had a reference t to table ‘t1’, the corresponding commands
+would be:
+
+hbase> t.get ‘r1’
+hbase> t.get ‘r1’, {TIMERANGE => [ts1, ts2]}
+hbase> t.get ‘r1’, {COLUMN => ‘c1’}
+hbase> t.get ‘r1’, {COLUMN => [‘c1’, ‘c2’, ‘c3’]}
+hbase> t.get ‘r1’, {COLUMN => ‘c1’, TIMESTAMP => ts1}
+hbase> t.get ‘r1’, {COLUMN => ‘c1’, TIMERANGE => [ts1, ts2], VERSIONS => 4}
+hbase> t.get ‘r1’, {COLUMN => ‘c1’, TIMESTAMP => ts1, VERSIONS => 4}
+hbase> t.get ‘r1’, {FILTER => “ValueFilter(=, ‘binary:abc’)”}
+hbase> t.get ‘r1’, ‘c1’
+hbase> t.get ‘r1’, ‘c1’, ‘c2’
+hbase> t.get ‘r1’, [‘c1’, ‘c2’]
+
+get_counter	Return a counter cell value at specified table/row/column coordinates.
+A cell cell should be managed with atomic increment function oh HBase
+and the data should be binary encoded. Example:
+hbase> get_counter ‘t1’, ‘r1’, ‘c1’
+
+The same commands also can be run on a table reference. Suppose you had a reference
+t to table ‘t1’, the corresponding command would be:
+
+hbase> t.get_counter ‘r1’, ‘c1’
+
+incr	Increments a cell ‘value’ at specified table/row/column coordinates.
+To increment a cell value in table ‘t1’ at row ‘r1’ under column
+‘c1’ by 1 (can be omitted) or 10 do:
+hbase> incr ‘t1’, ‘r1’, ‘c1’
+hbase> incr ‘t1’, ‘r1’, ‘c1’, 1
+hbase> incr ‘t1’, ‘r1’, ‘c1’, 10
+
+The same commands also can be run on a table reference. Suppose you had a reference
+t to table ‘t1’, the corresponding command would be:hbase> t.incr ‘r1’, ‘c1’
+hbase> t.incr ‘r1’, ‘c1’, 1
+hbase> t.incr ‘r1’, ‘c1’, 10
+
+put	Put a cell ‘value’ at specified table/row/column and optionally
+timestamp coordinates. To put a cell value into table ‘t1’ at
+row ‘r1’ under column ‘c1’ marked with the time ‘ts1’, do:
+hbase> put ‘t1’, ‘r1’, ‘c1’, ‘value’, ts1
+
+The same commands also can be run on a table reference. Suppose you had a reference
+t to table ‘t1’, the corresponding command would be:
+
+hbase> t.put ‘r1’, ‘c1’, ‘value’, ts1
+
+scan	Scan a table; pass table name and optionally a dictionary of scanner
+specifications. Scanner specifications may include one or more of:
+TIMERANGE, FILTER, LIMIT, STARTROW, STOPROW, TIMESTAMP, MAXLENGTH,
+or COLUMNS, CACHEIf no columns are specified, all columns will be scanned.
+To scan all members of a column family, leave the qualifier empty as in
+‘col_family:’.The filter can be specified in two ways:
+1. Using a filterString – more information on this is available in the
+Filter Language document attached to the HBASE-4176 JIRA
+2. Using the entire package name of the filter.Some examples:hbase> scan ‘.META.’
+hbase> scan ‘.META.’, {COLUMNS => ‘info:regioninfo’}
+hbase> scan ‘t1’, {COLUMNS => [‘c1’, ‘c2’], LIMIT => 10, STARTROW => ‘xyz’}
+hbase> scan ‘t1’, {COLUMNS => ‘c1’, TIMERANGE => [1303668804, 1303668904]}
+hbase> scan ‘t1’, {FILTER => “(PrefixFilter (‘row2’) AND
+(QualifierFilter (>=, ‘binary:xyz’))) AND (TimestampsFilter ( 123, 456))”}
+hbase> scan ‘t1’, {FILTER =>
+org.apache.hadoop.hbase.filter.ColumnPaginationFilter.new(1, 0)}
+For experts, there is an additional option — CACHE_BLOCKS — which
+switches block caching for the scanner on (true) or off (false). By
+default it is enabled. Examples:hbase> scan ‘t1’, {COLUMNS => [‘c1’, ‘c2’], CACHE_BLOCKS => false}
+
+Also for experts, there is an advanced option — RAW — which instructs the
+scanner to return all cells (including delete markers and uncollected deleted
+cells). This option cannot be combined with requesting specific COLUMNS.
+Disabled by default. Example:
+
+hbase> scan ‘t1’, {RAW => true, VERSIONS => 10}
+
+Besides the default ‘toStringBinary’ format, ‘scan’ supports custom formatting
+by column. A user can define a FORMATTER by adding it to the column name in
+the scan specification. The FORMATTER can be stipulated:
+
+1. either as a org.apache.hadoop.hbase.util.Bytes method name (e.g, toInt, toString)
+2. or as a custom class followed by method name: e.g. ‘c(MyFormatterClass).format’.
+
+Example formatting cf:qualifier1 and cf:qualifier2 both as Integers:
+hbase> scan ‘t1’, {COLUMNS => [‘cf:qualifier1:toInt’,
+‘cf:qualifier2:c(org.apache.hadoop.hbase.util.Bytes).toInt’] }
+
+Note that you can specify a FORMATTER by column only (cf:qualifer). You cannot
+specify a FORMATTER for all columns of a column family.
+
+Scan can also be used directly from a table, by first getting a reference to a
+table, like such:
+
+hbase> t = get_table ‘t’
+hbase> t.scan
+
+Note in the above situation, you can still provide all the filtering, columns,
+options, etc as described above.
+
+truncate	Disables, drops and recreates the specified table.
+Examples:
+hbase>truncate ‘t1’
+4) HBase surgery tools
+
+assign	Assign a region. Use with caution. If region already assigned,
+this command will do a force reassign. For experts only.
+Examples:
+hbase> assign ‘REGION_NAME’
+balancer	Trigger the cluster balancer. Returns true if balancer ran and was able to
+tell the region servers to unassign all the regions to balance (the re-assignment itself is async).
+Otherwise false (Will not run if regions in transition).
+Examples:
+hbase> balancer
+balance_switch	Enable/Disable balancer. Returns previous balancer state.
+Examples:
+hbase> balance_switch true
+hbase> balance_switch false
+
+close_region	Close a single region. Ask the master to close a region out on the cluster
+or if ‘SERVER_NAME’ is supplied, ask the designated hosting regionserver to
+close the region directly. Closing a region, the master expects ‘REGIONNAME’
+to be a fully qualified region name. When asking the hosting regionserver to
+directly close a region, you pass the regions’ encoded name only. A region
+name looks like this:TestTable,0094429456,1289497600452.527db22f95c8a9e0116f0cc13c680396.The trailing period is part of the regionserver name. A region’s encoded name
+is the hash at the end of a region name; e.g. 527db22f95c8a9e0116f0cc13c680396
+(without the period). A ‘SERVER_NAME’ is its host, port plus startcode. For
+example: host187.example.com,60020,1289493121758 (find servername in master ui
+or when you do detailed status in shell). This command will end up running
+close on the region hosting regionserver. The close is done without the
+master’s involvement (It will not know of the close). Once closed, region will
+stay closed. Use assign to reopen/reassign. Use unassign or move to assign
+the region elsewhere on cluster. Use with caution. For experts only.
+Examples:hbase> close_region ‘REGIONNAME’
+hbase> close_region ‘REGIONNAME’, ‘SERVER_NAME’
+compact	Compact all regions in passed table or pass a region row
+to compact an individual region. You can also compact a single column
+family within a region.
+Examples:
+Compact all regions in a table:
+hbase> compact ‘t1’
+Compact an entire region:
+hbase> compact ‘r1’
+Compact only a column family within a region:
+hbase> compact ‘r1’, ‘c1’
+Compact a column family within a table:
+hbase> compact ‘t1’, ‘c1’
+flush	Flush all regions in passed table or pass a region row to
+flush an individual region. For example:hbase> flush ‘TABLENAME’
+hbase> flush ‘REGIONNAME’
+major_compact	Run major compaction on passed table or pass a region row
+to major compact an individual region. To compact a single
+column family within a region specify the region name
+followed by the column family name.
+Examples:
+Compact all regions in a table:
+hbase> major_compact ‘t1’
+Compact an entire region:
+hbase> major_compact ‘r1’
+Compact a single column family within a region:
+hbase> major_compact ‘r1’, ‘c1’
+Compact a single column family within a table:
+hbase> major_compact ‘t1’, ‘c1’
+move	Move a region. Optionally specify target regionserver else we choose one
+at random. NOTE: You pass the encoded region name, not the region name so
+this command is a little different to the others. The encoded region name
+is the hash suffix on region names: e.g. if the region name were
+TestTable,0094429456,1289497600452.527db22f95c8a9e0116f0cc13c680396. then
+the encoded region name portion is 527db22f95c8a9e0116f0cc13c680396
+A server name is its host, port plus startcode. For example:
+host187.example.com,60020,1289493121758
+Examples:hbase> move ‘ENCODED_REGIONNAME’
+hbase> move ‘ENCODED_REGIONNAME’, ‘SERVER_NAME’
+split	Split entire table or pass a region to split individual region. With the
+second parameter, you can specify an explicit split key for the region.
+Examples:
+split ‘tableName’
+split ‘regionName’ # format: ‘tableName,startKey,id’
+split ‘tableName’, ‘splitKey’
+split ‘regionName’, ‘splitKey’
+unassign	Unassign a region. Unassign will close region in current location and then
+reopen it again. Pass ‘true’ to force the unassignment (‘force’ will clear
+all in-memory state in master before the reassign. If results in
+double assignment use hbck -fix to resolve. To be used by experts).
+Use with caution. For expert use only. Examples:hbase> unassign ‘REGIONNAME’
+hbase> unassign ‘REGIONNAME’, true
+hlog_roll	Roll the log writer. That is, start writing log messages to a new file.
+The name of the regionserver should be given as the parameter. A
+‘server_name’ is the host, port plus startcode of a regionserver. For
+example: host187.example.com,60020,1289493121758 (find servername in
+master ui or when you do detailed status in shell)
+hbase>hlog_roll
+
+zk_dump	Dump status of HBase cluster as seen by ZooKeeper. Example:
+hbase>zk_dump
+5) Cluster replication tools
+
+add_peer	Add a peer cluster to replicate to, the id must be a short and
+the cluster key is composed like this:
+hbase.zookeeper.quorum:hbase.zookeeper.property.clientPort:zookeeper.znode.parent
+This gives a full path for HBase to connect to another cluster.
+Examples:hbase> add_peer ‘1’, “server1.cie.com:2181:/hbase”
+hbase> add_peer ‘2’, “zk1,zk2,zk3:2182:/hbase-prod”
+remove_peer	Stops the specified replication stream and deletes all the meta
+information kept about it. Examples:
+hbase> remove_peer ‘1’
+
+list_peers	List all replication peer clusters.
+hbase> list_peers
+enable_peer	Restarts the replication to the specified peer cluster,
+continuing from where it was disabled.Examples:
+hbase> enable_peer ‘1’
+
+disable_peer	Stops the replication stream to the specified cluster, but still
+keeps track of new edits to replicate.Examples:
+hbase> disable_peer ‘1’
+
+start_replication	Restarts all the replication features. The state in which each
+stream starts in is undetermined.
+WARNING:
+start/stop replication is only meant to be used in critical load situations.
+Examples:
+hbase> start_replication
+
+stop_replication	Stops all the replication features. The state in which each
+stream stops in is undetermined.
+WARNING:
+start/stop replication is only meant to be used in critical load situations.
+Examples:
+hbase> stop_replication
+
+6) Security tools
+
+grant	Grant users specific rights.
+Syntax : grantpermissions is either zero or more letters from the set “RWXCA”.
+READ(‘R’), WRITE(‘W’), EXEC(‘X’), CREATE(‘C’), ADMIN(‘A’)For example:hbase> grant ‘bobsmith’, ‘RWXCA’
+hbase> grant ‘bobsmith’, ‘RW’, ‘t1’, ‘f1’, ‘col1’
+revoke	Revoke a user’s access rights.
+Syntax : revoke
+For example:
+hbase> revoke ‘bobsmith’, ‘t1’, ‘f1’, ‘col1’
+
+user_permission	Show all permissions for the particular user.
+Syntax : user_permission
+For example:hbase> user_permission
+hbase> user_permission ‘table1’
+
+==================================================================================================================
+bin/hadoop job -list all to check if multiple jobs are running.
+Test Hadoop Cluster :??? fr filesize
+to test write performance,write 10 files each of 1000 megabytes.It will write an output in a dir /benchmarks where all metrics are written.
+bin/hadoop jar hadoop-test-0.20.205.0.jar TestDFSIO -write -nrFiles 10 -fileSize 1000
+to test read performance,read 10 files each of 1000 megabytes.It will write an output in a dir /benchmarks where all metrics are written.
+bin/hadoop jar hadoop-test-0.20.205.0.jar TestDFSIO -read -nrFiles 10 -fileSize 1000
+bin/hadoop jar hadoop-test-0.20.205.0.jar TestDFSIO -clean
+
+Generate Tera Data:
+to generate dummy data within hdfs instead of downloading datset from somewhere nd uploading on hdfs.
+bin/hadoop jar hadoop/hadoop-examples...jar teragen 1000 /user/hduser/terasort-input
+using your dummy data you can check sorting performance
+bin/hadoop jar hadoop/hadoop-examples...jar terasort /user/hduser/terasort-input /user/hduser/terasort-output
+bin/hadoop job -history all /user/hduser/terasort-input
+
+===========================================================
+
+
+HAsetup : 
+We need to make one machine as NFS so that active namenode can write edits to a shared location and
+standby namenode can read from shared location.
+
+for ubuntu:
+On machine which you want make as your NFS.
+sudo apt-get install nfs-kernel-server
+
+to make sure there is no problem in mounting an NFS share,make sure nfs-common package is installed
+on your clients(machines from where you will mount data on nfs) 
+to install
+nfs-common
+
+sudo apt-get install nfs-common
+
+sudo vi /etc/exports
+path     *(rw,sync,no_root_sqash)
+path needs to be created and ur admin user can be made owner of path.
+
+sudo service nfs-kernel-server start
+-----------------------
+now going to each machine which will act as namenode
+give the following command.
+
+showmount -e ipaddress of ur nfs machine
+
+this should show you path on nfs which was shared.
+
+now create a mount point where you want edits to be written and which will be shared
+say /mnt/filer and make hduser as owner of it.
+
+now
+mount -t nfs ipaddress of ur nfs machine:/shared path /mnt/filer
+
+same needs to be done on other nn machines also.
+=================
+setting up on centos:
+How To Set Up an NFS Mount on CentOS 6
+About NFS (Network File System) Mounts
+
+NFS mounts work to share a directory between several servers. 
+This has the advantage of saving disk space, as the home directory is only kept on one server, 
+and others can connect to it over the network. When setting up mounts,
+ NFS is most effective for permanent fixtures that should always be accessible.
+
+Setup
+An NFS mount is set up between at least two servers. The machine hosting the shared network 
+is called the server, while the ones that connect to it are called ‘clients’.
+
+This tutorial requires 2 servers: one acting as the server and one as the client. 
+We will set up the server machine first, followed by the client.
+ The following IP addresses will refer to each one:
+
+Master: 12.34.56.789
+
+Client: 12.33.44.555
+
+The system should be set up as root. You can access the root user by typing
+
+sudo su
+Setting Up the NFS Server
+Step One—Download the Required Software
+
+Start off by using apt-get to install the nfs programs.
+
+yum install nfs-utils nfs-utils-lib
+
+Subsequently, run several startup scripts for the NFS server:
+
+chkconfig nfs on 
+service rpcbind start
+service nfs start
+
+Step Two—Export the Shared Directory
+
+The next step is to decide which directory we want to share with the client server. The chosen directory should then be added to the /etc/exports file, which specifies both the directory to be shared and the details of how it is shared.
+
+Suppose we wanted to share the directory, /home.
+
+We need to export the directory:
+
+vi /etc/exports
+Add the following lines to the bottom of the file, sharing the directory with the client:
+
+/home           12.33.44.555(rw,sync,no_root_squash,no_subtree_check)
+These settings accomplish several tasks:
+
+rw: This option allows the client server to both read and write within the shared directory
+sync: Sync confirms requests to the shared directory only once the changes have been committed.
+no_subtree_check: This option prevents the subtree checking. When a shared directory 
+is the subdirectory of a larger filesystem, nfs performs scans of every directory above it,
+ in order to verify its permissions and details. Disabling the subtree check may increase the 
+reliability of NFS, but reduce security.
+no_root_squash: This phrase allows root to connect to the designated directory
+Once you have entered in the settings for each directory, run the following command to export them:
+
+exportfs -a
+
+Setting Up the NFS Client
+Step One—Download the Required Software
+
+Start off by using apt-get to install the nfs programs.
+
+yum install nfs-utils nfs-utils-lib
+
+Step Two—Mount the Directories
+
+Once the programs have been downloaded to the the client server, create the directory that will 
+contain the NFS shared files
+
+mkdir -p /mnt/nfs/home
+Then go ahead and mount it
+
+mount 12.34.56.789:/home /mnt/nfs/home
+You can use the df -h command to check that the directory has been mounted. You will see it last on the list.
+
+df -h
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda               20G  783M   18G   5% /
+12.34.56.789:/home       20G  785M   18G   5% /mnt/nfs/home
+Additionally, use the mount command to see the entire list of mounted file systems.
+
+mount
+Your list should look something like this:
+
+/dev/sda on / type ext4 (rw,errors=remount-ro)
+none on /proc/sys/fs/binfmt_misc type binfmt_misc (rw)
+sunrpc on /var/lib/nfs/rpc_pipefs type rpc_pipefs (rw)
+nfsd on /proc/fs/nfsd type nfsd (rw)
+12.34.56.789:/home on /mnt/nfs/home type nfs (rw,noatime,nolock,bg,nfsvers=2,intr,tcp,actimeo=1800,addr=12.34.56.789)
+Testing the NFS Mount
+Once you have successfully mounted your NFS directory, you can test that it works by creating a file on the Client and checking its availability on the Server.
+
+Create a file in the directory to try it out:
+
+touch /mnt/nfs/home/example
+You should then be able to find the files on the Server in the /home.
+
+ls /home
+You can ensure that the mount is always active by adding the directory to the fstab file on the client. 
+This will ensure that the mount starts up after the server reboots.
+
+vi /etc/fstab
+12.34.56.789:/home  /mnt/nfs/home   nfs      auto,noatime,nolock,bg,nfsvers=3,intr,tcp,actimeo=1800 0 0
+You can learn more about the fstab options by typing in:
+
+man nfs
+After any subsequent server reboots, you can use a single command to mount directories specified in the fstab file:
+
+mount -a
+You can check the mounted directories with the two earlier commands:
+
+df -h
+mount
+Removing the NFS Mount
+Should you decide to remove a directory, you can unmount it using the umount command:
+
+cd
+sudo umount /directory name
+You can see that the mounts were removed by then looking at the filesystem again.
+
+df -h
+You should find your selected mounted directory gone.
+
+=================
+
+Setup these in two machines which will act as 
+active and standby namenode.
+When using no zookeeper
+when using nfs, remember to setup nfs and mount /mnt/filer to nfs path
+In my case aj1-active
+aj4-standby
+
+in core-site.xml
+<configuration>
+<property>
+<name>fs.defaultFS</name>
+<value>hdfs://mycluster</value>
+<description>The name of default file system</description>
+</property>
+</configuration>
+
+in hdfs-site.xml
+
+<configuration>
+<property>
+<name>dfs.nameservices</name>
+<value>mycluster</value>
+</property>
+
+<property>
+<name>dfs.replication</name>
+<value>2</value>
+<description>to specifiy replication</description>
+</property>
+
+<property>
+<name>dfs.namenode.name.dir</name>
+<value>file:/wkdaydec1ha/name</value>
+<final>true</final>
+</property>
+
+<property>
+<name>dfs.datanode.data.dir</name>
+<value>file:/wkdaydec1ha/data1</value>
+<final>true</final>
+</property>
+
+<property>
+<name>dfs.ha.namenodes.mycluster</name>
+<value>nn1,nn2</value>
+</property>
+
+<property>
+<name>dfs.namenode.rpc-address.mycluster.nn1</name>
+<value>aj1:9000</value>
+</property>
+
+<property>
+<name>dfs.namenode.rpc-address.mycluster.nn2</name>
+<value>aj4:9000</value>
+</property>
+
+<property>
+<name>dfs.namenode.http-address.mycluster.nn1</name>
+<value>aj1:50070</value>
+</property>
+
+<property>
+<name>dfs.namenode.http-address.mycluster.nn2</name>
+<value>aj4:50070</value>
+</property>
+
+<property>
+<name>dfs.namenode.shared.edits.dir</name>
+<value>file:///mnt/filer</value>
+</property>
+
+<property>
+<name>dfs.client.failover.proxy.provider.mycluster</name>
+<value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+</property>
+
+<property>
+<name>dfs.ha.fencing.methods</name>
+<value>sshfence</value>
+</property>
+
+<property>
+<name>dfs.ha.fencing.ssh.private-key-files</name>
+<value>/home/hduser/.ssh/id_rsa</value>
+</property>
+
+<property>
+<name>dfs.ha.fencing.methods</name>
+<value>sshfence
+       shell(/bin/true)
+</value>
+</property>
+
+</configuration>
+======================
+After updating
+steps if setting up a new HA cluster
+format 1st nn
+start 1st nn
+do a bootstrap command on 2nd nn ( command is below)
+start 2nd nn
+check status of both nn's using getservice command (command below)
+both would be in standby status ( as no zk used)
+make one of them active using transition command( command below)
+start ur other daemons
+check if you see edits_inprogress in metadata path of active nn
+
+Note** if enabling HA in existing hadoop 2 cluster which had only one nn
+stop cluster
+don't do a formatting
+do steps as mentioned above from --start 1st nn
+
+If using zookeeper & zkfc component
+The configuration of automatic failover requires the addition of two new parameters 
+to your configuration. In your hdfs-site.xml file, add:
+
+ <property>
+   <name>dfs.ha.automatic-failover.enabled</name>
+   <value>true</value>
+ </property>
+
+This specifies that the cluster should be set up for automatic failover. 
+In your core-site.xml file, add:
+
+ <property>
+   <name>ha.zookeeper.quorum</name>
+   <value>zk1.example.com:2181,zk2.example.com:2181,zk3.example.com:2181</value>
+ </property>
+
+In new cluster:
+format 1st nn
+start 1st nn
+do a bootstrap command on 2nd nn ( command is below)
+start 2nd nn
+stop both of them
+Issue this command to initialize ha status in zk ( command can be given on any nn)
+hdfs zkfc -formatZK
+Give a Start-dfs.sh commands ( it should start nns, zkfc and dns)
+Note** when using zookeeper, zookeeper to be installed on every machine from
+zookeeper.apache.org
+
+do the steps to setup zookeeper and start zookeeper
+
+{Steps to setup zookeeper on every node:
+Download zookeeper tar file
+Untar it in say '/usr/local/'
+create a link
+$cd /usr/local
+$sudo ln -s zookeeperdir zookeeper
+$sudo chown -R hduser:hadoop zookeeper*
+update .bashrc with path to zookeeper
+
+$cd /usr/local/zookeeper
+$cp conf/zoo_sample.cfg conf/zoo.cfg
+edit zoo.cfg to have zookeeper data go in /var/lib/zookeeper
+dont forget to create zookeeper dir and change its ownership
+$bin/zkServer.sh start ---- to start zookeeper
+=====================================
+HA commands ( in Apache Hadoop cluster)
+
+hdfs namenode -initializeSharedEdits -force
+hdfs hdfs namenode -bootstrapStandby -force
+hdfs haadmin -failover --forceactive nn1 nn2
+hdfs haadmin -transitionToActive nn1
+hdfs haadmin -getServiceState nn1/nn2
+===================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+================
+/etc/init.d/krb5kdc restart
+
+sudo apt-get install krb5kdc-server
+cat /etc/krb5.conf
+execute kinit

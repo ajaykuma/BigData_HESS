@@ -1,0 +1,34 @@
+Apache hadoop
+
+Storage layer : HDFS (namenode(s),datanode(s),secondarynamenode
+processing layer: YARN (Resourse manager(s),nodemanager(s)
+
+v1(daemons)					v2(daemons)
+namenode				        1 or multiple namenodes(federation-multiple isolated 
+										nns)
+								   (HA-2 NNs, 1-active,1-standby)	
+datanodes 					datanodes
+jobtracker					resource manager(+temp : MrAppMaster)
+secondarynamenode				yes if federation, no if HA
+tasktrackers				        node managers
+============================================
+cloudera-CDH 4.x,5.x
+Services: impala,oozie,spark,hive,hbase,storm,hue,hdfs,mapreduce,yarn,zookeeper,knox,ranger,
+mrv1(roles)- for services -hdfs,mapreduce,yarn		mrv2(roles)
+namenode				        1 or multiple namenodes(federation-multiple isolated nns)
+								   (HA-2 NNs, 1-active,1-standby)	
+datanodes 					datanodes
+jobtracker					resource manager(+temp : MrAppMaster)
+secondarynamenode				yes if fderation, no if HA
+tasktrackers				        node managers
+=======================================================
+hdp-2.0,2.2 etc
+Services: impala,oozie,spark,hive,hbase,storm,hue,hdfs,mapreduce,yarn,zookeeper,knowx,ranger,
+mrv1(components)-hdfs,mapreduce,yarn		mrv2(components)
+namenode				        1 or multiple namenodes(federation-multiple isolated nns)
+								   (HA-2 NNs, 1-active,1-standby)	
+datanodes 					datanodes
+jobtracker					resource manager(+temp : MrAppMaster)
+secondarynamenode				yes if fderation, no if HA
+tasktrackers				        node managers
+================================

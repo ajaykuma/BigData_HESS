@@ -1,0 +1,521 @@
+sudo su --- to login as root
+apt-get install vim
+apt-get install wget
+apt-get install ntp
+apt-get install openssh-server
+apt-get update
+
+ubuntu ---disable firewall
+sudo iptables --flush
+sudo iptables stop
+or
+sudo ufw disable
+
+ifconfig ---get your ipaddress
+hostname ---get your hostname
+
+update your /etc/hosts
+127.0.0.1     localhost
+ipaddress     hostname
+
+sudo visudo and add mac as user next to root where you see ALL
+This will give your user sudo access
+
+Download oracle jdk from oracle site
+create a directory under /usr/lib
+cd /usr/lib
+mkdir jvm
+cd jvm
+sudo tar -xvf /home/mac/Downloads/jdk****
+
+update your java path in your user's .bashrc
+(ex: my user mac)
+su - mac
+
+vi .bashrc
+export JAVA_HOME=/usr/lib/jvm/jdk****
+export PATH=$PATH:$JAVA_HOME/bin
+
+save your .bashrc
+refresh it by ---> source .bashrc
+
+$java -version ( does it show your java version)
+
+Now Generate ssh keys for your user on ubuntu
+
+Commands:
+--------------
+To have SSH access across machines
+1.generate ssh keys using 
+ssh-keygen -t rsa -P ""
+
+2.Distributing ssh public keys to other machines
+----------------------
+hduser$machine1:ssh-copy-id -i $HOME/.ssh/id_rsa.pub hduser@machine2
+
+3.To enable SSH access to your local machine with this newly created key
+----------------------------------------
+to add the xxxx@master’s public SSH key (which should be in $HOME/.ssh/id_rsa.pub) 
+to the authorized_keys file of xxxx@slave(in this user’s $HOME/.ssh/authorized_keys)
+cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
+
+download hadoop tar from http://archive.apache.org/dist/hadoop/common/
+Lets get hadoop-2.6.5
+To untar and create dir ,to create link and to change owner of directory
+-----------------------------
+Lets untar it in /usr/local
+cd /usr/local
+$ sudo tar -xvf hadoop-2.x.x.tar.gz
+$ sudo ln -s hadoop-2.x.x.tar.gz hadoop
+$ sudo chown -R mac:mac hadoop -----------------(am making user -mac as owner and will be admin for hadoop)
+cd
+
+update hadoop path in .bashrc for 'mac' user
+vi .bashrc
+export HADOOP_INSTALL=/usr/local/hadoop
+export PATH=$PATH:$HADOOP_INSTALL/bin
+export PATH=$PATH:$HADOOP_INSTALL/sbin
+
+save your .bashrc
+refresh it ----> source .bashrc
+
+hadoop version ( does it show your hadoop version)
+=========================================================
+
+Editing config files to setup cluster
+config files:(you can use ports 8020 for core and 8021 for mapred also)
+or
+config files:(you can use ports 9000 for core and 9001 for mapred also)
+
+cd /usr/local/hadoop/etc/hadoop
+
+**replace hostname with name of your node where you want to run a particular process/daemon
+
+
+core-site.xml
+<property>
+  <name>fs.defaultFS</name>
+  <value>hdfs://hostname:9000</value>
+  <description>The name of the default file system.  A URI whose
+  scheme and authority determine the FileSystem implementation.  The
+  uri's scheme determines the config property (fs.SCHEME.impl) naming
+  the FileSystem implementation class.  The uri's authority is used to
+  determine the host, port, etc. for a filesystem.Here hostname points to node where your NN will run</description>
+</property>
+
+mapred-site.xml
+<property>
+  <name>mapreduce.framework.name</name>
+  <value>yarn</value>
+  </property>
+
+hdfs-site.xml
+<property>
+  <name>dfs.replication</name>
+  <value>x</value>
+  <description>Default block replication.
+  The actual number of replications can be specified when the file is created.
+  The default is used if replication is not specified in create time.
+  </description>
+</property>
+
+**to have namenode or datanode data in specific directories,specify path in hdfs-site.xml,if not everything will get stored in /tmp
+** in Apache we need to create the /abc directory,rest will be created by hadoop.
+
+<property>
+<name>dfs.namenode.name.dir</name>
+<value>/abc/namenode</value>
+<final>true</final>
+</property>
+
+<property>
+<name>dfs.datanode.data.dir</name>
+<value>/abc/datanode</value>
+<final>true</final>
+</property>
+
+**specify settings of http ports used by namenode and secondarynamenode in hdfs-site.xml
+<property>
+<name>dfs.namenode.http-address</name>
+<value>nnhostname:50070</value>
+</property>
+
+<property>
+<name>dfs.namenode.secondary.http-address</name>
+<value>snnhostname:50090</value>
+</property>
+
+**specific properties for secondarynamenode,to be given in hdfs-site.xml of node where your SNN will run
+**Http properties are important,rest if not given will make hadoop consider defaults
+<property>
+<name>dfs.namenode.http-address</name>
+<value>nnhostname:50070</value>
+</property>
+
+<property>
+<name>dfs.namenode.secondary.http-address</name>
+<value>snnhostname:50090</value>
+</property>
+
+<property>
+<name>dfs.namenode.checkpoint.dir</name>
+<value>/abc/snnfsi</value>
+</property>
+
+<property>
+<name>dfs.namenode.checkpoint.edits.dir</name>
+<value>/abc/snnedits</value>
+</property>
+
+<property>
+<name>dfs.namenode.checkpoint.period</name>
+<value>600</value>
+</property>
+
+yarn-site.xml
+<property>
+<name>yarn.resourcemanager.address</name>
+<value>rmhostname:9001</value>
+</property>
+
+<property>
+<name>yarn.resourcemanager.resource-tracker.address</name>
+<value>rmhostname:8031</value>
+</property>
+
+<property>
+<name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+<value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+
+<property>
+<name>yarn.nodemanager.aux-services</name>
+<value>mapreduce_shuffle</value>
+</property>
+
+slaves
+dnhostname1
+dnhostname2
+dnhostname3
+
+hdfs namenode -format
+
+check if /abc now has namenode directory created
+/abc will have datanode or snn related directories created when you start the cluster
+
+Summary : If singlenode cluster
+-then update all these properties with same hostname
+-create relevant directories
+-check if you can ssh to hostname
+-check if firewall disabled
+-check permissions of hadoop and relevant directories
+then proceeed..
+
+Summary : If multinode cluster
+-create relevant directories
+-check if you can ssh to hostname and other machines hostname
+-check if firewall disabled
+-check permissions of hadoop and relevant directories
+-editing configs ( core,mapred,slaves,yarn--same on all machines | hdfs file would have properties depending on what daemon runs on that particular host, for ex: if NN does run on mac1, we dont need dfs.namenode.name.dir property on other machines)
+
+if path was setup in .bashrc
+
+you can start your cluster by
+start-dfs.sh
+start-yarn.sh
+
+or
+$cd /usr/local/hadoop
+sbin/start-dfs.sh
+sbin/start-yarn.sh---------------------(if rm is on different node than nn, remember to updates slaves file and start rm there
+either by sbin/start-yarn.sh & if slaves file not updated then by  sbin/yarn-daemon.sh start resourcemanager )
+
+to start history server
+$ $HADOOP_HOME/sbin/mr-jobhistory-daemon.sh --config $HADOOP_CONFIG_DIR start historyserver
+
+============================================================
+to setup hadoop 2 you can also use this way(generally above mentioned way is preferred)
+
+mapred-site.xml.template
+<property>
+<name>mapred.job.tracker</name>
+<value>aj4:9001</value>
+</property>
+
+<property>
+<name>mapred.framework.name</name>
+<value>yarn</value>
+</property>
+
+and in yarn-site.xml
+<property>
+<name>yarn.resourcemanager.resource-tracker.address</name>
+<value>rmhostname:8031</value>
+</property>
+
+<property>
+<name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+<value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+
+<property>
+<name>yarn.nodemanager.aux-services</name>
+<value>mapreduce_shuffle</value>
+</property>
+
+Note**https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/PluggableShuffleAndPluggableSort.html
+
+============================================================
+For rack awareness:
+Update parameter in hdfs-site.xml
+
+<property>
+<name>topology.script.file.name</name>
+<value>/location/topology.sh</value>
+</property>
+----------------------------------------------
+create a file in home directory
+topology.data :
+
+ip address 1(dn1)     /rack1
+ip address 2(dn2)     /rack2
+and similarly....
+
+
+or i can give more information like
+ip address 1(dn1)     /sw1/rack1
+ip address 2(dn2)     /sw2/rack2
+---------------------------------------------
+create a topology script in conf directory
+
+topology.sh :
+
+#!/bin/bash
+while [ $# -gt 0 ] ; do
+   nodeArg=$1
+   exec< path/topology.data
+   result=""
+   while read line ; do
+       ar=( $line )
+       if [  "${ar[0]}" = "$nodeArg" ] ; then
+       result="${ar[1]}"
+       fi
+   done
+   shift
+   if [ -z "$result" ]; then
+     echo -n "/default"
+    else
+     echo -n "$result"
+   fi
+   done
+
+-------------------------------------------
+Steps to perform upgrade
+Hadoop upgrade:
+
+To save status of hadoop 1 cluster
+1.hadoop fsck /
+2.hadoop fsck / - files - blocks -locations
+3.backing up for comparision later
+  hadoop fsck / - files - blocks - locations > fsck.bck
+4.backing up list of files recursively
+  hadoop fs -lsr / > filename.bck
+5.backing up datanodes information to compare later if everything is consistent
+  hadoop dfsadmin -report > layout.bck
+6.Checking if there is any pending upgrade from last change
+  hadoop dfsadmin -upgradeProgress status
+  NO uncmiited change from last upgrade,make sure it shows "there is no upgrade in progress"
+
+Also check in metadata and data path for existnce of 'previous' directory
+
+if so,then first finalize upgrade and then proceed..
+
+7.stop daemons.
+
+8.Download new version hadoop package
+
+9.untar it.
+
+10.copy all config files from old version to new version directory
+
+   cp /usr/local/hadoop/conf/xx  /usr/local/hadoopnew/conf/
+
+11.check if symlink exists,if not create one using
+   ln -s hadoop hadaj
+
+   if exits, unlink it using
+   unlink hadoop
+   then create new symlink pointing to new directory
+   ln -s hadoopnew hadaj
+
+this avoids editing.bash_profile/.bash_rc etc
+
+12.note** no fomatting namenode
+
+13.start daemon namenode
+
+hadoop-daemon.sh start namenode -upgrade
+
+14. CHECK UPGRADE STATUS
+
+15.START DAEMON DATANODE
+
+16.Finally check for dfsadmin report and safemode status.
+
+17. and the cluster can be left in same state or the upgrade has to be finalized.( which removes 
+all previous enteries)
+
+18. if there is any case of roll back,
+hadoop-daemon.sh start namenode -rollback
+
+19. if no roll back,finalize the upgrade
+hadoop dfsadmin -finalizeUpgrade
+after this step, no roll back possible.
+
+-----------------------------------
+Checking contents of FSIMAGE 
+hdfs oiv -i /data/namenode/current/fsiamge - o fsimage.txt
+using this viewer,i can view the metadata structure
+cat fsiamge.txt
+
+--------------------------------------------------------
+<configuration><property>
+<name>yarn.scheduler.capacity.root.queues</name>
+<value>default</value>
+</property>
+<property>
+<name>yarn.scheduler.capacity.root.capacity</name>
+<value>100</value>
+</property>
+<property>
+<name>yarn.scheduler.capacity.root.default.capacity</name>
+<value>100</value>
+</property>
+</configuration>
+
+sample pool allocation if using pools
+and update in fair-scheduler.xml
+<allocations>
+
+<pool name = "adv">
+<minMaps>10</minMaps>
+<minReduces>5</minReduces>
+</pool>
+
+<pool name = "adm">
+<minMaps>10</minMaps>
+<minReduces>5</minReduces>
+<maxRunningJobs>3</maxRunningJobs>
+</pool>
+
+<user name = "hduser">
+<maxRunningJobs>1</maxRunningJobs>
+</user>
+
+</allocations>
+
+to use pool
+bin/hadoop jar hadoop-examples-1.2.1.jar wordcount -Dpool.name=fin /books/pg20417.txt /aj/output99
+when using fair-scheduler
+
+--------------------------------------------
+to have namenode data in specific directories and more locations in hdfs-site.xml
+
+<property>
+<name>dfs.name.dir</name>
+<value>/data/namenode,/nfs/share(or any other directory location</value>
+<final>true</final>
+</property>
+
+Here second location can be on different disk or nfs or on same disk
+to setup NFS refer "Hadoop essential commands and parameters-2
+----------------------------------------
+
+to commision and decommision nodes add these to hdfs-site.xml
+<property>
+<name>dfs.hosts.include</name>
+<value>/usr/local/hadoop/include</value>
+<final>true</final>
+</property>
+
+<property>
+<name>dfs.hosts.exclude</name>
+<value>/usr/local/hadoop/exclude</value>
+<final>true</final>
+</property>
+
+similarly add this paramter to yarn-site
+
+<property>
+<name>yarn.resourcemanager.nodes.include-path</name>
+<value>/usr/local/hadoop/...include file path</value>
+<final>true</final>
+</property>
+
+<property>
+<name>yarn.resourcemanager.nodes.exclude-path</name>
+<value>/usr/local/hadoop/...exclude file path</value>
+<final>true</final>
+</property>
+
+and then add respective IPs in include and exclude.
+
+and in had2
+bin/hdfs dfsadmin -refreshNodes
+bin/yarn rmadmin -refreshNodes
+
+also update the slaves file accordingly
+
+run balancer command to mv HDFS blocks to remaining datanodes.
+
+Start daemons
+-------------------------------------------------
+to introduce trash
+add in your core-site.xml in namenode
+<property>
+<name>fs.trash.interval</name>
+<value>40</value>
+</property>
+
+-------------------
+Understanding quota
+$ hadoop fs -count -q /user/jsmith
+none    inf    209715200    209715200    5   1   0
+The output columns for fs -count -q are: QUOTA, REMAINING_QUOTA, SPACE_QUOTA, REMAINING_SPACE_QUOTA,
+ DIR_COUNT, FILE_COUNT, CONTENT_SIZE, FILE_NAME.
+
+ Hadoop checks space quotas during space allocation. This means that HDFS block size (here: 128MB) 
+and 
+the replication factor of the file
+ (here: 3, i.e. the default value in the cluster set by the dfs.replication property) play an important role.
+ In my case, this is what seems
+ to have happened: When I tried to copy the local file to HDFS,
+
+required_number_of_HDFS blocks * HDFS_block_size * replication_count
+= 1 * 128MB * 3 = 384MB > 200MB.
+
+hadoop fs -D dfs.replication=1 -copyFromLocal small-file.txt /user/jsmith
+
+Now keep in mind that the Hadoop space quota always counts against the raw HDFS disk space consumed. So if you 
+have a quota of 10MB, you can store only a single 1MB 
+file if you set its replication to 10. Or you can store up to three 1MB files if their replication is set to 3. 
+The reason why Hadoop’s quotas work like that is because the replication count of an HDFS file is a 
+user-configurable setting. 
+Though Hadoop ships with a default value of 3 it is up to the users to
+ decide whether they want to keep this value or change it. 
+And because Hadoop can’t anticipate how 
+users might be playing around with the replication setting for their files,
+ it was decided that the Hadoop quotas always operate on the raw HDFS disk space consumed.
+ Hadoop figured it would require a single block of 128MB size to store the small file. 
+With replication factored in, the total space would be 3 * 128MB = 384 MB. 
+And this would violate the space quota of 200MB.
+
+--------------------------------------------
+
+to set static ip in centos7
+use : nmtui
+set Hostname in Centos 7
+hostnamectl set-hostname hostname
+disable Firewall in Centos 7
+systemctl disable firewalld
+systemctl stop firewalld

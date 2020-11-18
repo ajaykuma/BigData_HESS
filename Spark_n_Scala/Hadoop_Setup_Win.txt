@@ -1,0 +1,211 @@
+Setup Hadoop-Single node cluster on Windows
+----------------------------------------
+Set java path on your machine
+edit environment variables> user variables for Win10> 
+#here I copied the jdk directory from C:\Program Files\Java into C:\Java
+JAVA_HOME=C:\Java\jdk1.8.0_221
+# I have downloaded hadoop-2.6.5.tar.gz from http://archive.apache.org/dist/hadoop/common/
+# untarred it in C:\Hadoop 
+HADOOP_HOME=C:\Hadoop\hadoop-2.6.5
+
+#Refer: https://cwiki.apache.org/confluence/display/HADOOP2/Hadoop2OnWindows
+#This link is to build hadoop from src and then edit config files,alternatively..
+
+#Look into: https://github.com/cdarlint/winutils
+--Download 'hadoop.dll' & 'winutils.exe' as per your downloaded version of hadoop
+--copy these into C:\Hadoop\hadoop-2.6.5\bin
+
+#Now edit config files
+#First edit the file hadoop-env.cmd to add the following lines near the end of the file.
+set HADOOP_PREFIX=C:\Hadoop\hadoop-2.6.5
+set HADOOP_CONF_DIR=%HADOOP_PREFIX%\etc\hadoop
+set YARN_CONF_DIR=%HADOOP_CONF_DIR%
+set PATH=%PATH%;%HADOOP_PREFIX%\bin
+
+#Edit or create the file core-site.xml and make sure it has the following configuration key:
+<configuration>
+  <property>
+    <name>fs.default.name</name>
+    <value>hdfs://0.0.0.0:19000</value>
+  </property>
+</configuration>
+
+#Edit or create the file hdfs-site.xml and add the following configuration key:
+<configuration>
+  <property>
+    <name>dfs.replication</name>
+    <value>1</value>
+  </property>
+</configuration>
+
+#edit or create the file slaves and make sure it has the following entry:
+localhost
+
+#The default configuration puts the HDFS metadata and data files under \tmp on the current drive. 
+#In the above example this would be c:\tmp. For your first test setup you can just leave it at the default.
+#Example YARN Configuration
+#Edit or create mapred-site.xml under %HADOOP_PREFIX%\etc\hadoop and add the following entries, 
+replacing %USERNAME% with your Windows user name.
+#in my case username is Win10
+
+<configuration>
+
+   <property>
+     <name>mapreduce.job.user.name</name>
+     <value>%USERNAME%</value>
+   </property>
+
+   <property>
+     <name>mapreduce.framework.name</name>
+     <value>yarn</value>
+   </property>
+
+  <property>
+    <name>yarn.apps.stagingDir</name>
+    <value>/user/%USERNAME%/staging</value>
+  </property>
+
+  <property>
+    <name>mapreduce.jobtracker.address</name>
+    <value>local</value>
+  </property>
+
+</configuration>
+
+#edit or create yarn-site.xml and add the following entries:
+<configuration>
+  <property>
+    <name>yarn.server.resourcemanager.address</name>
+    <value>0.0.0.0:8020</value>
+  </property>
+
+  <property>
+    <name>yarn.server.resourcemanager.application.expiry.interval</name>
+    <value>60000</value>
+  </property>
+
+  <property>
+    <name>yarn.server.nodemanager.address</name>
+    <value>0.0.0.0:45454</value>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce_shuffle</value>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+    <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+  </property>
+
+  <property>
+    <name>yarn.server.nodemanager.remote-app-log-dir</name>
+    <value>/app-logs</value>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value>/dep/logs/userlogs</value>
+  </property>
+
+  <property>
+    <name>yarn.server.mapreduce-appmanager.attempt-listener.bindAddress</name>
+    <value>0.0.0.0</value>
+  </property>
+
+  <property>
+    <name>yarn.server.mapreduce-appmanager.client-service.bindAddress</name>
+    <value>0.0.0.0</value>
+  </property>
+
+  <property>
+    <name>yarn.log-aggregation-enable</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>yarn.log-aggregation.retain-seconds</name>
+    <value>-1</value>
+  </property>
+
+  <property>
+    <name>yarn.application.classpath</name>
+    <value>%HADOOP_CONF_DIR%,%HADOOP_COMMON_HOME%/share/hadoop/common/*,%HADOOP_COMMON_HOME%/share/hadoop/common/lib/*,%HADOOP_HDFS_HOME%/share/hadoop/hdfs/*,%HADOOP_HDFS_HOME%/share/hadoop/hdfs/lib/*,%HADOOP_MAPRED_HOME%/share/hadoop/mapreduce/*,%HADOOP_MAPRED_HOME%/share/hadoop/mapreduce/lib/*,%HADOOP_YARN_HOME%/share/hadoop/yarn/*,%HADOOP_YARN_HOME%/share/hadoop/yarn/lib/*</value>
+  </property>
+</configuration>
+
+Initialize Environment Variables
+Run C:\Hadoop\hadoop-2.6.5\etc\hadoop\hadoop-env.cmd to setup environment variables that will be used 
+by the startup scripts and the daemons.
+
+Format the FileSystem
+C:\Hadoop\hadoop-2.6.5>\bin\hdfs namenode -format
+
+This command will print a number of filesystem parameters. Just look for the following two strings to ensure that the format command succeeded.
+14/01/18 08:36:23 INFO namenode.FSImage: Saving image file \tmp\hadoop-username\dfs\name\current\fsimage.ckpt_0000000000000000000 using no compression
+14/01/18 08:36:23 INFO namenode.FSImage: Image file \tmp\hadoop-username\dfs\name\current\fsimage.ckpt_0000000000000000000 of size 200 bytes saved in 0 seconds.
+
+#if hadoop-env.cmd did not set the environment variables
+
+C:\Hadoop\hadoop-2.6.5>set HADOOP_PREFIX=C:\Hadoop\hadoop-2.6.5
+
+C:\Hadoop\hadoop-2.6.5>set HADOOP_CONF_DIR=%HADOOP_PREFIX%\etc\hadoop
+
+C:\Hadoop\hadoop-2.6.5>set YARN_CONF_DIR=%HADOOP_CONF_DIR%
+
+C:\Hadoop\hadoop-2.6.5>set PATH=%PATH%;%HADOOP_PREFIX%\bin
+
+C:\Hadoop\hadoop-2.6.5>cd sbin
+
+C:\Hadoop\hadoop-2.6.5\sbin>start-dfs.cmd
+
+C:\Hadoop\hadoop-2.6.5\sbin>jps
+69572 NameNode
+70296 DataNode
+54188 Jps
+
+Start YARN Daemons and run a YARN job
+C:\Hadoop\hadoop-2.6.5\sbin>start-yarn.cmd
+starting yarn daemons
+
+C:\Hadoop\hadoop-2.6.5\sbin>jps
+65860 NodeManager
+69572 NameNode
+67784 ResourceManager
+70296 DataNode
+71340 Jps
+
+C:\Hadoop\hadoop-2.6.5>hdfs dfs -mkdir /mydata
+C:\Hadoop\hadoop-2.6.5>hdfs dfs -put LICENSE.txt /mydata
+
+C:\Hadoop\hadoop-2.6.5>hdfs dfs -put NOTICE.txt /mydata
+
+C:\Hadoop\hadoop-2.6.5>hdfs dfs -put README.txt /mydata
+
+C:\Hadoop\hadoop-2.6.5>hdfs dfs -ls -R /mydata
+-rw-r--r--   1 Win10 supergroup      84853 2020-01-02 20:32 /mydata/LICENSE.txt
+-rw-r--r--   1 Win10 supergroup      14978 2020-01-02 20:32 /mydata/NOTICE.txt
+-rw-r--r--   1 Win10 supergroup       1366 2020-01-02 20:33 /mydata/README.txt
+
+C:\Hadoop\hadoop-2.6.5>
+
+C:\Hadoop\hadoop-2.6.5>yarn jar share\hadoop\mapreduce\hadoop-mapreduce-examples-2.6.5.jar wordcount /mydata/LICENSE.txt /out
+20/01/02 20:35:23 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+20/01/02 20:35:24 INFO input.FileInputFormat: Total input paths to process : 1
+20/01/02 20:35:24 INFO mapreduce.JobSubmitter: number of splits:1
+....
+
+C:\Hadoop\hadoop-2.6.5>hdfs dfs -ls /out
+Found 2 items
+-rw-r--r--   1 Win10 supergroup          0 2020-01-02 20:35 /out/_SUCCESS
+-rw-r--r--   1 Win10 supergroup      22001 2020-01-02 20:35 /out/part-r-00000
+
+Access UIs
+http://localhost:50070/
+http://localhost:8088/cluster
+
+========================================
+Setting hadoop (Apache hadoop core distribution on linux machines)
+Follow: https://github.com/ajaykuma/Hadoop-and-Scala-Setup
+=======================================

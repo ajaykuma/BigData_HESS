@@ -1,0 +1,36 @@
+Download pre-built spark from spark.apache.org or Download spark from archive.apache.org
+--------------------------
+--edit env variables
+#Spark home points to 
+SPARK_HOME=C:\spark-2.4.3-bin-hadoop2.6
+
+#JAVA_HOME=C:\Java\jdk1.8.0_221
+
+#(if hadoop not downloaded and setup, then create a folder "hadoop/bin" which contains Winutils.exe
+HADOOP_HOME=<pathofhadoopdirectory>
+#Look into: https://github.com/cdarlint/winutils
+--Download 'hadoop.dll' & 'winutils.exe' as per your downloaded version of spark
+--copy these into <pathofhadoopdirectory/bin>
+
+#(if hadoop downloaded and setup, then )
+#Look into: https://github.com/cdarlint/winutils
+--Download 'hadoop.dll' & 'winutils.exe' as per your downloaded version of hadoop n spark and place these in
+--C:\Hadoop\hadoop-2.6.5\bin
+HADOOP_HOME=<pathofhadoop>
+
+Running Spark-shell
+C:\spark-2.4.3-bin-hadoop2.6>.\bin\spark-shell2
+
+scala> val x = sc.textFile("cv000_29416.txt")
+x: org.apache.spark.rdd.RDD[String] = cv000_29416.txt MapPartitionsRDD[1] at textFile at <console>:24
+
+scala> val y = x.map(_.toUpperCase())
+y: org.apache.spark.rdd.RDD[String] = MapPartitionsRDD[2] at map at <console>:25
+
+scala> y.take(2).foreach(println)
+
+scala> y.count
+
+scala> y.collect
+
+-----------------

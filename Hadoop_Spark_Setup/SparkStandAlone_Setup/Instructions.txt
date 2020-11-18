@@ -1,0 +1,24 @@
+1.Setup two ubuntu machines that can ping each other, have firewall disabled,can ssh each other (password less) & have connectivity to internet & Oracle JDK 1.8 installed 
+2.Download spark-2.2.1 tar file from spark archives (example: spark tar for hadoop-2.6.5)
+3.untar the spark into a chosen location & do the following:
+  cd /usr/local
+  sudo tar -xvf /home/hdu/Downloads/spark-2.2.1-bin-hadoop2.6.tgz
+  sudo ln -s spark-2.2.1-bin-hadoop2.6 spark
+  sudo chown -R hdu:hdu spark*
+4.Make sure to update your user specific .bashrc with Java & Spark paths
+ export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_221
+ export PATH=$PATH:$JAVA_HOME/bin
+ export SPARK_HOME=/usr/local/spark
+ export PATH=$PATH:$SPARK_HOME/bin
+ export PATH=$PATH:$SPARK_HOME/sbin
+5.In SPARK_HOME/conf, rename the spark-default.conf.template to spark-default.conf & similarly for slaves.template to slaves
+6. Edit config files as given
+7. Create necessary directories for eventlog & historyserver in the location, mentioned in config files
+8. Repeat all steps for your second machine.
+9. On 1st machine : 
+   start-all.sh
+   start-history-server.sh
+10.check Spark ui & history server ui
+   http://um1:8080
+   http://um1:18080
+[replace um1 i.e. hostname with hostname of your master node]

@@ -1,0 +1,35 @@
+Here are some ways in which you can work with Spark n Scala:
+------------------------------------------------
+--Use a cloud based setup such as 
+  https://community.cloud.databricks.com/login.html
+
+--Use AWS EMR to setup Hadoop n Spark Cluster
+
+--Setup Scala on windows (to use for scala programming from command line)
+  Download "scala-2.13.1.msi" from https://www.scala-lang.org/download/ & follows instructions
+  Download "sbt" from https://www.scala-sbt.org/download.html
+
+--Setup Spark Standalone cluster (single node cluster) on windows
+  Instructions to be added soon
+  (This will allow to use spark single node cluster on windows, n all its components such as
+   spark-shell/pyspark/spark-sql/sparkR/spark-submit n write scala apps using REPL ie spark-shell)
+
+--Setup Spark standalone multinode cluster (multinode cluster on linux)
+  https://github.com/ajaykuma/Hadoop-and-Scala-Setup/tree/master/SparkStandAlone_Setup
+
+--Setup Spark cluster integrated with Hadoop's YARN
+  Hadoop Setup: https://github.com/ajaykuma/Hadoop-and-Scala-Setup/tree/master/hadoopconf2.6.5
+  Spark with Yarn: https://github.com/ajaykuma/Hadoop-and-Scala-Setup/tree/master/Spark-2.2.1
+  Hive Setup: https://github.com/ajaykuma/Hadoop-and-Scala-Setup/tree/master/HiveSetup
+
+--Setup eclipse for scala applications and follow instructions to run these apps on windows setup
+  https://github.com/ajaykuma/ScalaApps/blob/master/Spark_Scala/SparkApplicationsSetup/Eclipse_IDE_setup_for_spark_applications_on_windows.txt
+
+--Setup eclipse for scala applications and follow instructions to run these apps 
+  on spark cluster setup (stand alone /integrated with Hadoop)
+  https://github.com/ajaykuma/ScalaApps/blob/master/Spark_Scala/SparkApplicationsSetup/RunningSparkApplicationsonCluster.txt
+  (to be updated)
+ 
+--setup a fully distributed cloudera/hortonworks/aws emr cluster which comes with Hadoop n all services
+
+--setup a sandbox of CDH/HDP for your practising on Spark n scala
