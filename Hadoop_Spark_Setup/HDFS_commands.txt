@@ -1,0 +1,37 @@
+ls /etc/h*
+ls /opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib
+ls /opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hive/conf
+[ajaykuma24gmail@ip-10-0-42-218 ~]$ ls /opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop/bin
+fuse_dfs  hadoop
+[ajaykuma24gmail@ip-10-0-42-218 ~]$ ls /opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop-hdfs/bin
+hdfs
+[ajaykuma24gmail@ip-10-0-42-218 ~]$ ls /opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop-yarn/bin
+container-executor  mapred  yarn
+[ajaykuma24gmail@ip-10-0-42-218 ~]$ ls /opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop-mapreduce/bin
+mapred  pipes-sort  wordcount-nopipe  wordcount-part  wordcount-simple
+[ajaykuma24gmail@ip-10-0-42-218 ~]$ 
+[ajaykuma24gmail@ip-10-0-42-218 ~]$ #hadoop
+[ajaykuma24gmail@ip-10-0-42-218 ~]$ #hdfs
+[ajaykuma24gmail@ip-10-0-42-218 ~]$ #mapred
+[ajaykuma24gmail@ip-10-0-42-218 ~]$ #yarn
+
+[ajaykuma24gmail@ip-10-0-42-218 ~]$ hadoop version
+Hadoop 3.0.0-cdh6.3.2
+Source code repository http://github.com/cloudera/hadoop -r 9aff20de3b5ecccf3c19d57f71b214fb4d37ee89
+Compiled by jenkins on 2019-11-08T13:49Z
+Compiled with protoc 2.5.0
+From source with checksum f539c87da37534aad732f2a7ddcc59
+This command was run using /opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/jars/hadoop-common-3.0.0-cdh6.3.2.jar
+
+hdfs dfs -mkdir mydata3
+hdfs dfs -ls /user/ajaykuma24gmail
+hdfs dfs -ls -R /user/ajaykuma24gmail
+hdfs dfs -copyFromLocal Bank_full.csv /user/ajaykuma24gmail/mydata3
+hdfs dfs -copyFromLocal *.csv /user/ajaykuma24gmail
+hdfs dfs -copyFromLocal -f *.csv /user/ajaykuma24gmail
+hdfs dfs -rm -R Bank_full.csv
+hdfs dfs -ls -R /user/ajaykuma24gmail/.Trash
+hdfs dfs -rm -R -skipTrash Cardiotocographic.csv
+
+
+
