@@ -32,6 +32,54 @@ hdfs dfs -copyFromLocal -f *.csv /user/ajaykuma24gmail
 hdfs dfs -rm -R Bank_full.csv
 hdfs dfs -ls -R /user/ajaykuma24gmail/.Trash
 hdfs dfs -rm -R -skipTrash Cardiotocographic.csv
+hdfs dfs -put Cardiotocographic.csv mydata
+hdfs fsck /user/ajaykuma24gmail -blocks
+hdfs fsck /user/ajaykuma24gmail -blocks -files
+hdfs dfs -D dfs.replication=2 -put *.csv mydata4
+hdfs dfs -mkdir mydata5
+hdfs dfs -D dfs.replication=4 -put *.log mydata5
+hdfs fsck /user/ajaykuma24gmail/mydata5 -blocks -files
+hdfs dfs -setrep -R -w 3 mydata5
+hdfs fsck /user/ajaykuma24gmail/mydata5 -blocks -files
+hdfs dfs -du
+hdfs dfs -du -h
+hdfs dfs -df -h 
+hdfs dfs -count -q /user/ajaykuma24gmail
+hdfs dfsadmin -setQuota 5000 /user/ajaykuma24gmail (only with admin access possible)
+hdfs dfsadmin -setSpaceQuota 25g /user/ajaykuma24gmail (only with admin access possible)
+hdfs dfs -put -f txt_sentoken mydata
+hdfs dfs -put -f txt_sentoken newdata (this command will fail due to quota limit)
+hdfs dfs -rm -R -skipTrash newdata
+hdfs dfs -rm -R -skipTrash mydata
+hdfs dfs -cp mydata3 mydata2
+hdfs dfs -mv mydata3/Bank_full.csv mydata5
+cat /etc/hadoop/conf/core-site.xml | grep hdfs
+
+    <value>hdfs://nameservice1</value>
+
+hadoop distcp hdfs://nameservice1/user/ajaykuma24gmail/mydata hdfs://nameservice1/user/ajaykuma24gmail/mydatab
+hdfs dfs -help count
+====================================
+Important configs to look for:
+hdfs-site.xml
+--repl--dfs.replication
+--metadata path for nn
+--data path for dn
+--data path for snn
+--http
+--https
+--blocksize--dfs.blocksize
+core-size.xml
+--fs.defaultFS
+yarn-site.xml
+mapred-site.xml
+hadoop-env.sh
+yarn-env.sh
+capacity-scheduler.xml
+
+
+
+
 
 
 
