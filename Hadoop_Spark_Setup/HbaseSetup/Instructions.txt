@@ -1,0 +1,2 @@
+#Setup Hbase with Hadoop
+-----------------------

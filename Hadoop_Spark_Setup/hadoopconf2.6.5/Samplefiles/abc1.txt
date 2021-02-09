@@ -1,3 +1,0 @@
-This is my sample file
-which I want to test
-This is a new file
