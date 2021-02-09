@@ -2035,6 +2035,12 @@ when skills[0]='hadoop' then 'gud'
 else
 'bad'
 end as result from newtb1;
+
+create table tbl15 as select explode(loca) from tbl4;
+select name,concat(phpref[0],phpref[1]) from tbl4;
+select name,reverse(concat(phpref[0],phpref[1])) from tbl4;
+select name,substr(reverse(concat(phpref[0],phpref[1])),4) from tbl4;
+
 --------------
 =========================================================
 
