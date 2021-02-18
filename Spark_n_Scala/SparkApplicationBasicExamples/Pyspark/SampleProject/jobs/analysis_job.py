@@ -29,14 +29,13 @@ def main():
     """
     # start Spark application and get Spark session, logger and config
     spark, log, config = start_spark(
-        app_name='my_analysis_job',
-        files=['C:\\Users\\Win10\\Desktop\\SampleProject\\configs\\configs.json'])
+        app_name='my_analysis_job')
 
     # log that main analysis job is starting
     log.warn('analysis_job is up-and-running')
 
     # Analysis pipeline
-    data = extract_data(spark,config['file_location'])
+    data = extract_data(spark)
     data_transformed = transform_data(data)
     load_data(data_transformed)
 
@@ -46,11 +45,12 @@ def main():
     return None
 
 
-def extract_data(spark,file_location):
+def extract_data(spark):
     """Load data in json format from local storage /s3
     :param spark: Spark session object.
     :return: Spark DataFrame.
     """
+    file_location = "C:\\Users\\Win10\\Desktop\\SampleProject\\data\\recipes.json"
     df = spark.read.format("json").load(file_location)
     return df
 
@@ -119,8 +119,8 @@ def load_data(df):
         .write.format("csv") \
         .option("header","true") \
         .mode("overwrite") \
-        .save("C:\\Users\\Win10\\Desktop\\SampleProject\\data\\output\\Finalreport")
-    df.toPandas().to_csv("C:\\Users\\Win10\\Desktop\\SampleProject\\data\\output\\report.csv")
+        .save("C:\\Users\\Win10\\Desktop\\SampleProject\\data\\Finalreport")
+    df.toPandas().to_csv("C:\\Users\\Win10\\Desktop\\SampleProject\\data\\report.csv")
     return None
 
 # entry point for PySpark ETL application
