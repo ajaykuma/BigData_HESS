@@ -1,0 +1,51 @@
+--setup zk cluster on single node/multiple nodes
+--edit server.properties
+on node1:
+
+broker.id=1
+listeners=PLAINTEXT://m1:9092
+(or listeners=PLAINTEXT://localhost:9092)
+(different ports if all brokers on same node)
+log.dirs=/tmp/kafka-logs-1
+(or if in same node:log.dirs=/tmp/kafka-logs-1,log.dirs=/tmp/kafka-logs-2,log.dirs=/tmp/kafka-logs-3)
+zookeeper.connection=m1:2181,m2:2181,m3:2181
+(or if in same node:zookeeper.connection=localhost:2181,localhost:2182,localhost:2183)
+
+similarly edit
+node2
+broker.id=2
+listeners=PLAINTEXT://m2:9092
+(or listeners=PLAINTEXT://localhost:9092)
+(different ports if all brokers on same node)
+log.dirs=/tmp/kafka-logs-1
+(or if in same node:log.dirs=/tmp/kafka-logs-1,log.dirs=/tmp/kafka-logs-2,log.dirs=/tmp/kafka-logs-3)
+zookeeper.connection=m1:2181,m2:2181,m3:2181
+(or if in same node:zookeeper.connection=localhost:2181,localhost:2182,localhost:2183)
+
+node3
+broker.id=1
+listeners=PLAINTEXT://m3:9092
+(or listeners=PLAINTEXT://localhost:9092)
+(different ports if all brokers on same node)
+log.dirs=/tmp/kafka-logs-1
+(or if in same node:log.dirs=/tmp/kafka-logs-1,log.dirs=/tmp/kafka-logs-2,log.dirs=/tmp/kafka-logs-3)
+zookeeper.connection=m1:2181,m2:2181,m3:2181
+(or if in same node:zookeeper.connection=localhost:2181,localhost:2182,localhost:2183)
+
+bin/kafka-server-start.sh config/server.properties
+bin/kafka-server-start.sh config/server.properties
+bin/kafka-server-start.sh config/server.properties
+
+To create Topic:
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic Test1 --partition 1 --replication-factor 2
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic Test1
+
+echo dump | nc localhost 2181 | grep brokers
+
+Making one of the broker as controller node
+#check which broker has controller directory
+echo dump | nc localhost 2181
+
+
+
+
