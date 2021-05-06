@@ -111,7 +111,16 @@ $source .bashrc
 $cd /usr/local/zookeeper/conf
 $cp zoo_sample.cfg zoo.cfg
 
-[
+[tickTime: in milliseconds unit of times for initLimit
+ initLimit:zookeeper uses these unit of times to connect to the cluster
+ syncLimit: time to come back in sync or peer will out of cluster
+  dataDir: cluster related and clients connected to zk cluster data
+  clientPort: how clients connect to zk
+  maxClientCnxns: how many cleints can connect
+  4lw.commands.whitelist=* : enabling 4 letter words such as stat,dump
+  2888: port for peers to communicate
+  3888: for leader election
+]
 $vi zoo.cfg
 
 	tickTime=2000
