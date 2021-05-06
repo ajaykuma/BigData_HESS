@@ -1,0 +1,8 @@
+Confluent platform
+------------
+Control Center for topic management
+using ksqlDB for event stream processing
+
+https://docs.confluent.io/platform/current/quickstart/ce-quickstart.html#ce-quickstart
+
+
