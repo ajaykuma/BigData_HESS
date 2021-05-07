@@ -1,0 +1,3 @@
+https://www.confluent.io/blog/kafka-without-zookeeper-a-sneak-peek/
+--from version 2.8
+
