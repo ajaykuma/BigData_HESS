@@ -296,4 +296,53 @@ italy
 Processed a total of 8 messages
 
 
+#looking into consumer groups
+kafka-consumer-groups.sh --bootstrap-server m1:9092 --list
+
+#creating consumer group while reading using a consumer
+hdu@m1:~$ kafka-consumer-groups.sh --bootstrap-server m1:9092 --list
+my-group
+
+hdu@m1:~$ kafka-console-consumer.sh --bootstrap-server m1:9092 --topic topic6 --from-beginning
+australia
+dubai
+america
+germany
+india
+bangladesh
+singapore
+germany
+france
+italy
+india
+canada
+usa
+canada
+^CProcessed a total of 14 messages
+
+hdu@m1:~$ kafka-consumer-groups.sh --bootstrap-server m1:9092 --list
+console-consumer-56780
+my-group
+
+hdu@m1:~$ kafka-console-consumer.sh --bootstrap-server m1:9092 --topic topic6 --from-beginning --group countries
+australia
+dubai
+america
+germany
+india
+bangladesh
+singapore
+germany
+france
+italy
+india
+canada
+usa
+canada
+^CProcessed a total of 14 messages
+
+hdu@m1:~$ kafka-consumer-groups.sh --bootstrap-server m1:9092 --list
+console-consumer-56780
+my-group
+countries
 
