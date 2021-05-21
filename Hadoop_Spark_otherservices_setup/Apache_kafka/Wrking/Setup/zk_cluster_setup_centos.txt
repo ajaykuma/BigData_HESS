@@ -124,6 +124,8 @@ $source .bashrc
 $cd /usr/local/zookeeper/conf
 $cp zoo_sample.cfg zoo.cfg
 
+--explaination
+
 [tickTime: in milliseconds unit of times for initLimit
  initLimit:zookeeper uses these unit of times to connect to the cluster
  syncLimit: time to come back in sync or peer will out of cluster
@@ -134,6 +136,7 @@ $cp zoo_sample.cfg zoo.cfg
   2888: port for peers to communicate
   3888: for leader election
 ]
+
 $vi zoo.cfg
 
 	tickTime=2000

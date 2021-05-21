@@ -35,7 +35,7 @@ $ zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties
 $ kafka-server-start.sh /usr/local/kafka/config/server.properties
 
 #create a topic to store your events
-$kafka-topics.sh --create --topic topic1 --bootstrap-server localhost:9092 --partition 1 --replication-factor 1
+$kafka-topics.sh --create --topic topic1 --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
 $kafka-topics.sh --describe --topic topic1 --bootstrap-server localhost:9092
 
 --output shows 
