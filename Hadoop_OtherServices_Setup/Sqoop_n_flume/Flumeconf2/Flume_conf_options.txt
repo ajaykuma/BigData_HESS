@@ -1,0 +1,39 @@
+using netcat on ubuntu
+https://www.unixmen.com/play-with-netcat-in-ubuntu/
+
+using netcat on windows
+Download netcat for windows
+nc.exe -lvp 2222 ( to start netcat)
+Test netcat by opening a different terminal
+C:\Users\Win10\Downloads>nc.exe 127.0.0.1 2222
+
+Replication & multiplexing
+---------------------
+# Multiple channels: replicating
+agent.sources.r1.selector.type = replicating
+agent.sources.r1.channels = c1 c2 c3
+agent.sources.r1.selector.optional = c3
+
+# Multiple channels: multiplexing
+agent.sources.r1.selector.type = multiplexing
+agent.sources.r1.channels = c1 c2 c3 c4
+agent.sources.r1.selector.header = currency
+agent.sources.r1.selector.mapping.USD = c1
+agent.sources.r1.selector.mapping.EUR = c2 c3
+agent.sources.r1.selector.default = c4
+
+
+Interceptors
+agent.sources.r1.interceptors = i1 i2
+agent.sources.r1.interceptors.i1.type = timestamp
+agent.sources.r1.interceptors.i1.preserveExisting = true
+agent.sources.r1.interceptors.i2.type = static
+agent.sources.r1.interceptors.i2.key = datacenter
+agent.sources.r1.interceptors.i2.value = DC1
+agent.sources.r1.interceptors.i3.type = host
+agent.sources.r1.interceptors.i3.hostHeader = relay
+agent.sources.r1.interceptors.i1.useIP = false
+
+
+will add details
+{“timestamp”:”1234567890”, “datacenter”:”DC1”, “relay”:”server.com”}

@@ -1,3 +1,0 @@
-Follow github link
---------------
-https://github.com/ajaykuma/Hadoop-and-Scala-Setup/

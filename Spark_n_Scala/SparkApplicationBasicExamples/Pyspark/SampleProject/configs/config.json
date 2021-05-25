@@ -1,7 +1,0 @@
-{
-  "file_location" : "C:\\Users\\Win10\\Desktop\\SampleProject\\data\\recipes.json",
-  "file_type" : "json",
-  "infer_schema" : "true",
-  "first_row_is_header" :"true",
-  "delimiter" : ","
-}
