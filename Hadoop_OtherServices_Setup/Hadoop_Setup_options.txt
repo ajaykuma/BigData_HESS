@@ -1,0 +1,58 @@
+Hadoop Working options:
+----------------------
+Option 1: Apache Core distribution
+Things to be done:
+#Setup single/multiple machines 
+(virtual machines within vmbox/vmware)
+(AWS ec2 machines)
+(GCP instances)
+(physical machines)
+(if doing on windows refer : Hadoop_Setup_Win.txt file)
+--machines should be able to ping each other
+--machines should be able to connect to internet (can be optional if all packages downloaded)
+--machines should have ssh access to each other and to themselves
+--firewall should be turned off/edited with rules to allow ports
+--better to give ssh access for root user (if setting up things for root user)
+--download oracleJDK/openJDK 1.8 or greater and setup path of java in .bashrc for root n other user
+--additionally install packages such as NTP(network time protocol),wget,git,openssh-server,vim
+
+on each machine : (high level instructions)
+#Download hadoop packages (archive.apache.org>hadoop>common) 
+(optionally can download on one machine and later 'scp' to all other machines
+#untar package in a specific location
+#create a link to the hadoop directory
+#change ownership to dedicated user
+#update .bashrc for dedicated user pointing to hadoop path
+#edit config files
+#create extra paths/directories if needed as per configs
+#start ur cluster
+(for detailed instructions refer file : Hadoop_Setup_Linux_apache_core.txt)
+
+Option 2: CDH(Cloudera distribution of Hadoop)/HDP(Hortonworks data platform)
+#setup single/multiple machines as describe above
+additionally/optional
+--might have to turn off 'seinux'
+--set swapiness as per cloudera documentation
+--JDK setup can be avoided since CDH/HDP installation takes care of it
+
+For CDH:
+--Visit: https://www.cloudera.com/downloads/cdh.html
+--Register by providing your details
+--on one of the machine (say 1st machine) follow below mentioned steps
+  as mentioned in 'CdhSetup_linux.txt' in 'CDH_Setup' folder
+--refer other documents in Git which walk through setting up CDH
+  (documents to be updated)
+
+For HDP:
+--refer documents in Git which walk through setting up HDP in 'HDP_Setup'
+  (documents to be updated)
+
+Option 3: Cloud based managed easy to setup and use clusters in 'Cloud_based_setup'
+          
+#AWS EMR (Amazon Web Services - Elastic MapReduce Cluster)
+--refer documents in Git which walk through setting up EMR
+  (documents to be updated)
+
+#GCP Dataproc (Google cloud's Data proc cluster)
+ (documents to be updated)
+

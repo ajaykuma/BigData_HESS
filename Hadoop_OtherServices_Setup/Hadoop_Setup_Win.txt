@@ -1,9 +1,12 @@
 Setup Hadoop-Single node cluster on Windows
 ----------------------------------------
 Set java path on your machine
-edit environment variables> user variables for Win10> 
+edit environment variables> 
+user variables for Win10 (my user is 'Win10')> 
+
 #here I copied the jdk directory from C:\Program Files\Java into C:\Java
 JAVA_HOME=C:\Java\jdk1.8.0_221
+
 # I have downloaded hadoop-2.6.5.tar.gz from http://archive.apache.org/dist/hadoop/common/
 # untarred it in C:\Hadoop 
 HADOOP_HOME=C:\Hadoop\hadoop-2.6.5
@@ -42,8 +45,9 @@ set PATH=%PATH%;%HADOOP_PREFIX%\bin
 localhost
 
 #The default configuration puts the HDFS metadata and data files under \tmp on the current drive. 
-#In the above example this would be c:\tmp. For your first test setup you can just leave it at the default.
-#Example YARN Configuration
+#In the above example this would be c:\tmp. For your first test setup you can just leave 
+ it at the default.
+
 #Edit or create mapred-site.xml under %HADOOP_PREFIX%\etc\hadoop and add the following entries, 
 replacing %USERNAME% with your Windows user name.
 #in my case username is Win10
@@ -72,6 +76,7 @@ replacing %USERNAME% with your Windows user name.
 
 </configuration>
 
+#Example YARN Configuration
 #edit or create yarn-site.xml and add the following entries:
 <configuration>
   <property>
@@ -205,7 +210,3 @@ Access UIs
 http://localhost:50070/
 http://localhost:8088/cluster
 
-========================================
-Setting hadoop (Apache hadoop core distribution on linux machines)
-Follow: https://github.com/ajaykuma/Hadoop-and-Scala-Setup
-=======================================

@@ -1,0 +1,50 @@
+---------------------------
+#this setup may still hold good..
+#to be re-checked and updated..
+
+Setups to setup Sqoop
+Download sqoop tar file
+http://sqoop.apache.org/ and click on Nearby mirror and then on the link on top whichis suggested as per
+your location
+and then from parent directory download
+sqoop-1.4.5.bin__hadoop-1.0.0.tar.gz for hadoop version 1.
+
+Download appropriate mysql connector 
+http://dev.mysql.com/downloads/connector/j by choosing your OS ie independent platform option and download
+
+Platform Independent (Architecture Independent), Compressed TAR Archive		5.1.34	3.6M	
+Download
+(mysql-connector-java-5.1.34.tar.gz)
+
+Once done, untar sqoop and mysql connector to ur preferred location
+Create a link to these directories and update ur .bashrc with path of sqoop
+In my case i untarred in /usr/local
+and created a link
+$cd /usr/local
+$sudo ln -s sqoop-1.4.5.bin__hadoop-1.0.0 sqoop
+$sudo ln -s mysql-connector-java-5.1.34   mysql
+make hduser(my admin userid for hadoop) as owner of these directories and links
+$sudo chown -R hduser:hadoop sqoop-1.4.5.bin__hadoop-1.0.0
+$sudo chown -R hduser:hadoop sqoop
+$sudo chown -R hduser:hadoop mysql-connector-java-5.1.34
+$sudo chown -R hduser:hadoop mysql
+
+Now copy the mysql-xxxxx.jar file from mysql-connector-java-5.1.34 dir to sqoop/lib
+
+Also make sure mysql is setup on your machine.
+You can install mysql by giving 
+$sudo apt-get install mysql-server
+$mysql-----
+should bring you to mysql>
+if done
+mysql>exit;
+We can browse through mysql databases and tables to choose which table's data needs to be brought to hdfs.
+Note** cluster should be up and running.
+
+and now we can copy contents of table from mysql to hdfs using sqoop
+
+command is :
+$cd /usr/local/sqoop
+bin/sqoop import --connect jdbc:mysql://localhost/dbname --username xxxx --password yyyy --table tablename 
+--m 1
+=================================================================================================================

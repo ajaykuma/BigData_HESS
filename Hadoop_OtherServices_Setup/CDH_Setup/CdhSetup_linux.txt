@@ -1,0 +1,28 @@
+CDH_Setup
+============
+Requirements:
+
+This can be setup on one single linux machine (say with atleast 10gb ram, 2 cpu cores)
+This can be setup on one virtual linux machine (say with atleast 10gb ram, 2 cpu cores)
+This can be setup in multiple virtual machines (say 3 machines with 9 gb each and 1 or 2 cpu cores)
+This can be setup in single/multiple cloud based machines (above configuration)
+
+refer : Hadoop_Working_options.txt
+refer : Hadoop_Setup_Linux_apache_core.txt
+
+--Visit: https://www.cloudera.com/downloads/cdh.html
+--Register by providing your details
+--on one of the machine (say 1st machine) follow below mentioned steps
+
+#download installer bin file
+$ wget https://archive.cloudera.com/cm7/7.1.4/cloudera-manager-installer.bin
+
+#change permissions
+$ chmod u+x cloudera-manager-installer.bin
+
+#run as root
+$./cloudera-manager-installer.bin
+
+follow instructions...
+
+refer to word documents which walk through in setting up CDH cluster..
