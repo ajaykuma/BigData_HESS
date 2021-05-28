@@ -1,0 +1,36 @@
+Verifying your CDH cluster
+--------------------
+Login to machine/machines and check the following
+#note 'scm-server' need to be checked only on 1 machine/1st machine
+service cloudera-scm-server status
+service cloudera-scm-agent status
+
+#before accessing web interface
+http://<hostname>:7180
+
+#check hostname
+$hostname
+
+#check ip address
+$ip address
+
+#make sure these details are right in /etc/hosts
+#if not right, update
+vi /etc/hosts
+
+#if ip/hostname changed , we need to update 'config.ini' for each node where 'scm-agent' is running
+--updated 'server_host= <ip>'
+
+vi /etc/cloudera-scm-agent/config.ini
+
+#if changes made successfully:
+service cloudera-scm-server restart
+service cloudera-scm-agent restart
+
+--check status
+--access web interface
+--click on cluster > restart cluster
+
+#we can later delete services which we don't need (we may have to configure dependencies )
+
+
