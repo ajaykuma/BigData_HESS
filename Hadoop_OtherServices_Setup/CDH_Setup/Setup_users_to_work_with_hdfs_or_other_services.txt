@@ -1,0 +1,9 @@
+sudo su
+chsh -s /bin/bash hdfs
+chsh -s /bin/bash hive
+chsh -s /bin/bash mapred
+chsh -s /bin/bash hive
+chsh -s /bin/bash oozie
+chsh -s /bin/bash hue
+
+su - hdfs

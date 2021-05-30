@@ -1,0 +1,56 @@
+For lab setup in dadesktop..
+
+Start ur machines..
+
+Start Terminal
+
+$sudo su
+$cd
+$virtualbox
+
+--Start ur machines, c1,c2,c3
+
+Note** make sure you are logged in as 'hdu'
+on c1:
+cd /usr/local/hadoop
+
+$sbin/start-dfs.sh
+
+on c2:
+cd /usr/local/hadoop
+$sbin/start-yarn.sh
+
+Now on c1:
+ssh c2  & then ssh c3
+
+--You should be in c3 now> (if yes)
+<type>
+jps
+[shows processes running]
+<type>
+logout
+--You should be in c2 now>(if yes)
+<type>
+jps
+[shows processes running]
+<type>
+logout
+--You should be in c1 now>(if yes)
+<type>
+jps
+[shows processes running]
+<type>
+logout
+
+Access UIs
+http://c1:50070
+http://c2:8088
+
+[Additionals..
+--on c1 we can also start history server
+--on c2 we can start spark history server]
+
+Now access terminal of any machine and try hdfs commands
+Make sure you are logged in as 'hdu'
+For example:
+$hdfs dfs -ls /
