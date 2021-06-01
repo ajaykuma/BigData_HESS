@@ -1,50 +1,54 @@
----------------------------
-#this setup may still hold good..
-#to be re-checked and updated..
-
 Setups to setup Sqoop
-Download sqoop tar file
-http://sqoop.apache.org/ and click on Nearby mirror and then on the link on top whichis suggested as per
-your location
-and then from parent directory download
-sqoop-1.4.5.bin__hadoop-1.0.0.tar.gz for hadoop version 1.
 
-Download appropriate mysql connector 
-http://dev.mysql.com/downloads/connector/j by choosing your OS ie independent platform option and download
+on any machine (say in our case C1)
+Download sqoop tar file from
 
-Platform Independent (Architecture Independent), Compressed TAR Archive		5.1.34	3.6M	
-Download
-(mysql-connector-java-5.1.34.tar.gz)
+http://archive.apache.org/dist/
+<ctrl f> sqoop > 1.4.7
 
-Once done, untar sqoop and mysql connector to ur preferred location
-Create a link to these directories and update ur .bashrc with path of sqoop
-In my case i untarred in /usr/local
-and created a link
+#you can use this link..
+http://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+
+#Download appropriate mysql connector [This is already done and in /home/hdu/Downloads]
+#https://dev.mysql.com/downloads/connector/j/
+archives> 
+product version: 5.1.48
+OS : Platform independent
+Platform Independent (Architecture Independent), Compressed TAR Archive
+		(mysql-connector-java-5.1.48.tar.gz)
+
+#we will need the connector jar file to enable sqoop to connect to mysql(already installed) and HDFS
+
+Once done, untar sqoop,Create a link to these directories and update ur .bashrc with path of sqoop
 $cd /usr/local
-$sudo ln -s sqoop-1.4.5.bin__hadoop-1.0.0 sqoop
-$sudo ln -s mysql-connector-java-5.1.34   mysql
-make hduser(my admin userid for hadoop) as owner of these directories and links
-$sudo chown -R hduser:hadoop sqoop-1.4.5.bin__hadoop-1.0.0
-$sudo chown -R hduser:hadoop sqoop
-$sudo chown -R hduser:hadoop mysql-connector-java-5.1.34
-$sudo chown -R hduser:hadoop mysql
+$sudo tar -xvf /home/hdu/Downloads/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+$sudo ln -s sqoop-1.4.7.bin__hadoop-2.6.0 sqoop
 
-Now copy the mysql-xxxxx.jar file from mysql-connector-java-5.1.34 dir to sqoop/lib
+make hdu(my admin userid for hadoop) as owner of these directories and links
+$sudo chown -R hdu:hdu sqoop*
+
+$cd
+
+Now copy the mysql-xxxxx.jar file from mysql-connector-java-5.1.48 dir in /home/hdu/Downloads
+to /usr/local/sqoop/lib
+$cp /home/hdu/Downloads/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48.jar /usr/local/sqoop/lib
 
 Also make sure mysql is setup on your machine.
-You can install mysql by giving 
-$sudo apt-get install mysql-server
-$mysql-----
-should bring you to mysql>
-if done
-mysql>exit;
-We can browse through mysql databases and tables to choose which table's data needs to be brought to hdfs.
-Note** cluster should be up and running.
+#in our case mysql is already setup
+#to check mysql access
 
-and now we can copy contents of table from mysql to hdfs using sqoop
+$mysql -u hdu -p <enter>
+Password:
+Abcd@1234
 
-command is :
-$cd /usr/local/sqoop
-bin/sqoop import --connect jdbc:mysql://localhost/dbname --username xxxx --password yyyy --table tablename 
---m 1
-=================================================================================================================
+for your hdu user update .bashrc
+
+$vi .bashrc
+export SQOOP_HOME=/usr/local/sqoop
+export PATH=$PATH:$SQOOP_HOME/bin
+export HADOOP_MAPRED_HOME=/usr/local/sqoop
+
+$source .bashrc
+
+#test sqoop
+$sqoop help
