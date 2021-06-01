@@ -46,9 +46,20 @@ Access UIs
 http://c1:50070
 http://c2:8088
 
-[Additionals..
---on c1 we can also start history server
---on c2 we can start spark history server]
+To start job history server
+on c1:
+cd /usr/local/hadoop
+sbin/mr-jobhistory-daemon.sh start historyserver
+
+access job history server
+http://c1:19888
+
+on c2:
+cd /usr/local/spark
+sbin/start-history-server.sh
+
+access spark history server: web UI
+http://c2:18080
 
 Now access terminal of any machine and try hdfs commands
 Make sure you are logged in as 'hdu'
