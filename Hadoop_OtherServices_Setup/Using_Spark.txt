@@ -1,0 +1,8 @@
+on c1/c2/c3 you can do the following:
+
+on c1:
+$spark-shell (when connecting to yarn)
+$spark-shell --local (when running in local mode)
+
+$pyspark (when connecting to yarn)
+$pyspark --local (when running in local mode)

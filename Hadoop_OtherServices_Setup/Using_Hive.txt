@@ -1,0 +1,16 @@
+Login to machine (in our case c1)
+on terminal while logged in as hdu
+
+in apache cluster
+$cd /usr/local/hive
+$hive
+
+
+in cloudera cluster
+su - hdfs or
+su - hive
+$hive
+--this takes to beeline
+beeline>!connect jdbc:hive2://<machine where hiveserver2>:10000
+username:hive
+pswd:hive
