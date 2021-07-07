@@ -84,8 +84,8 @@ hdu$machine1:ssh-copy-id -i $HOME/.ssh/id_rsa.pub hdu@machine2
 
 #3.To enable SSH access to your local machine with this newly created key
 ----------------------------------------
-#to add the xxxx@master’s public SSH key (which should be in $HOME/.ssh/id_rsa.pub) 
-#to the authorized_keys file of xxxx@slave(in this user’s $HOME/.ssh/authorized_keys)
+#to add the xxxx@masters public SSH key (which should be in $HOME/.ssh/id_rsa.pub) 
+#to the authorized_keys file of xxxx@slave(in this users $HOME/.ssh/authorized_keys)
 hdu$machine1:cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
 
 #download hadoop tar from http://archive.apache.org/dist/hadoop/common/
@@ -112,6 +112,9 @@ hadoop version ( does it show your hadoop version)
 =========================================================
 
 #Editing config files to setup cluster
+
+#Note** sample configs for hadoop-2.6.5 and hadoop-2.7.2 are already provided which can directly be copied into your hadoop directories on nodes.
+
 config files:(you can use ports 8020 for core and 8021 for mapred)
 or
 config files:(you can use ports 9000 for core and 9001 for mapred)
@@ -516,11 +519,11 @@ hadoop fs -D dfs.replication=1 -copyFromLocal small-file.txt /user/jsmith
 Now keep in mind that the Hadoop space quota always counts against the raw HDFS disk space consumed. So if you 
 have a quota of 10MB, you can store only a single 1MB 
 file if you set its replication to 10. Or you can store up to three 1MB files if their replication is set to 3. 
-The reason why Hadoop’s quotas work like that is because the replication count of an HDFS file is a 
+The reason why Hadoops quotas work like that is because the replication count of an HDFS file is a 
 user-configurable setting. 
 Though Hadoop ships with a default value of 3 it is up to the users to
  decide whether they want to keep this value or change it. 
-And because Hadoop can’t anticipate how 
+And because Hadoop cant anticipate how 
 users might be playing around with the replication setting for their files,
  it was decided that the Hadoop quotas always operate on the raw HDFS disk space consumed.
  Hadoop figured it would require a single block of 128MB size to store the small file. 

@@ -1,3 +1,5 @@
+--Temporary file only for authorized da desktop users
+
 on c1/c2/c3 you can do the following:
 
 on c1:

@@ -20,7 +20,7 @@
 <configuration>
 <property>
 <name>javax.jdo.option.ConnectionURL</name>
-<value>jdbc:mysql://127.0.0.1/hive?useSSL=false</value>
+<value>jdbc:mysql://m1/hive?useSSL=false</value>
 </property>
 
 <property>

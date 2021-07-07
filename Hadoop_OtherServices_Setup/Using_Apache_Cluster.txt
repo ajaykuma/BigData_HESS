@@ -1,3 +1,5 @@
+--Temporary file only for authorized da desktop users
+
 For lab setup in dadesktop..
 
 Start ur machines..

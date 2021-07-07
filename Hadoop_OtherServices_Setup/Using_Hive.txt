@@ -1,3 +1,4 @@
+--Temporary file only for authorized da desktop users
 Login to machine (in our case c1)
 on terminal while logged in as hdu
 

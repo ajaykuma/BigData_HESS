@@ -4,10 +4,6 @@
 
 export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_221
 export PATH=$PATH:$JAVA_HOME/bin
-export NIFI_HOME=/usr/local/nifi
-export PATH=$PATH:$NIFI_HOME/bin
-export NIFI_TOOLS=/usr/local/nifitools
-export PATH=$PATH:$NIFI_TOOLS/bin
 alias  python=python3
 export HADOOP_HOME=/usr/local/hadoop
 export PATH=$PATH:$HADOOP_HOME/bin
@@ -18,6 +14,7 @@ export PATH=$PATH:$HIVE_HOME/bin
 export LD_LIBRARY_PATH=$HADOOP_INSTALL/lib/native:$LD_LIBRARY_PATH
 export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip:$SPARK_HOME/python/lib/pyspark.zip:$PYTHONPATH
 export PYSPARK_PYTHON=python3
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
