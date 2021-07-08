@@ -1,0 +1,58 @@
+1. Scenario 1:
+You have been given salary details of employees in a file 'salarydet.txt' in the folder 'sample-files-for-test'.
+
+This file contains
+id:employee_id
+name:employee_name
+bonus:bonus_percentage
+Payment:yop:year_of_payment & current_salary:current_salary
+
+Note**
+--File has data delimited by delimiters
+--Payment column supports 'map' datatype
+
+
+sample contents of salarydet.txt
+----------
+10,smith,10,1styear:210000
+20,peter,10,1styear:410000
+
+
+Tasks to Do:
+Load this data into a dir 'salary' on hdfs
+Create a MANAGED hive table 'salarydata1m' which can hold this data.The table should be in default location of hive.
+Load data into table using load statement from hdfs
+Check if file exists in your 'salary' directory
+Create another EXTERNAL table 'salarydata2m' pointing to your MANAGED table location
+
+Query the table MANAGED/EXTERNAL table to find these:
+
+
+--show current_salary as salary along with other columns where year_of_payment value is 1styear.
+--show current_salary as salary along with other columns where year_of_payment value is 1styear and order by salary in desc order
+  --check if there were any null values and analyze why
+  --check if MapReduce job was trigger and see how much time it took
+--use function to round off the value of total salary after appling bonus percentage to salary where year_of_payment is 1styear and
+display this data in desc order
+--find total sum paid as salary (salar+bonus) where year_of_payment is 1styear
+--drop your external table
+
+Using Pyspark,query the managed table:
+--test the same queries from PySpark instead of hive
+--check if it triggers any MapReduce
+--save output of any query in a json file on hdfs
+--save output of any query in a default format on hdfs(parquet)
+
+--check files in hdfs to confirm if data was written
+--if multiple files were written in hdfs, investigate why?
+--write the code to have data written only in one file
+
+#Optional
+-- read data from the file (salarydet.txt) in HDFS location using PySpark(Dataframes/RDD)
+   --This location could be your hive table folder
+   --This location could be your hdfs directory
+--filter the data where year_of_payment is not 1st year and save this output in a CSV file on hdfs
+
+
+
+
