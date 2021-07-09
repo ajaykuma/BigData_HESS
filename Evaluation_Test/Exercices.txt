@@ -53,6 +53,38 @@ Using Pyspark,query the managed table:
    --This location could be your hdfs directory
 --filter the data where year_of_payment is not 1st year and save this output in a CSV file on hdfs
 
+Scenario 2:
 
+You have been given sentiments data in a file 'cv000_29416.txt' in the folder 'sample-files-for-test'.
+
+Tasks to do:
+Load this data in hdfs by creating a directory 'sentiments'
+--write code in scala/python to perform wordcount on this file and then
+    --find how many words were found by getting a count
+    --show the output of this wordcount code
+    --print only 10 entries from this result
+    --save the output on hdfs in folder 'result' > check files on hdfs
+    --save the output in one file on hdfs if multiple files were created in previous save operation
+
+Scenario 3:
+You have been given bankdata in a file 'Bank_full.csv' in the folder 'sample-files-for-test'.
+
+Tasks to Do:
+Using Hive:
+
+--Load data into hdfs without creating a specific directory on hdfs, i.e. directly on hdfs '/'
+--Create hive table 'bankdata' to hold this data and then load this data into table from your local filesystem ie from 'sample-files-for-test' or wherever this file was downloaded
+--get count of rows in table
+--Load the data into hive table without overwriting using the same file. Your table should have the data 3 times.
+--get count of rows in the table
+--Run queries to:
+
+
+Using Spark>PySpark/Spark-Shell
+--Load the data from 'Bank_full.csv' file on hdfs into a Spark dataframe
+--Write code to Run Queries to:
+
+--You can also load data from 'Bank_full.csv' file on hdfs into a Spark RDD
+--Write code to work on RDD:
 
 
