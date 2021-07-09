@@ -125,4 +125,12 @@ You are given a collection, a list of words
 --Perform a group by on this collection RDD to get a list of words grouped by their first letter
 --show the RDDs created for your result using 'toDebugString()'
 
+Scenario 5:
+Read data from hive in spark from your previously created 'bankdata' and filter it based on some conditions,
+finally save it as a table 'newtblbank'.
+--check in hive if table exists
+--run a simple query to query data from hive table (from PySpark)
+--check the table's location
+
+
 
