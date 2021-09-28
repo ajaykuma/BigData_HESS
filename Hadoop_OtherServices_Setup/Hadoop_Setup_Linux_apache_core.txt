@@ -53,6 +53,7 @@ $cd /usr/lib
 $mkdir jvm
 $cd jvm
 $sudo tar -xvf /home/hdu/Downloads/jdk****
+$sudo chown -R root:root jdk***
 
 #update your java path in your user's .bashrc
 (ex: my user hdu)
@@ -69,6 +70,13 @@ esc+shift+:+wq
 $source .bashrc
 
 $java -version ( does it show your java version)
+
+#create a dedicated user for ur hadoop setup
+#ensure your logged in as root
+#adduser hdu
+--
+---
+--
 
 #Now Generate ssh keys for your user on ubuntu
 
@@ -89,7 +97,7 @@ hdu$machine1:ssh-copy-id -i $HOME/.ssh/id_rsa.pub hdu@machine2
 hdu$machine1:cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
 
 #download hadoop tar from http://archive.apache.org/dist/hadoop/common/
-#Lets get hadoop-2.6.5
+#Lets get hadoop-2.7.2(or new stable version)
 #To untar and create dir ,to create link and to change owner of directory
 -----------------------------
 #Lets untar it in /usr/local

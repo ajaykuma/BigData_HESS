@@ -20,6 +20,7 @@ HADOOP_HOME=C:\Hadoop\hadoop-2.6.5
 
 #Now edit config files
 #First edit the file hadoop-env.cmd to add the following lines near the end of the file.
+set HADOOP_IDENT_STRING=%USERNAME%
 set HADOOP_PREFIX=C:\Hadoop\hadoop-2.6.5
 set HADOOP_CONF_DIR=%HADOOP_PREFIX%\etc\hadoop
 set YARN_CONF_DIR=%HADOOP_CONF_DIR%
