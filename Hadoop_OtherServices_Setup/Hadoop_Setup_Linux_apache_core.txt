@@ -103,8 +103,8 @@ hdu$machine1:cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
 #Lets untar it in /usr/local
 $cd /usr/local
 $sudo tar -xvf hadoop-2.x.x.tar.gz
-$sudo ln -s hadoop-2.x.x.tar.gz hadoop
-$sudo chown -R hdu:hdu hadoop -----------------(am making user -hdu as owner and will be admin for hadoop)
+$sudo ln -s hadoop-2.x.x hadoop
+$sudo chown -R hdu:hdu hadoop* -----------------(am making user -hdu as owner and will be admin for hadoop)
 $cd
 
 #update hadoop path in .bashrc for 'hdu' user
@@ -264,6 +264,10 @@ mapred-site.xml (remains same in all machines)
 slaves (remains same in all machines)
 
 if hadoop path was setup in .bashrc
+
+also create directories on each machine
+$sudo mkdir /orgz
+$sudo chown -R hdu:hdu /orgz
 
 --on namenode machine
 $hdfs namenode -format
