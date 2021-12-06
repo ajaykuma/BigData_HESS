@@ -1,3 +1,0 @@
-[cloudera@quickstart ~]$ export HADOOP_CLASSPATH=`hbase classpath`
-[cloudera@quickstart ~]$ hadoop jar HbaseWrklis.jar org.example.hadoop.HbaseWrklis
-
