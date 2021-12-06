@@ -1,0 +1,31 @@
+create table u_new(columns...) row format delimited
+fields terminated by '\t';
+add file weekday...;
+insert overwrite table u_new select transform(userid,movieid,rating,unixtime) using 'python weekday..' as (userid,movieid,rating,weekday) from u;
+
+create table to accomodate this data
+u.txt
+1,31,2,1260759144                                                                                                                                        
+1,1029,3,1260759179                                                                                                                                      
+1,1061,3,1260759182                                                                                                                                      
+1,1129,2,1260759185                                                                                                                                      
+1,2968,1,1260759200                                                                                                                                      
+2,17,5,835355681
+
+create another table which would have weekday as last column instead of unixtime
+
+weekday_mapper.py
+import sys
+import datetime
+for line in sys.stdin:
+        line = line.strip()                                                                                                                              
+        userid,movieid,rating,unixtime=line.split(',')
+        weekday = datetime.datetime.fromtimestamp(float(unixtime)).isoweekday()
+        print ','.join([userid,movieid,rating,str(weekday)])
+
+use mydbmysq;                                                                                                                                           
+add file hivedata/weekday_mapper.py;                                                                                                                     
+insert overwrite table mov2 select transform(userid,movieid,rating,unixtime) using 'python weekday_mapper.py' as  (userid,movieid,rating,weekday) from mo
+v;                                                                                                                                                       
+select * from mov2;                                                                                                                                      
+select * from mov; 

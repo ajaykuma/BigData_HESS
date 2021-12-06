@@ -1,0 +1,143 @@
+hdfs commands 
+put
+copyFromLocal
+get
+copyToLocal
+cp
+mv
+rm -R 
+rm -R -skipTrash
+hadoop distcp <option: -update,-overwrite,-p> cluster1_hdfs_path cluster2_hdfs_path
+(triggers a Map only job)
+
+hadoop configs
+more /etc/hadoop/conf/core-site.xml
+more /etc/hadoop/conf/hdfs-site.xml
+more /etc/hadoop/conf/mapred-site.xml
+more /etc/hadoop/conf/yarn-site.xml
+
+hive
+more /etc/hive/conf/hive-site.xml
+--where is your hiveserver2 running (client:beeline)
+--metastore stored (derby/RDBMS)
+--metastore service (client: hive/any other clients)
+--warehouse location>/user/hive/warehouse
+
+Hive:
+--different ways of working with Hive
+beeline,hive,command line i.e one shot commands,hue,IDE,create files and execute files
+--setting properties
+in .hiverc(for permanent usage in hive)/set within the hive CLI
+in hive-site.xml (only admin)
+
+--managed/external/partitioned tables..
+load data into tables (hdfs dfs -put, hdfs dfs -cp, hdfs dfs -mv, load data local, load data )
+--complex datatypes (map/struct/array)
+-- run queries
+-----simple queries,using functions, table generating queries, 
+-----using spark to interact with hive
+==============================
+Hive part-3
+hive (ajmydb)> set hive.strict.checks.no.partition.filter;
+hive.strict.checks.no.partition.filter=false
+hive (ajmydb)> set hive.strict.checks.no.partition.filter=true;
+
+hive (ajmydb)> select * from tbl9;
+FAILED: SemanticException [Error 10056]: Queries against partitioned tables without a partition filter are disabled for safety reasons. 
+If you know what you are doing, please set hive.strict.checks.no.partition.filter to false and make sure that hive.mapred.mode 
+is not set to 'strict' to proceed. Note that you may get errors or incorrect results if you make a mistake while using 
+some of the unsafe features. No partition predicate for Alias "tbl9" Table "tbl9"
+
+select * from tbl9 where doj='1stjan'
+
+hive (ajmydb)> create table employees(id int,name string) partitioned by (year string,month int,city string)             
+> row format delimited
+> fields terminated by ',';
+
+create employees2.csv,employees3.csv,employees4.csv
+
+load data local inpath 'employees2.csv' overwrite into table employees partition(year='2021',month=2,city='JOburg');
+
+hive > !hdfs dfs -ls hdfs://m01.itversity.com:9000/user/itv000966/ajmydb.db/employees;
+hive > !hdfs dfs -ls -R /user/itv000966/ajmydb.db/employees;
+
+load data local inpath 'employees3.csv' overwrite into table employees partition(year='2021',month=3,city='ctown');
+load data local inpath 'employees4.csv' overwrite into table employees partition(year='2021',month=4,city='togo');
+
+hive (ajmydb)> !hdfs dfs -ls -R /user/itv000966/ajmydb.db/employees;
+
+hive (ajmydb)> select * from employees where year='2021';
+hive (ajmydb)> select * from employees where city='togo';
+hive (ajmydb)> select * from employees where month=2;
+
+hive (ajmydb)> create table bankdata (serNo int, age int, job string, marital string, education string, defaulter string, balance int,
+             > housing string, loan string, contact string, day int, month string, duration int, campaign int, pdays int, 
+             > previous int, poutcome string, y string)
+             > row format delimited
+             > fields terminated by ',';
+
+hive (ajmydb)> load data local inpath 'mydata-local1/Bank_full.csv' overwrite into table bankdata;
+hive (ajmydb)> select count(*) from bankdata;
+hive (ajmydb)> select max(serNo) from bankdata;
+
+
+hive (ajmydb)> create table bankdata1 as select * from bankdata where serNo > 45212/2;
+hive (ajmydb)> create table bankdata2 as select * from bankdata where serNo > 45212/2;
+
+hive (ajmydb)> !hdfs dfs -ls -R /user/itv000966/ajmydb.db/bankdata2;
+hive (ajmydb)> !hdfs dfs -ls -R /user/itv000966/ajmydb.db/bankdata1;
+
+hive (ajmydb)> !hdfs dfs -get /user/itv000966/ajmydb.db/bankdata1/000000_0 bankdata1.csv;
+hive (ajmydb)> !hdfs dfs -get /user/itv000966/ajmydb.db/bankdata2/000000_0 bankdata2.csv;
+
+hive (ajmydb)> create table bank_final(serNo int, age int, job string, marital string, education string, defaulter string, balance int,
+             > housing string, loan string, contact string, day int, month string, duration int, campaign int, pdays int, 
+             > previous int, poutcome string, y string) partitioned by (month_dsent string);
+
+
+hive (ajmydb)> load data local inpath 'bankdata1.csv' overwrite into table bank_final partition(month_dsent='Jan');
+
+hive (ajmydb)> load data local inpath 'bankdata2.csv' overwrite into table bank_final partition(month_dsent='Feb');
+
+hive (ajmydb)> alter table bank_final add partition (month_dsent='Mar');
+hive (ajmydb)> alter table bank_final add partition (month_dsent='Apr');
+hive (ajmydb)> !hdfs dfs -ls -R /user/itv000966/ajmydb.db/bank_final;
+hive (ajmydb)> alter table bank_final drop partition (month_dsent='Mar');
+
+hive (ajmydb)> create table bank_final2 as select * from bank_final;
+
+
+Dynamic partitioning:
+hive (ajmydb)> set hive.exec.dynamic.partition.mode=nonstrict;
+hive (ajmydb)> set hive.exec.dynamic.partition=true;
+
+hive (ajmydb)> create table bank_final3_dyn(serNo int, age int, job string, marital string, education string, defaulter string, balance int,
+             > housing string, loan string, contact string, day int, month string, duration int, campaign int, pdays int,
+             > previous int, poutcome string, y string) partitioned by (month_dsent string);
+
+insert overwrite table bank_final3_dyn partition(month_dsent) select * from bank_final2;
+
+hive (ajmydb)> !hdfs dfs -ls -R /user/itv000966/ajmydb.db/bank_final3_dyn;
+
+------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

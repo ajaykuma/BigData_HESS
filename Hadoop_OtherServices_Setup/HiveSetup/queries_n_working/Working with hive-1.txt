@@ -1,0 +1,151 @@
+ls /etc/hive/conf/
+more /etc/hive/conf/hive-default.xml.template
+more /etc/hive/conf/hive-site.xml
+
+  <property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://m02.itversity.com:9083</value>
+    <description>Thrift URI for the remote metastore. Used by metastore client 
+    to connect to remote metastore.</description>
+  </property>
+
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>/user/hive/warehouse</value>
+    <description>location of default database for the warehouse</description>
+  </property>
+
+  <property>
+    <name>hive.server2.thrift.bind.host</name>
+    <value>m02.itversity.com</value>
+    <description>Bind host on which to run the HiveServer2 Thrift service.</description>
+  </property>
+
+   <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:postgresql://g01.itversity.com:5432/metastore</value>
+    <description>
+      JDBC connect string for a JDBC metastore.
+      To use SSL to encrypt/authenticate the connection, provide database-specific SSL flag in the connection URL.
+      For example, jdbc:postgresql://myhost/db?ssl=true for postgres database.
+    </description>
+
+>beeline
+!connect jdbc:hive2://m02.itversity.com:10002
+username
+pswd
+!exit
+
+--working with hive
+@command line > hive
+@command line > beeline
+@IDE-eclipse/intellij/visual studio
+@by creating files
+@use one shot commands
+@connect to hive from spark
+
+@hive
+set hive.metastore.warehouse.dir=/user/itv000966;
+create database ajmydb;
+use ajmydb;
+create table tbl1(id int,name string);
+
+hive> !hdfs dfs -ls /user/itv000966;
+drwxr-xr-x   - itv000966 supergroup          0 2021-08-02 06:15 /user/itv000966/ajmydb.db
+
+describe database ajmydb;
+describe formatted tbl1;
+---hdfs://m01.itversity.com:9000/user/itv000966/ajmydb.db/tbl1
+select * from tbl1;
+
+hive> set hive.cli.print.current.db;
+hive.cli.print.current.db=false
+hive> set hive.cli.print.current.db=true;
+hive (ajmydb)> set hive.cli.print.header;
+hive.cli.print.header=false
+hive (ajmydb)> set hive.cli.print.header=true;
+hive (ajmydb)> select * from tbl1;
+OK
+tbl1.id tbl1.name
+Time taken: 2.826 seconds
+hive (ajmydb)> exit;
+
+create a file 'vi .hiverc'
+set hive.metastore.warehouse.dir=/user/itv000966;
+set hive.cli.print.current.db=true;
+set hive.cli.print.header=true;
+
+describe extended tbl2;
+
+@one shot commands
+hive -S -e "show databases"
+
+@creating n executing a file
+vi hiveq1.hql
+
+use ajmydb;
+show tables;
+create external table tbl3(id int,name string) location 'tbl3data';
+show tables;
+
+hive -f hiveq1.hql > hiveq1o.out
+
+@IDE-eclipse/intellij/visual studio
+
+@interacting with spark
+>>> x = spark.sql("show databases")
+
+>>> type(x)
+<class 'pyspark.sql.dataframe.DataFrame'>
+
+>>> y = spark.sql("use ajmydb")
+>>> z = spark.sql("select * from tbl1")
+
+>hive
+load data local inpath 'mydata-local1/kv1.txt' overwrite into table tbl1;
+
+hive (ajmydb)> !hdfs dfs -put mydata-local1/kv1.txt /user/itv000966/ajmydb.db/tbl1;
+put: `/user/itv000966/ajmydb.db/tbl1/kv1.txt': File exists
+
+hive (ajmydb)> !hdfs dfs -cp mydata2/kv1.txt /user/itv000966/ajmydb.db/tbl1;
+cp: `/user/itv000966/ajmydb.db/tbl1/kv1.txt': File exists
+
+hive (ajmydb)> load data local inpath 'mydata-local1/kv1.txt' into table tbl1;
+
+hive (ajmydb)> !hdfs dfs -ls /user/itv000966/ajmydb.db/tbl1;
+
+Found 4 items
+-rw-r--r--   3 itv000966 supergroup       5812 2021-08-02 06:44 /user/itv000966/ajmydb.db/tbl1/kv1.txt
+-rw-r--r--   3 itv000966 supergroup       5812 2021-08-02 06:47 /user/itv000966/ajmydb.db/tbl1/kv1_copy_1.txt
+-rw-r--r--   3 itv000966 supergroup       5812 2021-08-02 06:48 /user/itv000966/ajmydb.db/tbl1/kv1_copy_2.txt
+-rw-r--r--   3 itv000966 supergroup       5812 2021-08-02 06:48 /user/itv000966/ajmydb.db/tbl1/kv1_copy_3.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

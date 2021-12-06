@@ -1,0 +1,54 @@
+Setups to setup Sqoop
+
+on any machine (say in our case C1)
+Download sqoop tar file from
+
+http://archive.apache.org/dist/
+<ctrl f> sqoop > 1.4.7
+
+#you can use this link..
+http://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+
+#Download appropriate mysql connector [This is already done and in /home/hdu/Downloads]
+#https://dev.mysql.com/downloads/connector/j/
+archives> 
+product version: 5.1.48
+OS : Platform independent
+Platform Independent (Architecture Independent), Compressed TAR Archive
+		(mysql-connector-java-5.1.48.tar.gz)
+
+#we will need the connector jar file to enable sqoop to connect to mysql(already installed) and HDFS
+
+Once done, untar sqoop,Create a link to these directories and update ur .bashrc with path of sqoop
+$cd /usr/local
+$sudo tar -xvf /home/hdu/Downloads/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+$sudo ln -s sqoop-1.4.7.bin__hadoop-2.6.0 sqoop
+
+make hdu(my admin userid for hadoop) as owner of these directories and links
+$sudo chown -R hdu:hdu sqoop*
+
+$cd
+
+Now copy the mysql-xxxxx.jar file from mysql-connector-java-5.1.48 dir in /home/hdu/Downloads
+to /usr/local/sqoop/lib
+$cp /home/hdu/Downloads/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48.jar /usr/local/sqoop/lib
+
+Also make sure mysql is setup on your machine.
+#in our case mysql is already setup
+#to check mysql access
+
+$mysql -u hdu -p <enter>
+Password:
+Abcd@1234
+
+for your hdu user update .bashrc
+
+$vi .bashrc
+export SQOOP_HOME=/usr/local/sqoop
+export PATH=$PATH:$SQOOP_HOME/bin
+export HADOOP_MAPRED_HOME=/usr/local/sqoop
+
+$source .bashrc
+
+#test sqoop
+$sqoop help

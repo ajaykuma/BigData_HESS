@@ -1,0 +1,50 @@
+﻿Import Data using sqoop from rdbms in avrodatafile format.
+
+u1@u1:/usr/local/hadoop$ sqoop import --connect jdbc:mysql://127.0.0.1/mysql --username root -P 
+--table help_keyword --m 1 --as-avrodatafile --target-dir /help1
+
+Download avro-tools from 
+http://www.apache.org/dyn/closer.cgi/avro/
+
+Get schema of avrofile
+u1@u1:~$ hadoop jar avro-tools-1.8.2.jar getschema /help1/part-m-00000.avro > schema1.avsc
+
+u1@u1:~$ ls
+avro-tools-1.8.2.jar  Desktop    Downloads  eclipse-installer  examples.desktop  part-m-00000.avro  Public        Templates  Videos
+dataset               Documents  eclipse    eclipse-workspace  Music             Pictures           schema1.avsc  tip.json
+
+Create directory on hdfs and put schema file on hdfs
+u1@u1:~$ hdfs dfs -mkdir /user/avro
+u1@u1:~$ hdfs dfs -mkdir /user/avro/schemas
+u1@u1:~$ hdfs dfs -put schema1.avsc /user/avro/schemas
+
+Now lets create hiev table which would be stored as avro
+u1@u1:~$ cd /usr/local/hive
+u1@u1:/usr/local/hive$ bin/hive
+
+hive> create table avrotbl1                                                       
+    > row format serde 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'             
+    > stored as inputformat                                          
+    > 'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'   
+    > outputformat                                                   
+    > 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'  
+    > TBLproperties
+    > ('avro.schema.url'='hdfs://u1:9000/user/avro/schemas/schema1.avsc');
+Time taken: 2.851 seconds
+
+hive> !hdfs dfs -ls /user/hive/warehouse;
+Found 3 items
+drwxr-xr-x   - u1 supergroup          0 2018-03-04 09:47 /user/hive/warehouse/ajdb.db
+drwxr-xr-x   - u1 supergroup          0 2018-03-04 10:26 /user/hive/warehouse/avrotbl1
+drwxr-xr-x   - u1 supergroup          0 2018-02-25 18:54 /user/hive/warehouse/tbl1
+
+hive> !hdfs dfs -ls /user/hive/warehouse/avrotbl1;
+
+hive> select * from avrotbl1;
+Time taken: 1.698 seconds
+Copy avro file into avrotbl1 directory
+or optionally u can load data into table using load command.
+hive> !hdfs dfs -cp /help1/part-m-00000.avro /user/hive/warehouse/avrotbl1;
+hive> select * from avrotbl1;  
+
+

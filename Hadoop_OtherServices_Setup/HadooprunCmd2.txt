@@ -1,0 +1,67 @@
+#run in queue and with specific num of tasks
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapred.job.queue.name=prod -Dmapreduce.job.reduces=1 /Samplefiles/abc1.txt /mysndoput7
+
+#run in a queue
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapred.job.queue.name=prod /Samplefiles/abc1.txt /mysndoput6
+
+#running using yarn
+yarn jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapred.job.queue.name=dev /Samplefiles/abc1.txt /mysndoput9
+
+#hdu@u1:~$ hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar 
+An example program must be given as the first argument.
+Valid program names are:
+  aggregatewordcount: An Aggregate based map/reduce program that counts the words in the input files.
+  aggregatewordhist: An Aggregate based map/reduce program that computes the histogram of the words in the input files.
+  bbp: A map/reduce program that uses Bailey-Borwein-Plouffe to compute exact digits of Pi.
+  dbcount: An example job that count the pageview counts from a database.
+  distbbp: A map/reduce program that uses a BBP-type formula to compute exact bits of Pi.
+  grep: A map/reduce program that counts the matches of a regex in the input.
+  join: A job that effects a join over sorted, equally partitioned datasets
+  multifilewc: A job that counts words from several files.
+  pentomino: A map/reduce tile laying program to find solutions to pentomino problems.
+  pi: A map/reduce program that estimates Pi using a quasi-Monte Carlo method.
+  randomtextwriter: A map/reduce program that writes 10GB of random textual data per node.
+  randomwriter: A map/reduce program that writes 10GB of random data per node.
+  secondarysort: An example defining a secondary sort to the reduce.
+  sort: A map/reduce program that sorts the data written by the random writer.
+  sudoku: A sudoku solver.
+  teragen: Generate data for the terasort
+  terasort: Run the terasort
+  teravalidate: Checking results of terasort
+  wordcount: A map/reduce program that counts the words in the input files.
+  wordmean: A map/reduce program that counts the average length of the words in the input files.
+  wordmedian: A map/reduce program that counts the median length of the words in the input files.
+  wordstandarddeviation: A map/reduce program that counts the standard deviation of the length of the words in the input files.
+
+#hdu@u1:~$ hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-2.6.5-tests.jar 
+An example program must be given as the first argument.
+Valid program names are:
+  DFSCIOTest: Distributed i/o benchmark of libhdfs.
+  DistributedFSCheck: Distributed checkup of the file system consistency.
+  JHLogAnalyzer: Job History Log analyzer.
+  MRReliabilityTest: A program that tests the reliability of the MR framework by injecting faults/failures
+  SliveTest: HDFS Stress Test and Live Data Verification.
+  TestDFSIO: Distributed i/o benchmark.
+  fail: a job that always fails
+  filebench: Benchmark SequenceFile(Input|Output)Format (block,record compressed and uncompressed), Text(Input|Output)Format (compressed and uncompressed)
+  largesorter: Large-Sort tester
+  loadgen: Generic map/reduce load generator
+  mapredtest: A map/reduce test check.
+  minicluster: Single process HDFS and MR cluster.
+  mrbench: A map/reduce benchmark that can create many small jobs
+  nnbench: A benchmark that stresses the namenode.
+  sleep: A job that sleeps at each map and reduce task.
+  testbigmapoutput: A map/reduce program that works on a very big non-splittable file and does identity map/reduce
+  testfilesystem: A test for FileSystem read/write.
+  testmapredsort: A map/reduce program that validates the map-reduce framework's sort.
+  testsequencefile: A test for flat files of binary key value pairs.
+  testsequencefileinputformat: A test for sequence file input format.
+  testtextinputformat: A test for text input format.
+  threadedmapbench: A map/reduce benchmark that compares the performance of maps with multiple spills over maps with 1 spill
+
+#Local mode
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapreduce.framework.name=local /Samplefiles/abc1.txt /mysndoput10
+
+#using compression
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapreduce.output.fileoutputformat.compress=true -Dmapreduce.output.fileoutputformat.compress.codec=org.apache.hadoop.io.compress.GzipCodec /Samplefiles/abc1.txt /mysndoput11
+

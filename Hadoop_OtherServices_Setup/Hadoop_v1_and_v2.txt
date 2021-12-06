@@ -1,0 +1,74 @@
+apache: download hadoop tar file> untar it> edit config files> smthing very imp**> start ur cluster..using scripts
+cdh/hdp: download installer(cloudera manager/ambari)> ......installing/editing config files/imp**> start ur cluster..
+
+
+hadv1								hadv2
+start-all.sh						start-all.sh[start-dfs.sh & start-yarn.sh]
+	----start-dfs.sh				---start-dfs.sh
+		-----hadoop-daemon.sh start namenode
+		-----hadoop-daemon.sh start datanode
+		-----hadoop-daemon.sh start secondarynamenode
+	----start-mapred.sh				---start-yarn.sh
+		-----hadoop-daemon.sh start jobtracker   ---yarn-daemon.sh start resourcemanager
+		-----hadoop-daemon.sh start tasktracker  ---yarn-daemon.sh start nodemanager
+
+
+slaves--m1(for dn and tt/nm)
+	m2
+	m3
+	m4...
+
+masters-mx( for snn)
+
+cloudera/hortonworks
+cloudera: cloudera installer
+hortonworks: ambari..
+services>1/multiple daemons(roles/components) running on one or multiple machines
+[hdfs:namenode, 1+many datanodes, 1 snn]
+m1	m2	m3
+nn	dn	dn
+dn	snn	
+m1-cloudera-scm-server/ambari-server ( cloudera-scm-agent /ambari-agent )
+m2-cloudera-scm-agent /ambari-agent
+m3-cloudera-scm-agent /ambari-agent
+m4-cloudera-scm-agent /ambari-agent
+m5-cloudera-scm-agent /ambari-agent
+======================================
+Apache hadoop
+hadv1								hadv2
+/ABC/NAME							/abc/name
+bin/hadoop namenode -format				bin/hdfs namenode -format
+when formatting done..					when formatting is done
+VERSION							VERSION	
+-namespaceID						-namespaceID,BpoolID, ClusterID	
+								     (federation)( federation & HA)	
+start ur cluster					start ur cluster	
+			NN<-------------------DN,DN,DN
+NN--->NSID to every DN					NN--->CLUSTERID to every DN
+/abc/data1						/abc/data1
+VERSION( same NSID as in version file of NN)		VERSION( same clusterid as in version file of NN)
+
+/abc/data2
+VERSION( same NSID as in version file of NN)
+
+/abc/data3
+VERSION( same NSID as in version file of NN)
+=====================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
