@@ -1,12 +1,3 @@
-#run in queue and with specific num of tasks
-hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapred.job.queue.name=prod -Dmapreduce.job.reduces=1 /Samplefiles/abc1.txt /mysndoput7
-
-#run in a queue
-hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapred.job.queue.name=prod /Samplefiles/abc1.txt /mysndoput6
-
-#running using yarn
-yarn jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapred.job.queue.name=dev /Samplefiles/abc1.txt /mysndoput9
-
 #hdu@u1:~$ hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar 
 An example program must be given as the first argument.
 Valid program names are:
@@ -59,9 +50,37 @@ Valid program names are:
   testtextinputformat: A test for text input format.
   threadedmapbench: A map/reduce benchmark that compares the performance of maps with multiple spills over maps with 1 spill
 
+##in Local cluster setup, where hadoop is in /usr/local/hadoop
+#run in queue and with specific num of tasks
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapred.job.queue.name=prod -Dmapreduce.job.reduces=1 /Samplefiles/abc1.txt /mysndoput7
+
+#run in a queue
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapred.job.queue.name=prod /Samplefiles/abc1.txt /mysndoput6
+
+#running using yarn
+yarn jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapred.job.queue.name=dev /Samplefiles/abc1.txt /mysndoput9
+
 #Local mode
 hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapreduce.framework.name=local /Samplefiles/abc1.txt /mysndoput10
 
 #using compression
 hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar wordcount -Dmapreduce.output.fileoutputformat.compress=true -Dmapreduce.output.fileoutputformat.compress.codec=org.apache.hadoop.io.compress.GzipCodec /Samplefiles/abc1.txt /mysndoput11
 
+###in GCP Dataproc
+#specifying number of reduce tasks
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples-2.10.1.jar wordcount -Dmapreduce.job.reduces=1 
+/mydata2/zookeeper.log /out3
+
+#running in a queue
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples-2.10.1.jar wordcount "-Dmapreduce.job.red
+uces=1" "-Dmapred.job.queue.name=prod" /mydata2/zookeeper.log /out5
+
+#running in local mode
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples-2.10.1.jar wordcount 
+"-Dmapreduce.job.reduces=1" "-Dmapreduce.framework.name=local" /mydata2/zookeeper.log /out5
+
+#using other properties and having output compressed
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples-2.10.1.jar wordcount "-Dmapreduce.job.reduces=1" 
+"-Dmapreduce.output.fileoutputformat.compress=true"
+ "-Dmapreduce.output.fileoutputformat.compress.codec=org.apache.hadoop.io.compress.GzipCodec" 
+/mydata2/zookeeper.log /out6

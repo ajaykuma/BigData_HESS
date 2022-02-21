@@ -185,12 +185,6 @@ in core-site.xml
 
 in hdfs-site.xml
 
-<configuration>
-<property>
-<name>dfs.nameservices</name>
-<value>mycluster</value>
-</property>
-
 <property>
 <name>dfs.replication</name>
 <value>2</value>
@@ -207,6 +201,12 @@ in hdfs-site.xml
 <name>dfs.datanode.data.dir</name>
 <value>file:/wkdaydec1ha/data1</value>
 <final>true</final>
+</property>
+
+<configuration>
+<property>
+<name>dfs.nameservices</name>
+<value>mycluster</value>
 </property>
 
 <property>
