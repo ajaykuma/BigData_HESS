@@ -89,7 +89,7 @@ hdu$machine1:ssh-copy-id -i $HOME/.ssh/id_rsa.pub hdu@machine2
 hdu$machine1:cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
 
 #download hadoop tar from http://archive.apache.org/dist/hadoop/common/
-#Lets get hadoop-2.6.5
+#Lets get hadoop-2.7.2
 #To untar and create dir ,to create link and to change owner of directory
 -----------------------------
 #Lets untar it in /usr/local
@@ -113,7 +113,7 @@ hadoop version ( does it show your hadoop version)
 
 #Editing config files to setup cluster
 
-#Note** sample configs for hadoop-2.6.5 and hadoop-2.7.2 are already provided which can directly be copied into your hadoop directories on nodes.
+#Note** sample configs for hadoop-2.7.2 and hadoop-2.7.2 are already provided which can directly be copied into your hadoop directories on nodes.
 
 config files:(you can use ports 8020 for core and 8021 for mapred)
 or
