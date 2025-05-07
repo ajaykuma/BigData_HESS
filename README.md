@@ -8,6 +8,6 @@ Disclaimer | Note** :)
 #ignore small typos/short-cuts I have used
 #I might have missed certain steps based on latest versions and that will have to be handled by you
 
->>>> Content is being reviewed & updated
+> 🚧 This repository is currently being refined and improved. Stay tuned!
 
 
