@@ -21,26 +21,32 @@ Upload Columnar file to database
 
 Choose Upload CSV to database> use 'Members.csv'
 --choose options accordingly
-  database : mysql
-  schema: mysql
+  database : mysql or postgre
+  schema: mysql or postgre
   tablename: members
   such as 'create_time' to be parsed as Dates
           'count' to be int data type
           'header': 1st row 
           etc > upload
 
-Now clicking on datasets shows > your dataset > members (belonging to mysql database)
+Now clicking on datasets shows > your dataset > members (belonging to your database)
 Additionally, 
 
 Click on Sql Lab > SQL > 
-Database: mysql
-Schema: mysql
+Database: mysql or mysql
+Schema: mysql or postgre
 Table Schema: members
 
+
+in mysql>
 run a simple query: 
 > select * from members;
 > select title,count(*) as membercountbygender from members group by title;
 > select * from members where count > 10;
+
+in postgre>
+> 
+>
 
 We can also select our dataset and rename a column by using label
 select count column and label it as 'Count'
@@ -54,8 +60,11 @@ Drag and drop column names
 save> Members_data (without using option to save into dashboard)
 click on charts to check your chart listed.
 ----------------------------------
-Similarly: create a table using SalesJan2009.csv, call the table as SalesJan(in mysql database, schema: mysql);
+Similarly: create a table using SalesJan2009.csv, call the table as SalesJan(in mysql/postgre database, schema: postgre);
 --column datatypes: {"Latitude":"float","Longitude":"float"} --without changing datatype for 'Price'
+--mention columns which need to be parsed as dates (can be found by looking into file)
+<once upload is done>
+--your physical dataset with same name as tablename should be created..
 --check datatypes(by clicking on datasets)
 Price: shows as txt
 Latitude: shows as Double
@@ -67,8 +76,15 @@ Schema: mysql
 Table Schema: salesjan
 
 run a simple query: 
-
+in mysql>
 > select Product,State,count(*) from salesjan group by Product,State;
+
+if done in mysql and both postgre, note** the table which gets created should have a different name,
+so the physical dataset that gets created in metadata doesnt conflict.
+
+in postgre>
+> select * from public."salesjan"
+> select "Product","State",count(*) from public."salesjan" group by "Product","State";
 
 even if we delete the dataset, table still stays in RDBMS.
 delete dataset and check.
@@ -76,10 +92,14 @@ we can also drop the table.(if needed, for now let it be)
 
 Now again upload csv in table
 option: Replace
+columns to be parsed as date: Transaction_date,Account_Created,Last_Login
 column datatypes: {"Latitude":"Double","Longitude":"Double"}
 
 --check what is datatype of column Price
 --must be text
+
+in mysql> 
+--to add a new column or change datatye of a column in table
 mysql> SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = 'salesjan';
 mysql> SELECT column_name,DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = 'salesjan';
 
@@ -97,13 +117,19 @@ delete the dataset;
 
 --check if datatye is changed now..
 
+--similarly can be done in
+in postgre>
+XXXXXXXXXX
+
+<optional begins>
 Now upload data again using 'upload csv' option into existing table
 parse the date columns,
 column datatypes need no changing for now (note** what happens when data doesnt follow assigned datatype)
 
+in mysql>
 > SELECT * from salesjan where name='sandhya';
 
-Its loaded as datatype was changed to integer.
+Its loaded as the datatype was changed to integer.
 
 We can delete the entry or update the value;
 > delete from salesjan where name='sandhya';
@@ -112,6 +138,11 @@ or we could have updated the value, like this
 > SELECT * from salesjan where name='Fleur';
 
 --now also check the dataset created and values it contains.
+
+in postgre>
+XXXXXXXXXX
+<optional ends>
+---------------------------------------------
 #Task 1:
 Query:
 Query mode: Raw records
@@ -164,7 +195,7 @@ Use dimensions to categorize, segment and reveal the details in your data.
 This affects the level of details in the view.
 choose: Product
 
-save: Product_count_per-country
+save: Product_count_per_country
 Add to dashboard: TestDB1
 
 Now click on right click on dashboards and open in new tab.
@@ -207,7 +238,15 @@ COUNT(*) => 10
 Color schema : dark success
 <save>
 --------------------------------------
+If table in postgres
 
+select distinct "Product" from
+public."salesjan"
+
+select "Product" from
+public."salesjan"
+--------------------------------
+#Big Number
 Add another chart : Big number
 Metric: sum(price)
 Filters:
@@ -231,11 +270,31 @@ enable data zoom
 save: and add to dashboard: 'Productwise_payments_made_by_type'
 
 ----------------------------------------
+#Delete and recreate table with selected columns
+consider salesjanpg (dataset) [Physical] and open it in chart explorer
+Query: raw records
+drag and drop all columns (from left) which have no names(ie ignore name,city,state,country) into Columns
+click on update chart
+Now from top right corner, click on ... next to save 'Run in SQL Lab' > run > but instead of saving it as 'Dataset',
+we will download to CSV .
 
-#
+Now using this downloaded dataset create a new table by using 'upload csv to db' option.
+Name of table: salesjanmodpg
+name of dataset that gets created: salesjanmodpg (physical)
+
+Summary:
+For every table defined , 1 physical dataset gets created. (same name as tablename)
+For every query run (from SQL lab), or query created by charts explorer and later run in SQL Lab > we can save output into new Dataset.
+  This dataset would be virtual and can have modified or selected columns.
+For every query run we can also download the output in csv , which can then be loaded into table to create further datasets.
+(note** in this case the default delimiter might be ';', thus have a closer look from uploading file to DB> TBL.
+
+------------------------------------------
+#If working with excel
+
 (superset_env) hdu@ub1:/app/superset$ pip install openpyxl
 
-click on data > upload excel to database
+click on data > upload excel to database (or first save file as .csv and then use upload csv to db option)
 select: file > item_wise_sales.xlsx
 DB: mysql
 schema: mysql
@@ -275,7 +334,6 @@ increase radius for Pie shape.
 ----------------
 --create a backup: by clicking within dashboard (top right) and save as
 TestDB2_bck
-
 ----------------
 
 If dataset is deleted :
@@ -283,7 +341,9 @@ Note**
 The dataset itemwise_sales is linked to 2 charts that appear on 3 dashboards. 
 Are you sure you want to continue? Deleting the dataset will break those objects.
 
-Delete Dataset.<optional>
+<optional>
+Delete Dataset.
+<optional ends>
 
 Option 1: Getting dataset back
 From sql lab: select * from itemwise_sales;
@@ -308,6 +368,7 @@ Notice, column Category has N/A values apart from 1st row and
 sub total for each category has N/A values Item and Code.
 
 ------updating values----------
+in mysql>
 
 update itemwise_sales
 set category = case
@@ -315,6 +376,8 @@ set category = case
     when Code is NULL then 'Sub Total'
     else 'Stationary'
 end
+
+in postgre>
 
 ----------------
 --now check the TestDB2 again..
