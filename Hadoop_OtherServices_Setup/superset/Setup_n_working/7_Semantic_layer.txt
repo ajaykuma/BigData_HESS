@@ -1,0 +1,97 @@
+Virtual datasets
+------------------
+Joining multiple tables (or self-joining against the same table)
+To visualize total revenue by customer persona, we need to JOIN between a customers table and a orders table to form the customers_orders virtual dataset.
+Ad-hoc, one-off exploratory analysis
+
+#Task
+create table world_population_main as select `Country Name` as CountryName,`Country Code` as CountryCode,`1965`,`1970`,`1975`,`1980`,`1985`,`1990`,`1995`,`2000`,`2005` from world_population 
+ ;
+create table world_pop_meta_main as select `Country Code` as CountryCode, Region,IncomeGroup,SpecialNotes,TableName from world_pop_meta;
+ ;
+select a.CountryName,a.CountryCode,b.Region,b.IncomeGroup,substring(b.SpecialNotes,1,25) from world_population_main a  inner join world_pop_meta_main b
+on a.CountryCode = b.CountryCode
+
+click on save & explore: world_data_cumulative
+
+--we can explore the dataset
+--we can get the sql by clicking on view query
+SELECT `CountryName` AS `CountryName`, `CountryCode` AS `CountryCode`, `Region` AS `Region`, `IncomeGroup` AS `IncomeGroup`, `substring(b.SpecialNotes,1,25)` AS `substring(b.SpecialNotes,1,25)` 
+FROM (select a.CountryName,a.CountryCode,b.Region,b.IncomeGroup,substring(b.SpecialNotes,1,25) from world_population_main a  inner join world_pop_meta_main b
+on a.CountryCode = b.CountryCode
+) AS virtual_table 
+ LIMIT 1000;
+
+--we can run in sql lab
+edit query to include population for 2005
+SELECT `CountryName` AS `CountryName`, `CountryCode` AS `CountryCode`, `Region` AS `Region`, `IncomeGroup` AS `IncomeGroup`, `substring(b.SpecialNotes,1,25)` 
+AS `substring(b.SpecialNotes,1,25)`,`2005` as `2005_popu`
+FROM (select a.CountryName,a.CountryCode,a.2005,b.Region,b.IncomeGroup,substring(b.SpecialNotes,1,25) from world_population_main a  inner join world_pop_meta_main b
+on a.CountryCode = b.CountryCode
+) AS virtual_table 
+ LIMIT 1000;
+
+<run>
+<save as dataset> world_data_cumulative_2005
+in explore > create a Table and save as 'World_population_cumulative' in TestDB3.
+--------------------------
+
+Metrics
+Superset’s origins are in fast, slice & dice, exploratory analytics specifically for Apache Druid. In this workflow, it’s natural to alternate between:
+
+prototyping visualizations quickly using different metrics
+defining a set of commonly used metrics for wider use in an organization
+In more specific terms, a metric in Superset is any valid, aggregating SQL snippet that can be included in a SELECT clause.
+
+For example:
+SELECT 
+	COUNT(*),
+	SUM(CASE WHEN action='deal_closed' THEN 1 ELSE 0 END),
+	MAX('revenue'),
+	SUM('deals_open') / SUM('deals_closed')
+	MAX('revenue') - MIN('revenue')
+
+#Task
+
+Access world_data_cumulative_2005 dataset
+Click on edit dataset
+Click on Metrics > add item
+metric key: range_pp
+label: Range_popu
+SQL: max(2005_popu)-min(2005_popu)
+
+Now use Query: Aggregate
+Dimensions: Region
+Metrics: Range_popu
+
+<create chart>
+
+Now add built in metrics as min and max too for column 2005_popu
+and edit metrics to have ratio: min(2005_popu)/max(2005_popu)
+
+-------------------------------------------------
+
+Calculated Columns
+Calculated columns let you define simple transformations (as SELECT statements) for quick, last-mile data preparation.
+
+You can define any valid, non-aggregate SQL snippets that can be included in a SELECT clause. Note that this means 
+you can reference multiple columns in your calculated column queries.
+
+#Task
+use salesjan dataset created earlier.
+edit the dataset and click on 'Calculated columns' tab
+
+name: coordinates
+sql expression: CONCAT_WS(",", Latitude, Longitude)
+Label: Coordinates
+
+save: salesjan_with_coordinates
+
+--may need further:
+
+pip install python-geohash
+
+Summarizing: 
+Virtual datasets, metrics, and calculated columns provide useful abstractions and superpowers to augment your queries.
+Explore provides a no-code, drag & drop UI for quickly generating queries that power visualizations.
+

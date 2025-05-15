@@ -1,0 +1,58 @@
+# Working with other data (.csv)
+-------------------
+Download World population data from web or from github repo.
+Refer two files: (folder=World_population_data)
+countrycodes_and_details.csv
+countrywise_population.csv
+
+Create tables in your DB >
+world_population
+--check data : select * from world_population ;
+world_pop_meta
+--check data : select * from world_pop_meta;
+
+Using Datasets 
+--world_population (edit column Country Name,Country Code,Indicator Name, Indicator Code 
+  to CountryName,CountryCode,IndicatorName,IndicatorName using label)
+--world_pop_meta (edit column Country Code to CountryCode using label)
+
+Create charts :
+Chart-1.countrywise_pop
+
+Query: 
+Table
+RAWRECORDS:
+Columns:
+CountryName
+CountryCode
+Years 1960-2005 (every 5th yr value)
+
+Customize
+Adaptive formatting
+Enable: search box, Allow columns to be rearranged, render columns in HTML format
+
+<create/update chart> save as countrywise_pop in TestDB3
+
+Chart-2.country_meta
+Query:
+Table
+RAWRECORDS:
+Columns:
+CountryCode
+Region
+IncomeGroup
+SpecialNotes
+
+<create/update chart> save as country_meta in TestDB3
+
+Chart-3.Country_wise_population
+Here we need atleast one column which has 3 letter country code.
+view all charts > map > world map
+Country Column: CountryCode
+Country Field type: code ISO 3166-1 alpha-3(cca3)
+[refer: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3]
+Metric: Max(2005)
+Color by: metric/country 
+
+
+

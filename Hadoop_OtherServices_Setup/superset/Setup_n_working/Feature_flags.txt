@@ -1,0 +1,29 @@
+Feature Flags in Apache Superset
+--------------
+A feature flag, in the simplest of terms, is a software development technique that allows developers to turn features or 
+functionality on and off at runtime without deploying new code. Apache Superset is full of these feature flags, 
+enabling developers (and sometimes customers, in the case of Preset) to control the enabling or release of new features 
+to specific deployments or groups of users. This allows developers or test new functionality, and easily roll back problematic changes.
+
+In Superset, we have a whole slew of settings available to those who maintain or deploy instances of Superset. 
+These are all found in the config.py file 
+
+Feature flags are boolean. We’re simply flipping things on and off. If there’s some more detailed configuration object, 
+parameters to set, etc., then it’s simply not a flag.
+
+Flags affect the user experience. This is to say that there are plenty of boolean settings elsewhere in the config, 
+but these are used to configure how Superset operates under the hood, usually to change how Superset is deployed, 
+rather than how it’s presented to the end user.
+
+DASHBOARD_CROSS_FILTERS = True,
+"DASHBOARD_NATIVE_FILTERS": True
+
+or
+FEATURE_FLAGS = {
+
+    'DRILL_BY': True,
+
+}
+
+
+https://github.com/apache/superset/blob/master/RESOURCES/FEATURE_FLAGS.md

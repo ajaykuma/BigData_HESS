@@ -1,0 +1,71 @@
+#Setup PostgreSQL
+--------------
+> sudo apt install postgresql
+
+PostgreSQL supports multiple client authentication methods. In Ubuntu, peer is the default authentication method used for local connections, 
+while scram-sha-256 is the default for host connections 
+The following discussion assumes that you wish to enable TCP/IP connections and use the MD5 method for client authentication. 
+PostgreSQL configuration files are stored in the /etc/postgresql/<version>/main directory. For example, if you install PostgreSQL 14, 
+the configuration files are stored in the /etc/postgresql/14/main directory.
+
+By default, only connections from the local system are allowed. To enable all other computers to connect to your PostgreSQL server, 
+edit the file /etc/postgresql/*/main/postgresql.conf
+
+edit in postgresql.conf
+
+listen_addresses = '*'
+#OR
+listen_addresses = 'ipaddress'
+password_encryption = 'scram-sha-256'
+ssl = on
+
+Now that we can connect to our PostgreSQL server, the next step is to set a password for the postgres user.
+
+> sudo -u postgres psql template1
+
+to configure pswd for user postgres  
+> ALTER USER postgres with encrypted password 'your_password';
+
+After configuring the password, edit the file /etc/postgresql/*/main/pg_hba.conf to use scram-sha-256 authentication 
+with the postgres user, allowed for the template1 database, from any system in the local network 
+
+hostssl template1       postgres        <ipaddress>        scram-sha-256
+
+> sudo systemctl restart postgresql.service
+
+> sudo apt install postgresql-client
+> psql --host your-servers-dns-or-ip --username postgres --password --dbname template1
+> \dt
+> \dt+
+
+Sample Queries:
+SELECT *
+FROM tables
+WHERE table_schema = 'information_schema'
+
+
+To check if it is accepting connections
+
+> pg_isready -h 10.0.2.15 -p 5432 -d template1 -U postgres
+10.0.2.15:5432 - accepting connections
+
+------------
+Setup posgres drivers from within earlier created virtual environmnt
+> sudo apt-get install libpq-dev python2-dev
+> pip install psycopg2
+
+Now from database option we can connect to postgres..
+
+we can also use 
+Option as other and using SqlAlchemy connection string
+postgresql://<UserName>:<DBPassword>@<Database Host>/<Database Name>
+
+
+
+
+
+
+
+
+
+

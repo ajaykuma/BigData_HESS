@@ -1,0 +1,41 @@
+Terminologies: 
+--Drill to dashboard 
+--Drill across
+--Drill through
+--Drill to details
+--Filtering
+--Cross filtering
+--Native filters
+--Drill down/up
+
+#Task
+Access one of your previously created Dashboards
+For example: TestDB4
+--Contains chart : salesjan_with_coordinates
+Click on edit dashboard > create new chart 
+line chart >
+
+query:
+X-axis: Transaction_date
+Time_grain: Day
+Metrics: count(*)
+Dimensions: Payment_types
+Filters: None
+
+in customize: show value (selected)
+
+create chart > save it in TestDB4 as 'comparision_of_payment_types_overtime'
+
+--------------
+
+Now access dashboard, choose newly created chart and edit chart
+we can add a filter to chart if needed such as
+payment_type!='Diners'
+
+-------------------
+We can also add/edit filters by left option on dashboard.
+
+
+
+
+

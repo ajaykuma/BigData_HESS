@@ -1,0 +1,45 @@
+#Setup Mysql:
+------
+sudo apt install mysql-server
+
+sudo systemctl status mysql
+sudo systemctl start mysql
+
+--edit 
+"/etc/mysql/mysql.conf.d/mysqld.cnf"
+bind-address            = 10.0.2.15
+mysqlx-bind-address     = 10.0.2.15
+--save
+
+sudo systemctl restart mysql
+
+#Permissions:
+#Login into mysql
+sudo mysql 
+mysql> alter user 'root'@'localhost' identified by 'Abcd#1234';
+mysql> alter user 'root'@'10.0.2.15' identified by 'Abcd#1234';
+
+mysql> create user 'hdu'@'%' identified by 'Abcd#1234';
+mysql> create user 'hdu'@'localhost' identified by 'Abcd#1234';
+mysql> create user 'hdu'@'10.0.2.15' identified by 'Abcd#1234';
+mysql> grant all privileges on *.* to 'hdu'@'%';
+mysql> grant all privileges on *.* to 'hdu'@'localhost';
+mysql> grant all privileges on *.* to 'hdu'@'10.0.2.15';
+mysql> grant all privileges on *.* to 'root'@'localhost';
+mysql> grant all privileges on *.* to 'root'@'10.0.2.15';
+mysql> flush privileges;
+
+-------------
+--to see mysql option in Database connections (this gets relevant drivers)
+In superset setup:
+(superset_env) hdu@ub1:/app/superset$ sudo apt-get install pkg-config
+(superset_env) hdu@ub1:/app/superset$ pip install mysqlclient
+
+Now in Database > create new > & setup mysql
+once done, we can edit advanced settings to 'Allow file uploads to database' 
+and refresh the page.
+Now we can upload csv,excel etc.
+
+
+
+

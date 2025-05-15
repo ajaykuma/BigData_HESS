@@ -1,0 +1,407 @@
+##If connecting to psql
+
+#temporal analysis via checkin_date, created_at, and checkout_date
+SELECT *
+FROM tables
+WHERE table_schema = 'information_schema'
+
+load data into postgreSQL in schema public, tablename: Travel_bookings
+--when loading data
+let checkin_date,checkout_date & created_at as datetime datatype
+& price_per_night as integer.
+
+from command line:
+hdu@ub1:~$ psql --host 10.0.2.15 --username postgres --password --dbname template1
+
+Password: 
+
+psql (14.17 (Ubuntu 14.17-0ubuntu0.22.04.1))
+
+template1=# \dt
+
+              List of relations
+ Schema |      Name       | Type  |  Owner   
+--------+-----------------+-------+----------
+ public | Travel_bookings | table | postgres
+(1 row)
+
+template1=# \d public."Travel_bookings"
+
+                        Table "public.Travel_bookings"
+     Column      |            Type             | Collation | Nullable | Default 
+-----------------+-----------------------------+-----------+----------+---------
+ booking_id      | text                        |           |          | 
+ user_id         | text                        |           |          | 
+ listing_id      | text                        |           |          | 
+ location        | text                        |           |          | 
+ country_code    | text                        |           |          | 
+ checkin_date    | timestamp without time zone |           |          | 
+ checkout_date   | timestamp without time zone |           |          | 
+ price_per_night | double precision            |           |          | 
+ guests          | bigint                      |           |          | 
+ room_type       | text                        |           |          | 
+ created_at      | timestamp without time zone |           |          | 
+ cancelled       | boolean                     |           |          | 
+ currency        | text                        |           |          | 
+
+template1=# SELECT * FROM public."Travel_bookings";
+
+---------------------------
+
+If error running query from sql lab
+[To resolve the error "Exception: Unable to execute 'ecpg', you likely need to install it" when using PostgreSQL in 
+Superset 4.0.1 with Python 3.11, you need to install the ecpg package. 
+This package is part of the PostgreSQL development libraries.
+]
+From :
+(superset_env) hdu@ub1:/app/superset$ sudo apt-get install postgresql-client-common
+				      sudo apt install libecpg-dev
+
+-----------------------------
+from sql lab: select * from "Travel_bookings"
+
+if display results are limited to 1000 by message "
+The number of rows displayed is limited to 1000 by the dropdown."
+
+--modify the configuration settings in the superset_config.py
+# Set the maximum number of rows to display in the chart
+DISPLAY_MAX_ROW = 10000  # Adjust this value as needed
+
+# Set the default query limit
+DEFAULT_SQLLAB_LIMIT = 10000  # Adjust this value as needed
+
+#set this too
+SQL_MAX_ROW = 10000
+
+--"The row limit set for the chart was reached. The chart may show partial data" when creating a chart from 
+SQL Lab in Apache Superset, you need to increase the displayLimit or defaultQueryLimit in the ResultSetProps
+
+--------notes additional------------
+Additionally, verify that these configurations are being applied correctly in the backend and frontend code:
+
+Backend: Ensure the apply_display_max_row_limit function in superset/views/utils.py 
+and the execute_sql_statement function in superset/sql_lab.py are using these values.
+
+Frontend: Ensure the displayLimit and defaultQueryLimit props in the ResultSet component in 
+superset-frontend/src/SqlLab/components/ResultSet/index.tsx
+
+-----------notes additional ends---------
+
+#Task
+run query again and save as dataset: select * from "Travel_bookings" > travelbookings
+when you click on save and explore > takes you to chart
+change rowlimit now to 10000 > update chart
+
+query mode chosen is : Raw records
+with all columns selected and no filters applied.
+
+click on customize:
+--search box
+--allow columns to be rearranged
+--render columns in html format
+
+save chart 'travel_bookings_overall' in TestDB5
+check dashboard
+
+-----------------------
+If in chart explorer with previous chart or 
+open edit chart from dashboard
+
+click on view query for your chart
+--shows query
+
+SELECT booking_id AS booking_id, user_id AS user_id, listing_id AS listing_id, location AS location, 
+country_code AS country_code, checkin_date AS checkin_date, checkout_date AS checkout_date, price_per_night 
+AS price_per_night, guests AS guests, room_type AS room_type, created_at AS created_at, cancelled AS cancelled, 
+currency AS currency 
+FROM (select * from "Travel_bookings"
+) AS virtual_table 
+ LIMIT 10000;
+
+-------------
+we can run a new query
+#Task : Monthly Booking Trends
+
+SELECT DATE_TRUNC('month', checkin_date) AS month, COUNT(*) AS bookings
+FROM public."Travel_bookings"
+WHERE cancelled = FALSE
+GROUP BY 1
+ORDER BY 1;
+
+--check result
+--click on create chart
+  will not show only two columns
+  data source is your query
+  
+Add a filter to take months 
+column: month
+Time range: range type: custom
+choose: specific Date/time
+choose : 2024-05-01 to 2024-05-31
+check results
+
+now clear the filter and update chart.
+
+--click on view charts
+choose: Histogram
+column: bookings (should be numeric column)
+Dimensions: month
+No additional filters
+row limit: 5000
+Bins: 10
+we can additionaly choose 
+Normalize
+Cumulative
+
+save Monthly_bookings_freq in TestDB5
+-------------------------
+
+#Task Average Stay Duration by City
+SELECT location, AVG(DATE_PART('day', checkout_date - checkin_date)) AS avg_stay
+FROM public."Travel_bookings"
+GROUP BY location;
+
+#Task Revenue Over Time
+SELECT DATE_TRUNC('month', checkin_date) AS month,
+       SUM(price_per_night * (checkout_date - checkin_date)) AS revenue
+FROM public."Travel_bookings"
+WHERE cancelled = FALSE
+GROUP BY 1
+ORDER BY 1;
+
+#Top 5 Locations by Booking Volume
+SELECT location, COUNT(*) AS booking_count
+FROM public."Travel_bookings"
+WHERE cancelled = FALSE
+GROUP BY location
+ORDER BY booking_count DESC
+LIMIT 5;
+
+#Cancellation Rate Over Time
+SELECT DATE_TRUNC('month', created_at) AS month,
+       100.0 * SUM(CASE WHEN cancelled THEN 1 ELSE 0 END) / COUNT(*) AS cancellation_rate
+FROM public."Travel_bookings"
+GROUP BY month
+ORDER BY month;
+
+#Peak Booking Lead Time
+SELECT AVG(DATE_PART('day', checkin_date - created_at)) AS avg_lead_time
+FROM public."Travel_bookings"
+WHERE cancelled = FALSE;
+
+#Revenue Breakdown by Room Type
+SELECT room_type,
+       SUM(price_per_night * (checkout_date - checkin_date)) AS total_revenue
+FROM public."Travel_bookings"
+WHERE cancelled = FALSE
+GROUP BY room_type
+ORDER BY total_revenue DESC;
+
+Note*checkout_date - checkin_date gives an interval.
+DATE_PART('day', interval) extracts the numeric day count.
+
+#Revenue BreakDown by Room type
+SELECT room_type,
+       SUM(price_per_night * DATE_PART('day', checkout_date - checkin_date)) AS total_revenue
+FROM public."Travel_bookings"
+WHERE cancelled = FALSE
+GROUP BY room_type
+ORDER BY total_revenue DESC;
+
+#Currency-wise Booking Summary
+SELECT currency, COUNT(*) AS total_bookings,
+       SUM(price_per_night * DATE_PART('day', checkout_date - checkin_date)) AS total_revenue
+FROM public."Travel_bookings"
+WHERE cancelled = FALSE
+GROUP BY currency;
+
+#currency conversion 
+SELECT *,
+       CASE currency
+           WHEN 'US Dollar' THEN price_per_night
+           WHEN 'Unknown' THEN price_per_night * 10
+           WHEN 'EUR' THEN price_per_night * 1.08
+           WHEN 'GBP' THEN price_per_night * 1.27
+           WHEN 'CAD' THEN price_per_night * 0.74
+           WHEN 'AUD' THEN price_per_night * 0.66
+           WHEN 'JPY' THEN price_per_night * 0.0068
+           WHEN 'CNY' THEN price_per_night * 0.14
+           ELSE NULL
+       END AS price_usd
+FROM public."Travel_bookings"
+
+or 
+SELECT *,
+       CASE currency
+           WHEN 'US Dollar' THEN price_per_night
+           WHEN 'EUR' THEN price_per_night * 1.08
+           WHEN 'GBP' THEN price_per_night * 1.27
+           WHEN 'CAD' THEN price_per_night * 0.74
+           WHEN 'AUD' THEN price_per_night * 0.66
+           WHEN 'JPY' THEN price_per_night * 0.0068
+           WHEN 'CNY' THEN price_per_night * 0.14
+           ELSE NULL
+       END AS price_usd,
+       CASE currency
+           WHEN 'US Dollar' THEN price_per_night * DATE_PART('day', checkout_date - checkin_date)
+           WHEN 'EUR' THEN price_per_night * 1.08 * DATE_PART('day', checkout_date - checkin_date)
+           WHEN 'GBP' THEN price_per_night * 1.27 * DATE_PART('day', checkout_date - checkin_date)
+           WHEN 'CAD' THEN price_per_night * 0.74 * DATE_PART('day', checkout_date - checkin_date)
+           WHEN 'AUD' THEN price_per_night * 0.66 * DATE_PART('day', checkout_date - checkin_date)
+           WHEN 'JPY' THEN price_per_night * 0.0068 * DATE_PART('day', checkout_date - checkin_date)
+           WHEN 'CNY' THEN price_per_night * 0.14 * DATE_PART('day', checkout_date - checkin_date)
+           ELSE NULL
+       END AS total_usd
+FROM public."Travel_bookings"
+
+(We can later update them dynamically via an API like OpenExchangeRates or ExchangeRate-API)
+==================
+
+Adding additional filters at dashboard level
+Click on open TestDB5
+add/edit filter and edit settings + scoping
+Filter type: value
+filter name: price
+dataset: travelbookings
+column: price_per_night
+select : pre-filter available values
+price_per_night > 50
+time range: none
+
+we can also choose
+Filter has default value
+filter value is required( user must select value)
+Select first filter value by default(default cannt be selected)
+& other settings..
+------------
+Now edit filter : add time range > advanced
+'Last 2 years'
+> Apply
+
+====================
+We can also edit dashboard to have multiple tabs and then
+change scoping of filter accordingly.
+
+remove freq chart from main and add it to new tab 
+and change scope of filter
+
+----------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======================
+#If connecting to mysql by loading data into mysql database
+
+#Monthly Booking Trends
+SELECT DATE_FORMAT(checkin_date, '%Y-%m-01') AS month, COUNT(*) AS bookings
+FROM travel_bookings
+WHERE cancelled = FALSE
+GROUP BY month
+ORDER BY month;
+
+# Average Stay Duration by Location
+SELECT location, AVG(DATEDIFF(checkout_date, checkin_date)) AS avg_stay
+FROM travel_bookings
+GROUP BY location;
+
+#Monthly Revenue (Excludes Cancelled Bookings)
+SELECT DATE_FORMAT(checkin_date, '%Y-%m-01') AS month,
+       SUM(price_per_night * DATEDIFF(checkout_date, checkin_date)) AS revenue
+FROM travel_bookings
+WHERE cancelled = FALSE
+GROUP BY month
+ORDER BY month;
+
+#Top 5 Countries by Booking Volume
+SELECT country_code, COUNT(*) AS booking_count
+FROM travel_bookings
+WHERE cancelled = FALSE
+GROUP BY country_code
+ORDER BY booking_count DESC
+LIMIT 5;
+
+#Cancellation Rate Over Time
+SELECT DATE_FORMAT(created_at, '%Y-%m-01') AS month,
+       100.0 * SUM(CASE WHEN cancelled THEN 1 ELSE 0 END) / COUNT(*) AS cancellation_rate
+FROM travel_bookings
+GROUP BY month
+ORDER BY month;
+
+#Average booking lead time
+SELECT AVG(DATEDIFF(checkin_date, created_at)) AS avg_lead_time
+FROM travel_bookings
+WHERE cancelled = FALSE;
+
+#Revenue Breakdown by Room Type
+SELECT room_type,
+       SUM(price_per_night * DATEDIFF(checkout_date, checkin_date)) AS total_revenue
+FROM travel_bookings
+WHERE cancelled = FALSE
+GROUP BY room_type
+ORDER BY total_revenue DESC;
+
+#Currency-wise Booking Summary
+SELECT currency, COUNT(*) AS total_bookings,
+       SUM(price_per_night * DATEDIFF(checkout_date, checkin_date)) AS total_revenue
+FROM travel_bookings
+WHERE cancelled = FALSE
+GROUP BY currency;
+
+#currency
+SELECT *,
+       CASE currency
+           WHEN 'USD' THEN price_per_night
+           WHEN 'EUR' THEN price_per_night * 1.08
+           WHEN 'GBP' THEN price_per_night * 1.27
+           WHEN 'CAD' THEN price_per_night * 0.74
+           WHEN 'AUD' THEN price_per_night * 0.66
+           WHEN 'JPY' THEN price_per_night * 0.0068
+           WHEN 'CNY' THEN price_per_night * 0.14
+           ELSE NULL
+       END AS price_usd
+FROM travel_bookings;
+
+-------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

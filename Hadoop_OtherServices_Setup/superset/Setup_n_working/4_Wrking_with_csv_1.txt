@@ -1,0 +1,376 @@
+#Enabling upload csv
+
+Click on edit next to a database connection >
+Say PostgreSql > edit
+shows Basic & Advanced
+Basic: has connection details
+Advanced: Security > enable 'allow files upload to database'
+
+Similarly do it for other databases if setup.
+
+#Working with CSV
+--------------
+Click on '+' on right, choose Data >
+
+Shows options:
+Create dataset
+Connect Google Sheet
+	Upload CSV to database
+Upload Excel to database
+Upload Columnar file to database
+
+Choose Upload CSV to database> use 'Members.csv'
+--choose options accordingly
+  database : mysql
+  schema: mysql
+  tablename: members
+  such as 'create_time' to be parsed as Dates
+          'count' to be int data type
+          'header': 1st row 
+          etc > upload
+
+Now clicking on datasets shows > your dataset > members (belonging to mysql database)
+Additionally, 
+
+Click on Sql Lab > SQL > 
+Database: mysql
+Schema: mysql
+Table Schema: members
+
+run a simple query: 
+> select * from members;
+> select title,count(*) as membercountbygender from members group by title;
+> select * from members where count > 10;
+
+We can also select our dataset and rename a column by using label
+select count column and label it as 'Count'
+
+using dataset> create a chart >
+click on 
+Raw records under query
+Drag and drop column names
+<update chart>
+
+save> Members_data (without using option to save into dashboard)
+click on charts to check your chart listed.
+----------------------------------
+Similarly: create a table using SalesJan2009.csv, call the table as SalesJan(in mysql database, schema: mysql);
+--column datatypes: {"Latitude":"float","Longitude":"float"} --without changing datatype for 'Price'
+--check datatypes(by clicking on datasets)
+Price: shows as txt
+Latitude: shows as Double
+Longitude: shows as Double
+
+Click on Sql Lab > SQL > 
+Database: mysql
+Schema: mysql
+Table Schema: salesjan
+
+run a simple query: 
+
+> select Product,State,count(*) from salesjan group by Product,State;
+
+even if we delete the dataset, table still stays in RDBMS.
+delete dataset and check.
+we can also drop the table.(if needed, for now let it be)
+
+Now again upload csv in table
+option: Replace
+column datatypes: {"Latitude":"Double","Longitude":"Double"}
+
+--check what is datatype of column Price
+--must be text
+mysql> SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = 'salesjan';
+mysql> SELECT column_name,DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = 'salesjan';
+
+Allow DDL and DML to be enabled from database settings (if we want to make changes to table)
+
+--to add a new column
+from sql lab:
+> ALTER TABLE salesjan ADD COLUMN temp_price INT NULL;
+--check if column exists
+> alter table salesjan drop column temp_price;
+
+> delete from salesjan;
+delete the dataset;
+> ALTER TABLE salesjan MODIFY COLUMN Price INT;
+
+--check if datatye is changed now..
+
+Now upload data again using 'upload csv' option into existing table
+parse the date columns,
+column datatypes need no changing for now (note** what happens when data doesnt follow assigned datatype)
+
+> SELECT * from salesjan where name='sandhya';
+
+Its loaded as datatype was changed to integer.
+
+We can delete the entry or update the value;
+> delete from salesjan where name='sandhya';
+or we could have updated the value, like this
+> update salesjan set Price=5000 where name='Fleur';
+> SELECT * from salesjan where name='Fleur';
+
+--now also check the dataset created and values it contains.
+#Task 1:
+Query:
+Query mode: Raw records
+Columns : Name, Price
+Filters (default)[Transaction_date] --if you try to delete this 
+'msg:You cannot delete the last temporal filter as it's used for time range filters in dashboards.'
+
+click on 'update chart'
+
+Also try, adding a filter
+Name = 'Fleur'
+
+click on 'update chart'
+
+now remove the filter
+click on 'update chart'
+
+On top left : give a name to chart > Price_paid_by_customer
+Click on save > Add & go to dashboard > TestDB1
+
+clear the filters..
+
+#Task 2:
+Query:
+Query mode: Aggregate
+Columns : Product, Price
+Metrics: use default : Count(*)
+
+<click on update chart>
+Before saving ,remember to edit the name of chart 'Productwise_count'
+<save><add & go to dashboard>
+
+--we can click on edit dashboard and delete a chat.
+
+#Task 3
+Click on Datasets > select salesjan
+Bar chart > 
+Query:
+X-axis: [Dimension to use on x-axis]Country
+X-axis: sort by : [which measure to sort the base axis by] total value
+(other options include: Category name, minimum, maximum, average)
+x-axis (dont select ascending)
+
+Metrics: [we can choose or multiple metrics] count(product)
+We can also use an aggregate function on a column or write custom sql to create a metric
+
+Dimensions:
+This contains qualitative values such as name,cities, or geographical data.
+Use dimensions to categorize, segment and reveal the details in your data.
+This affects the level of details in the view.
+choose: Product
+
+save: Product_count_per-country
+Add to dashboard: TestDB1
+
+Now click on right click on dashboards and open in new tab.
+click on 3 dots on chart: Product_count_per_country
+view query:
+SELECT `Country` AS `Country`, `Product` AS `Product`, count(`Product`) AS `COUNT(Product)` 
+FROM mysql.salesjan GROUP BY `Country`, `Product` ORDER BY `COUNT(Product)` DESC 
+ LIMIT 10000;
+
+view as table:
+edit chart >
+choose contribution mode (Series) --update chart
+                    mode(row) --update chart
+choose: none and update chart
+
+save 
+-----------------------------------
+
+# enabling options in charts or dashboard
+> click open TESTDB1
+
+select Productwise_count chart>
+edit chart
+
+now chart shows up 
+click on customize
+Timestamp: Adaptive formatting
+Page length: All
+enable: search box, Allow columns to be rearranged(if needed), render columns in HTML format
+
+Note** we can also edit visual formatting
+custom conditional formatting
+COUNT(*) <= 10
+Color schema : alert
+<save>
+
+--check what is seen now in dashboard for the chart which was edited
+edit again to add one more conditional formatting
+COUNT(*) => 10
+Color schema : dark success
+<save>
+--------------------------------------
+
+Add another chart : Big number
+Metric: sum(price)
+Filters:
+Transaction_date
+Payment_type='Visa'
+
+Display settings: Visa payments
+
+<save as visa_payments and add to dashboard>
+
+Bar chart:
+X-axis: Payment_Type (column whose values will be used to display)
+Metrics: sum(price) (column whose value will be aggregated)
+Dimensions: Product
+
+customize:
+x-axis title: payment_type
+y-axis title: amounts_spent
+enable data zoom
+
+save: and add to dashboard: 'Productwise_payments_made_by_type'
+
+----------------------------------------
+
+#
+(superset_env) hdu@ub1:/app/superset$ pip install openpyxl
+
+click on data > upload excel to database
+select: file > item_wise_sales.xlsx
+DB: mysql
+schema: mysql
+table name: itemwise_sales
+
+sheet: Sheet1
+<rest defaults> > upload
+
+Click on datasets and it shows up now in charts page>
+
+Click on All charts > Pie chart
+Dimensions: Category
+Metric: sum(total)
+Filters:
+Category is not null
+Category <> 'Sub Total'
+
+Click on customize
+threshold: 0 (minimum threshold in percentage points to show labels)
+Label type: category & value
+enable: show labels, put labels outside , label line
+<create/update chart>
+
+save: Categorywise_segmentation > in TestDB2 (dashboard)
+
+Now crete a new chart : Itemwise_segmentation
+Dimensions: 
+Item
+
+Metric: sum(total)
+
+Filters: Item is not null
+
+Customize: label type: Category and value
+increase radius for Pie shape.
+
+----------------
+--create a backup: by clicking within dashboard (top right) and save as
+TestDB2_bck
+
+----------------
+
+If dataset is deleted :
+Note**
+The dataset itemwise_sales is linked to 2 charts that appear on 3 dashboards. 
+Are you sure you want to continue? Deleting the dataset will break those objects.
+
+Delete Dataset.<optional>
+
+Option 1: Getting dataset back
+From sql lab: select * from itemwise_sales;
+save as dataset > itemwise_sales 
+check in datasets and it shows up as 'Virtual' (instead of physical when created while uploading data into database)
+
+If dataset was deleted, cleanup TestDB2 and remove existing charts.
+We can use the new dataset to create charts again.
+
+Optionally we could also create dataset directly using data>create dataset (provided the table exists in db)
+
+-------------------------------------
+If we have virtual and physical both..
+use physical to create a new chart>
+Query:
+raw records > choose all columns
+Table type
+Update chart
+
+save it as item_n_categry_details in TestDB2.
+Notice, column Category has N/A values apart from 1st row and 
+sub total for each category has N/A values Item and Code.
+
+------updating values----------
+
+update itemwise_sales
+set category = case
+    when Code in ('Key','Mou','Mot','Scr','Cha','Des') then 'Computer'
+    when Code is NULL then 'Sub Total'
+    else 'Stationary'
+end
+
+----------------
+--now check the TestDB2 again..
+edit dashboard and create new chart > dataset: timewise_sales
+now create 'Categorywise_segmentation' & 'Itemwise_segementation' again (Pie charts)
+
+save in TestDB2
+-------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
