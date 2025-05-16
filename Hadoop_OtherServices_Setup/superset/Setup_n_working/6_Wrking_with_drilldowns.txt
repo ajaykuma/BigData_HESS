@@ -1,12 +1,14 @@
 Terminologies: 
+--Filtering
+--Native filters
+--Cross filtering
 --Drill to dashboard 
 --Drill across
 --Drill through
 --Drill to details
---Filtering
---Cross filtering
---Native filters
+--Drill to detail by
 --Drill down/up
+--Drill by
 
 #Task
 Access one of your previously created Dashboards
@@ -27,13 +29,120 @@ in customize: show value (selected)
 create chart > save it in TestDB4 as 'comparision_of_payment_types_overtime'
 
 --------------
+#Adding filter
 
+--filter at chart level
 Now access dashboard, choose newly created chart and edit chart
 we can add a filter to chart if needed such as
 payment_type!='Diners'
 
--------------------
+--filter at dashboard level (with variant scope)
+
+Remember when we created chart tht had Product, Price , and metric as count.
+Later we added a metric ('countryspecs' > CountrySpecs > country='United States'.
+Note this metric will now be available for all datasets users.
+Here Dimensions: Product, Price & Country
+Metrics: Count(*), CountrySpecs
+saved in > TestDB4  as 'Product_n_price_count'
+
+#Task
 We can also add/edit filters by left option on dashboard.
+Click and add filter: 
+Value type: Value
+(other options include: Numerical range, time range, time column, time grain )
+Filtername:PriceTime
+Dataset: salesjan
+Column: Price
+
+Filter configuration:
+Pre-filter available values
+'Price is not null'
+
+We can additional also give time range
+Or add time range  > advanced
+Start time: (included in time range)
+DATEADD(DATETIME("2024-05-15T00:00:00"), -7, day)
+End time( exluded from time range)
+2025-05-15T00:00:00
+
+or
+
+ add time range > advanced
+'Last 2 years'
+> Apply
+
+Click on scope tab to select scope of this filter.
+<save>
+
+Test filter : by provding one or multiple values in filter
+say: Price value being 1800, 1200 and check.
+
+====================
+We can also edit dashboard to have multiple tabs and then
+change scoping of filter accordingly.
+
+remove freq chart from main and add it to new tab 
+and change scope of filter
+
+----------------
+Similarly for travel bookings data:
+
+#Task
+Adding additional filters at dashboard level
+Click on open TestDB5
+add/edit filter and edit settings + scoping
+Filter type: value
+filter name: price
+dataset: travelbookings
+column: price_per_night
+select : pre-filter available values
+price_per_night > 50
+time range: none
+
+we can also choose
+Filter has default value
+filter value is required( user must select value)
+Select first filter value by default(default cannt be selected)
+& other settings
+
+OR even
+Now edit filter : add time range > advanced
+'Last 2 years'
+> Apply
+
+<save>
+
+Now test.. filter
+
+--------------------------------------
+Enabling other filtering/drilling down options:
+
+make sure these are enabled 
+
+FEATURE_FLAGS = {
+
+    'DRILL_BY': True,
+    'DASHBOARD_CROSS_FILTERS': True,
+    'DASHBOARD_NATIVE_FILTERS': True
+
+}
+
+---------
+Looking at Charts: 
+At chart level
+--drill to detail
+        
+Pie, Line, Bar > Available options at data points:
+    Apply cross filter , Drill to Detail, Drill to detail by, Drill by
+Table> Drill to detail, Drill to detail by
+
+------------------------
+
+
+
+
+
+
 
 
 

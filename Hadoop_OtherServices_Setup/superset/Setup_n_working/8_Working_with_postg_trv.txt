@@ -257,55 +257,6 @@ FROM public."Travel_bookings"
 (We can later update them dynamically via an API like OpenExchangeRates or ExchangeRate-API)
 ==================
 
-Adding additional filters at dashboard level
-Click on open TestDB5
-add/edit filter and edit settings + scoping
-Filter type: value
-filter name: price
-dataset: travelbookings
-column: price_per_night
-select : pre-filter available values
-price_per_night > 50
-time range: none
-
-we can also choose
-Filter has default value
-filter value is required( user must select value)
-Select first filter value by default(default cannt be selected)
-& other settings..
-------------
-Now edit filter : add time range > advanced
-'Last 2 years'
-> Apply
-
-====================
-We can also edit dashboard to have multiple tabs and then
-change scoping of filter accordingly.
-
-remove freq chart from main and add it to new tab 
-and change scope of filter
-
-----------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 =======================
 #If connecting to mysql by loading data into mysql database
 

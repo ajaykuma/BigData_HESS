@@ -1,0 +1,105 @@
+Feature Flags in Apache Superset
+--------------
+A feature flag, in the simplest of terms, is a software development technique that allows developers to turn features or 
+functionality on and off at runtime without deploying new code. Apache Superset is full of these feature flags, 
+enabling developers (and sometimes customers, in the case of Preset) to control the enabling or release of new features 
+to specific deployments or groups of users. This allows developers or test new functionality, and easily roll back problematic changes.
+
+In Superset, we have a whole slew of settings available to those who maintain or deploy instances of Superset. 
+These are all found in the config.py file 
+
+Feature flags are boolean. We’re simply flipping things on and off. If there’s some more detailed configuration object, 
+parameters to set, etc., then it’s simply not a flag.
+
+Flags affect the user experience. This is to say that there are plenty of boolean settings elsewhere in the config, 
+but these are used to configure how Superset operates under the hood, usually to change how Superset is deployed, 
+rather than how it’s presented to the end user.
+
+Additional info @:
+https://github.com/apache/superset/blob/master/RESOURCES/FEATURE_FLAGS.md
+
+------------------------------------
+For example:
+edited superset_config.py and added >
+
+FEATURE_FLAGS = {
+
+    'DRILL_BY': True,
+    'DASHBOARD_CROSS_FILTERS': True,
+    'DASHBOARD_NATIVE_FILTERS': True
+
+}
+
+to be able to use drilldowns/filters
+
+------------------
+
+Others:
+if you enable DASHBOARD_RBAC feature - then you will be able to manage which roles can access the dashboard.
+              ENABLE_TEMPLATE_PROCESSING - to enable Jinja templating in SQL Lab & Explore.
+		When templating is enabled, python code can be embedded in virtual datasets and in Custom SQL 
+		in the filter and metric controls in Explore.
+
+             for example:
+		SELECT * FROM tbl
+		WHERE dttm_col > '{{ from_dttm }}' and dttm_col < '{{ to_dttm }}'
+
+
+----------------------
+For alerting:
+"ALERT_REPORTS" feature flag must be turned to True.
+At least one of those must be configured, depending on what you want to use:
+emails: SMTP_* settings
+Slack messages: SLACK_API_TOKEN
+Users can customize the email subject by including date code placeholders, which will automatically be replaced 
+with the corresponding UTC date when the email is sent. To enable this functionality, 
+activate the "DATE_FORMAT_IN_EMAIL_SUBJECT" feature flag. 
+This enables date formatting in email subjects, preventing all reporting emails from being grouped into the same thread.
+
+enable or disable dry run mode: Look at some others such as ALERT_REPORTS_NOTIFICATION_DRY_RUN.
+
+----------------------------
+
+For Caching:
+Additional libraries need to be installed:
+
+For Redis: the redis Python package
+Memcached: pylibmc client library as python-memcached does not handle storing binary data correctly.
+
+If either of these caches are undefined, Superset falls back to using a built-in cache that stores data 
+in the metadata database. While it is recommended to use a dedicated cache, the built-in cache can also be used to cache other data.
+
+#to use the built-in cache to store chart data
+DATA_CACHE_CONFIG = {
+    "CACHE_TYPE": "SupersetMetastoreCache",
+    "CACHE_KEY_PREFIX": "superset_results",  # make sure this string is unique to avoid collisions
+    "CACHE_DEFAULT_TIMEOUT": 86400,  # 60 seconds * 60 minutes * 24 hours
+}
+
+#The cache timeout for charts may be overridden by the settings for an individual chart, dataset, or database. 
+Each of these configurations will be checked in order before falling 
+back to the default value defined in DATA_CACHE_CONFIG.
+
+Note**by setting the cache timeout to -1, caching for charting data can be disabled
+
+#SQL LAB
+Caching for SQL Lab query results is used when async queries are enabled and is configured using RESULTS_BACKEND.
+
+#Async queries for long running queries
+queries that execute beyond the typical web request’s timeout (30-60 seconds), 
+it is necessary to configure an asynchronous backend for Superset which consists of:
+
+one or many Superset workers (which is implemented as a Celery worker), and can be started with the celery worker command, 
+run celery worker --help to view the related options.
+a celery broker (message queue) for which we recommend using Redis or RabbitMQ
+a results backend that defines where the worker will persist the query results
+
+
+
+
+
+
+
+
+
+
