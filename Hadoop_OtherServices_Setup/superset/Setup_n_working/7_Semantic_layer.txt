@@ -12,6 +12,13 @@ create table world_pop_meta_main as select `Country Code` as CountryCode, Region
 select a.CountryName,a.CountryCode,b.Region,b.IncomeGroup,substring(b.SpecialNotes,1,25) from world_population_main a  inner join world_pop_meta_main b
 on a.CountryCode = b.CountryCode
 
+
+--> in postgres
+select a."Country Code",a."Country Name",b."Region",b."SpecialNotes" 
+from world_popu_pg_aj a inner join world_metapg_aj b
+on a."Country Code" = b."Country Code"
+
+
 click on save & explore: world_data_cumulative
 
 --we can explore the dataset
