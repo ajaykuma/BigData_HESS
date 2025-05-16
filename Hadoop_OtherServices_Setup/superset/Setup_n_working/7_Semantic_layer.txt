@@ -38,6 +38,13 @@ on a.CountryCode = b.CountryCode
 ) AS virtual_table 
  LIMIT 1000;
 
+--in postgres
+select a."Country Code",a."Country Name",b."IncomeGroup",
+substring(b."SpecialNotes",1,50) as "SpecialNotes",
+b."Region", a."2005" as "2005_popu" from 
+world_popu_pg_aj a inner join world_metapg_aj b
+on a."Country Code" = b."Country Code"
+
 <run>
 <save as dataset> world_data_cumulative_2005
 in explore > create a Table and save as 'World_population_cumulative' in TestDB3.
